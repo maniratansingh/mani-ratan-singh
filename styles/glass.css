@@ -2,14 +2,14 @@
    APPLE LIQUID GLASS ULTRA-FIDELITY SYSTEM
    ========================================================================= */
 
-/* Primary Liquid Glass Surface (Cards, Panels, Modules) */
+/* Primary Liquid Glass Surface (Panels, Modules, Monograph Plates) */
 .liquid-glass-surface {
   background: var(--glass-surface-bg);
-  backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(103%);
-  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(103%);
+  backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(102%);
+  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(102%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  border-radius: 1.5rem;
+  border-radius: 1.25rem;
   position: relative;
   overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -23,15 +23,15 @@
   content: "";
   position: absolute;
   top: 0;
-  left: 8%;
-  right: 8%;
+  left: 6%;
+  right: 6%;
   height: 1.5px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.95) 30%,
+    rgba(255, 255, 255, 0.85) 25%,
     rgba(255, 255, 255, 1.0) 50%,
-    rgba(255, 255, 255, 0.95) 70%,
+    rgba(255, 255, 255, 0.85) 75%,
     transparent 100%
   );
   opacity: 0.95;
@@ -46,11 +46,11 @@
   top: 15%;
   bottom: 25%;
   left: 0;
-  width: 1.5px;
+  width: 1px;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.7) 50%,
     transparent 100%
   );
   opacity: 0.6;
@@ -61,14 +61,14 @@
 .liquid-glass-surface:hover {
   border-color: var(--glass-border-hover);
   box-shadow: var(--glass-shadow-hover);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 /* Liquid Glass Pill (Floating Navbar, Controls, Lens Badges) */
 .liquid-glass-pill {
   background: var(--glass-pill-bg);
-  backdrop-filter: blur(28px) saturate(220%) contrast(106%);
-  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(106%);
+  backdrop-filter: blur(28px) saturate(220%) contrast(104%);
+  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(104%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-pill-shadow);
   border-radius: 9999px;
@@ -83,45 +83,33 @@
   box-shadow: var(--glass-shadow-hover);
 }
 
-/* Active lens highlight effect */
-.liquid-glass-lens {
-  position: relative;
-  overflow: hidden;
+/* Monograph Paper Frame for Editorial Imagery */
+.editorial-frame {
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 1px 3px rgba(8, 8, 10, 0.04),
+    0 16px 36px -12px rgba(8, 8, 10, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.liquid-glass-lens::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(255, 255, 255, 0.5) 0%,
-    transparent 75%
-  );
-  pointer-events: none;
-  opacity: 0.7;
+.editorial-frame:hover {
+  border-color: var(--accent-champagne);
+  box-shadow: 
+    0 2px 6px rgba(8, 8, 10, 0.06),
+    0 24px 48px -12px rgba(8, 8, 10, 0.12);
 }
 
-/* Legacy aliases for backward compatibility */
-.glass-translucent {
-  composes: liquid-glass-pill;
-}
-.glass-frosted {
-  composes: liquid-glass-surface;
-}
-.glass-reflection {
-  composes: liquid-glass-surface;
-}
-.glass-pill {
-  composes: liquid-glass-pill;
+/* Subtle Architectural Grid Background Texture */
+.architectural-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(8, 8, 10, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(8, 8, 10, 0.03) 1px, transparent 1px);
 }
 
-/* Reduced transparency OS accessibility fallback */
-@media (prefers-reduced-transparency: reduce) {
-  .liquid-glass-surface,
-  .liquid-glass-pill {
-    background: var(--surface) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+.dark .architectural-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }

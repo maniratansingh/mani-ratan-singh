@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { siteContent } from "@/config/content";
-import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
+import { ArrowUpRight } from "lucide-react";
 
 export function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { about } = siteContent;
@@ -11,76 +12,122 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
     <section
       id="about"
       className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-28 sm:py-36"
+        isStandalone ? "pt-36 pb-24" : "py-24 sm:py-32"
       }`}
     >
-      {/* Editorial Header - No kickers */}
+      {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.98] mb-4">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
             About & Ethos
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-lg leading-relaxed">
             Bridging digital architecture, tactile electronics, and sensory interface design.
           </p>
         </div>
+        <div className="text-xs font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
+          <span>IDENTITY MANIFESTO · 01</span>
+        </div>
       </div>
 
+      {/* Main Narrative Spread */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* Left Column: Live Identity Parameters */}
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          <InteractiveGlassCard tilt={false} className="p-8">
-            <h3 className="text-xl font-light text-[var(--text-primary)] uppercase tracking-tight mb-6">
-              Core Parameters
-            </h3>
-            <div className="flex flex-col divide-y divide-[var(--glass-border)]">
-              {about.stats.map((stat, idx) => (
-                <div key={idx} className="py-3.5 flex items-center justify-between text-sm">
-                  <span className="text-[var(--text-tertiary)]">{stat.label}</span>
-                  <span className="font-medium text-[var(--text-primary)]">{stat.value}</span>
-                </div>
-              ))}
+        {/* Left Column: Living Parameters Spec Sheet (Architectural Table) */}
+        <div className="lg:col-span-5 flex flex-col gap-8">
+          <div className="p-8 sm:p-10 liquid-glass-surface">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--glass-border)] mb-6">
+              <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
+                SPECIFICATION SHEET
+              </span>
+              <span className="text-xs font-mono text-[var(--accent-champagne)]">
+                MRPS.IN / NODE-01
+              </span>
             </div>
-          </InteractiveGlassCard>
+
+            <div className="flex flex-col divide-y divide-[var(--glass-border)] text-sm">
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Name</span>
+                <span className="font-medium text-[var(--text-primary)]">Mani Ratan Pratap Singh</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Location</span>
+                <span className="font-medium text-[var(--text-primary)]">Purvanchal, India</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Disciplines</span>
+                <span className="font-medium text-[var(--text-primary)]">Systems, Hardware & Glass UI</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Hardware Stack</span>
+                <span className="font-medium text-[var(--text-primary)]">RP2040 · ESP32 · Apple Silicon</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Homelab Node</span>
+                <span className="font-medium text-[var(--text-primary)]">TrueNAS · 10GbE SFP+ · Jellyfin</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Photography</span>
+                <span className="font-medium text-[var(--text-primary)]">24mm Prime · Long Exposure</span>
+              </div>
+              <div className="py-3.5 flex items-center justify-between">
+                <span className="text-[var(--text-tertiary)]">Primary Workbench</span>
+                <Link
+                  href="https://mrps.in"
+                  target="_blank"
+                  className="font-medium text-[var(--accent-champagne)] hover:underline flex items-center gap-1"
+                >
+                  <span>mrps.in</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 border border-[var(--glass-border)] rounded-2xl bg-[var(--surface-muted)]/30">
+            <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-2 font-mono">
+              ENGINEERING NOTE
+            </span>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              While <strong>maniratansingh.com</strong> acts as the public portfolio and visual salon, all raw hardware schematics, kernel benchmarks, and homelab dispatches reside on the engineering workbench at <Link href="https://mrps.in" target="_blank" className="text-[var(--text-primary)] underline">mrps.in</Link>.
+            </p>
+          </div>
         </div>
 
-        {/* Right Column: Narrative & Manifesto */}
-        <div className="lg:col-span-8 flex flex-col gap-10">
+        {/* Right Column: Statement & Three Philosophical Pillars */}
+        <div className="lg:col-span-7 flex flex-col gap-10">
           {/* Statement Quote */}
-          <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-serif italic text-[var(--text-primary)] leading-[1.15] border-l-2 border-[var(--accent-champagne)] pl-6 sm:pl-10 py-2">
+          <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-serif italic text-[var(--text-primary)] leading-[1.12] pl-6 border-l-2 border-[var(--accent-champagne)] py-1">
             &ldquo;{about.quote}&rdquo;
           </blockquote>
 
-          {/* Narrative Paragraphs (Max 65ch measure) */}
+          {/* Narrative Paragraphs */}
           <div className="flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed max-w-2xl">
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </div>
 
-          {/* 3 Core Philosophical Pillars */}
-          <div className="mt-6 flex flex-col gap-4">
-            <h3 className="text-xs uppercase tracking-widest text-[var(--accent-silver)] mb-2">
-              Foundational Principles
-            </h3>
-            <div className="grid grid-cols-1 gap-4">
+          {/* Foundational Principles (Architectural List, Not Generic Equal Cards) */}
+          <div className="mt-4 pt-8 border-t border-[var(--glass-border)] flex flex-col gap-6">
+            <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
+              FOUNDATIONAL PILLARS
+            </span>
+
+            <div className="flex flex-col divide-y divide-[var(--glass-border)]">
               {about.principles.map((principle) => (
-                <InteractiveGlassCard
-                  key={principle.number}
-                  className="p-8 group"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 mb-3">
-                    <span className="text-xs font-mono text-[var(--accent-champagne)]">
+                <div key={principle.number} className="py-6 group">
+                  <div className="flex items-baseline gap-4 mb-2">
+                    <span className="text-sm font-mono text-[var(--accent-champagne)]">
                       {principle.number}
                     </span>
-                    <h4 className="text-xl font-light text-[var(--text-primary)] uppercase tracking-tight flex-1 group-hover:text-[var(--accent-champagne)] transition-colors">
+                    <h3 className="text-2xl font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors">
                       {principle.title}
-                    </h4>
+                    </h3>
                   </div>
-                  <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed sm:ml-8">
+                  <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed pl-8 max-w-xl">
                     {principle.description}
                   </p>
-                </InteractiveGlassCard>
+                </div>
               ))}
             </div>
           </div>

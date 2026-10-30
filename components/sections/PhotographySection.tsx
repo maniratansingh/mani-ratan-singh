@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Camera, ArrowUpRight, Aperture, Compass } from "lucide-react";
+import { ArrowUpRight, Camera, Maximize2, X, Sliders } from "lucide-react";
+import { siteContent } from "@/config/content";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -22,18 +24,91 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
     </svg>
   );
 }
-import { siteContent } from "@/config/content";
-import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
+
+interface PhotoPlate {
+  id: string;
+  src: string;
+  title: string;
+  subtitle: string;
+  location: string;
+  exif: {
+    lens: string;
+    aperture: string;
+    shutter: string;
+    iso: string;
+  };
+  aspectRatio: string;
+}
+
+const photoPlates: PhotoPlate[] = [
+  {
+    id: "transit",
+    src: "/photography/long-exposure-transit.jpg",
+    title: "Nocturnal Transit & Fluid Geometry",
+    subtitle: "Multi-tier highway overpass light streaks at twilight blue hour",
+    location: "National Highway Flyover · India",
+    exif: {
+      lens: "24mm Prime",
+      aperture: "f/11",
+      shutter: "25.0s",
+      iso: "ISO 100",
+    },
+    aspectRatio: "aspect-[16/10]",
+  },
+  {
+    id: "architecture",
+    src: "/photography/architectural-geometry.jpg",
+    title: "Monolithic Shadow & Travertine",
+    subtitle: "Brutalist concrete planes cut by sharp late afternoon sun",
+    location: "Civic Architecture Complex · India",
+    exif: {
+      lens: "35mm F1.4",
+      aperture: "f/8.0",
+      shutter: "1/250s",
+      iso: "ISO 100",
+    },
+    aspectRatio: "aspect-[16/10]",
+  },
+  {
+    id: "astronomy",
+    src: "/photography/night-astrophotography.jpg",
+    title: "Celestial Star Vortex & Horizon",
+    subtitle: "Concentric star trails rotating around the northern celestial pole",
+    location: "Purvanchal Dark Sky · India",
+    exif: {
+      lens: "14mm Ultra-Wide",
+      aperture: "f/2.8",
+      shutter: "180 × 20s",
+      iso: "ISO 800",
+    },
+    aspectRatio: "aspect-[16/10]",
+  },
+  {
+    id: "ganges",
+    src: "/photography/ganges-mist-monochrome.jpg",
+    title: "Serene Waters & Dawn Mist",
+    subtitle: "Fine-art monochrome long exposure of morning river silence",
+    location: "Sacred River Banks · India",
+    exif: {
+      lens: "50mm Prime",
+      aperture: "f/16",
+      shutter: "45.0s",
+      iso: "ISO 50",
+    },
+    aspectRatio: "aspect-[16/10]",
+  },
+];
 
 export function PhotographySection() {
   const { photography } = siteContent;
+  const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
 
   return (
-    <section className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 sm:py-32">
-      {/* Section Header */}
+    <section id="photography" className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 sm:py-32">
+      {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.98] mb-4">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
             {photography.title}
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-lg leading-relaxed">
@@ -53,39 +128,127 @@ export function PhotographySection() {
         </Link>
       </div>
 
-      {/* Photography Statement & Atmosphere */}
-      <InteractiveGlassCard className="p-8 sm:p-14 mb-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="w-12 h-12 rounded-2xl liquid-glass-pill flex items-center justify-center text-[var(--accent-champagne)] shadow-sm">
-              <Camera className="w-6 h-6" />
+      {/* Monograph Statement Spread */}
+      <div className="mb-16 pb-12 border-b border-[var(--glass-border)]">
+        <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-serif italic text-[var(--text-primary)] leading-snug max-w-4xl">
+          &ldquo;{photography.statement}&rdquo;
+        </blockquote>
+      </div>
+
+      {/* Photography Monograph Gallery (High-Fidelity Plates) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
+        {photoPlates.map((plate) => (
+          <article
+            key={plate.id}
+            onClick={() => setActivePhoto(plate)}
+            className="group cursor-pointer flex flex-col"
+          >
+            {/* Image Container with Luxury Editorial Frame */}
+            <div className={`relative w-full ${plate.aspectRatio} overflow-hidden rounded-2xl editorial-frame mb-5`}>
+              <Image
+                src={plate.src}
+                alt={plate.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+
+              {/* Top Glass Badge */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider liquid-glass-pill text-[var(--text-primary)]">
+                  {plate.location}
+                </span>
+              </div>
+
+              {/* View Overlay Button */}
+              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] shadow-md">
+                  <Maximize2 className="w-4 h-4" />
+                </span>
+              </div>
             </div>
 
-            <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-serif italic text-[var(--text-primary)] leading-snug">
-              &ldquo;{photography.statement}&rdquo;
-            </blockquote>
-
-            <p className="text-base text-[var(--text-secondary)] leading-relaxed max-w-xl">
-              Beyond code and hardware circuits, photography is my medium for slowing down. Long exposures reveal how light carves geometry through darkness—turning everyday transit into quiet, reflective optical studies.
-            </p>
-          </div>
-
-          <div className="lg:col-span-4 flex flex-col gap-3">
-            <span className="text-xs uppercase tracking-widest text-[var(--accent-silver)] block mb-1">
-              Photographic Focus
-            </span>
-            {photography.themes.map((theme, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-xl liquid-glass-surface flex items-center gap-3 text-xs text-[var(--text-secondary)]"
-              >
-                <Aperture className="w-4 h-4 text-[var(--accent-champagne)] shrink-0" />
-                <span>{theme}</span>
+            {/* Title & Metadata Strip */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-xl sm:text-2xl font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors">
+                  {plate.title}
+                </h3>
               </div>
-            ))}
+
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                {plate.subtitle}
+              </p>
+
+              {/* EXIF Metadata Strip */}
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--glass-border)]">
+                <span className="text-[var(--accent-champagne)] font-medium">{plate.exif.lens}</span>
+                <span>•</span>
+                <span>{plate.exif.aperture}</span>
+                <span>•</span>
+                <span>{plate.exif.shutter}</span>
+                <span>•</span>
+                <span>{plate.exif.iso}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Lightbox Modal */}
+      {activePhoto && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-xl animate-fade-in"
+          onClick={() => setActivePhoto(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col liquid-glass-surface overflow-hidden bg-neutral-900 border border-white/20 p-2 sm:p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setActivePhoto(null)}
+              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full liquid-glass-pill flex items-center justify-center text-white hover:scale-105 transition-transform"
+              aria-label="Close image modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Image */}
+            <div className="relative w-full h-[60vh] sm:h-[70vh] rounded-xl overflow-hidden mb-4">
+              <Image
+                src={activePhoto.src}
+                alt={activePhoto.title}
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Modal Caption */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 py-2 text-white">
+              <div>
+                <h4 className="text-xl font-light uppercase tracking-tight text-white mb-1">
+                  {activePhoto.title}
+                </h4>
+                <p className="text-xs text-neutral-400">
+                  {activePhoto.location} · {activePhoto.subtitle}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs font-mono text-[var(--accent-champagne)]">
+                <span>{activePhoto.exif.lens}</span>
+                <span>{activePhoto.exif.aperture}</span>
+                <span>{activePhoto.exif.shutter}</span>
+                <span>{activePhoto.exif.iso}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </InteractiveGlassCard>
+      )}
     </section>
   );
 }

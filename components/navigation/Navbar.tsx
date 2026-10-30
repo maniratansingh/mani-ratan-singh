@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { MobileNav } from "@/components/navigation/MobileNav";
@@ -74,6 +75,18 @@ export function Navbar() {
             );
           })}
         </div>
+
+        {/* External Homelab Node Link */}
+        <Link
+          href="https://mrps.in"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-[var(--text-tertiary)] hover:text-[var(--accent-champagne)] border border-[var(--glass-border)] transition-colors ml-1"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span>mrps.in</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </Link>
 
         {/* Theme Toggle & Mobile Menu */}
         <div className="flex items-center gap-1.5 pl-1">

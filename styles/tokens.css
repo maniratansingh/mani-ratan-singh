@@ -1,109 +1,115 @@
 :root {
-  /* Canvas & Base - Light First */
-  --canvas: #F6F6F4;
-  --canvas-rgb: 246, 246, 244;
+  /* Canvas & Base - High-Contrast Luxury Light Editorial */
+  --canvas: #FAFAF7;
+  --canvas-rgb: 250, 250, 247;
   --surface: #FFFFFF;
-  --surface-muted: #EFEFEA;
+  --surface-muted: #F1F1ED;
+  --surface-elevated: #FFFFFF;
   
-  /* Text */
-  --text-primary: #18191B;
-  --text-secondary: #52565E;
-  --text-tertiary: #7D828C;
+  /* Text & Ink - Razor Sharp High Contrast */
+  --text-primary: #08080A;
+  --text-secondary: #363A42;
+  --text-tertiary: #6C727E;
   
-  /* Luxury Accents */
-  --accent-champagne: #C8B99D;
-  --accent-champagne-light: #EBE4D8;
-  --accent-silver: #A8B2C1;
-  --accent-silver-light: #DFE5ED;
-  --accent-azure: #4A90E2;
+  /* Luxury Accents - Rich Italian Champagne & Polished Titanium */
+  --accent-champagne: #B89355;
+  --accent-champagne-light: #F4EDE0;
+  --accent-champagne-tint: rgba(184, 147, 85, 0.14);
+  --accent-silver: #6B7C93;
+  --accent-silver-light: #E4EBF2;
+  --accent-azure: #2563EB;
   
   /* TRUE APPLE LIQUID GLASS SPECIFICATION - LIGHT MODE */
-  /* Multi-stage specular gloss gradient */
+  /* Multi-stage specular gloss gradient with real optical depth */
   --glass-surface-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.78) 0%,
-    rgba(255, 255, 255, 0.42) 50%,
-    rgba(255, 255, 255, 0.20) 100%
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.52) 50%,
+    rgba(255, 255, 255, 0.32) 100%
   );
   --glass-pill-bg: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(255, 255, 255, 0.58) 100%
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(255, 255, 255, 0.72) 100%
   );
   --glass-hover-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(255, 255, 255, 0.65) 100%
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.76) 100%
   );
   
-  /* Razor-sharp beveled optical border & specular reflections */
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-border-hover: rgba(255, 255, 255, 1.0);
+  /* Razor-sharp beveled optical border - crisply defined against light canvas */
+  --glass-border: rgba(8, 8, 10, 0.08);
+  --glass-border-hover: rgba(8, 8, 10, 0.22);
+  --glass-border-accent: rgba(184, 147, 85, 0.35);
   
-  /* Apple VisionOS / macOS Multi-stop Glass Shadow & Top Rim Specular */
+  /* Apple VisionOS Multi-stop Glass Shadow & Top Rim Specular */
   --glass-shadow: 
-    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1.0),
-    inset 1px 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 1px 0 1px 0 rgba(255, 255, 255, 0.6),
     inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.04),
-    0 24px 48px -12px rgba(28, 25, 23, 0.08),
-    0 4px 12px -2px rgba(28, 25, 23, 0.03);
+    0 24px 52px -12px rgba(8, 8, 10, 0.08),
+    0 4px 14px -2px rgba(8, 8, 10, 0.04);
 
   --glass-shadow-hover: 
     inset 0 2px 2px 0 rgba(255, 255, 255, 1.0),
-    inset 0 0 16px 0 rgba(255, 255, 255, 0.5),
-    0 32px 64px -14px rgba(28, 25, 23, 0.14),
-    0 0 24px 0 rgba(200, 185, 157, 0.3);
+    inset 0 0 18px 0 rgba(255, 255, 255, 0.6),
+    0 32px 68px -14px rgba(8, 8, 10, 0.14),
+    0 0 24px 0 rgba(184, 147, 85, 0.25);
 
   --glass-pill-shadow: 
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 1.0),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.04),
-    0 16px 36px -8px rgba(0, 0, 0, 0.08),
-    0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+    0 16px 36px -8px rgba(8, 8, 10, 0.08),
+    0 2px 8px -1px rgba(8, 8, 10, 0.03);
 
   --backdrop-blur: 32px;
-  --backdrop-saturate: 200%;
+  --backdrop-saturate: 190%;
 }
 
 [data-theme="dark"],
 .dark {
-  /* Canvas & Base - Dark Secondary */
-  --canvas: #0F1013;
-  --canvas-rgb: 15, 16, 19;
-  --surface: #1B1D22;
-  --surface-muted: #15161A;
+  /* Canvas & Base - Deep Velvet Obsidian */
+  --canvas: #08090C;
+  --canvas-rgb: 8, 9, 12;
+  --surface: #12141A;
+  --surface-muted: #171A22;
+  --surface-elevated: #1D212B;
   
-  /* Text */
-  --text-primary: #F4F5F7;
-  --text-secondary: #9FA4AF;
+  /* Text & Ink - Pristine Starlight */
+  --text-primary: #F8F9FA;
+  --text-secondary: #A0A6B2;
   --text-tertiary: #6E7480;
   
   /* Luxury Accents */
-  --accent-champagne: #DECDB3;
-  --accent-champagne-light: #52473A;
-  --accent-silver: #CAD4E2;
-  --accent-silver-light: #343C47;
+  --accent-champagne: #DFC085;
+  --accent-champagne-light: #4D3F27;
+  --accent-champagne-tint: rgba(223, 192, 133, 0.14);
+  --accent-silver: #A5B4C8;
+  --accent-silver-light: #252D38;
   --accent-azure: #60A5FA;
   
   /* TRUE APPLE LIQUID GLASS SPECIFICATION - DARK MODE */
   --glass-surface-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.035) 50%,
     rgba(255, 255, 255, 0.01) 100%
   );
   --glass-pill-bg: linear-gradient(
     180deg,
-    rgba(45, 50, 60, 0.75) 0%,
-    rgba(25, 28, 35, 0.65) 100%
+    rgba(35, 40, 50, 0.82) 0%,
+    rgba(18, 22, 28, 0.72) 100%
   );
   --glass-hover-bg: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.08) 100%
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.06) 100%
   );
   
-  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.14);
   --glass-border-hover: rgba(255, 255, 255, 0.35);
+  --glass-border-accent: rgba(223, 192, 133, 0.35);
   
   --glass-shadow: 
     inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.28),
@@ -115,7 +121,7 @@
     inset 0 2px 2px 0 rgba(255, 255, 255, 0.45),
     inset 0 0 24px 0 rgba(255, 255, 255, 0.06),
     0 36px 72px -16px rgba(0, 0, 0, 0.85),
-    0 0 28px 0 rgba(222, 205, 179, 0.25);
+    0 0 28px 0 rgba(223, 192, 133, 0.25);
 
   --glass-pill-shadow: 
     inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.25),
