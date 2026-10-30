@@ -1,0 +1,70 @@
+:root {
+  /* Canvas & Base - Light First (Default) */
+  --canvas: #F7F7F5;
+  --canvas-rgb: 247, 247, 245;
+  --surface: #FFFFFF;
+  --surface-muted: #EFEFEA;
+  
+  /* Text */
+  --text-primary: #202124;
+  --text-secondary: #5F6368;
+  --text-tertiary: #80868B;
+  
+  /* Accents */
+  --accent-silver: #AEB6C3;
+  --accent-champagne: #C5B9A8;
+  --accent-blue: #0071E3; /* Apple signature subtle blue for primary actions */
+  
+  /* Translucent Glass (Nav / Floating controls) */
+  --glass-translucent-bg: rgba(255, 255, 255, 0.62);
+  --glass-translucent-border: rgba(255, 255, 255, 0.85);
+  --glass-translucent-highlight: rgba(255, 255, 255, 0.95);
+  --glass-translucent-shadow: 0 12px 36px -6px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  
+  /* Frosted Glass (Content cards & panels) */
+  --glass-frosted-bg: rgba(255, 255, 255, 0.52);
+  --glass-frosted-border: rgba(255, 255, 255, 0.70);
+  --glass-frosted-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  
+  /* Interactive hover states */
+  --glass-hover-bg: rgba(255, 255, 255, 0.78);
+  --glass-hover-border: rgba(255, 255, 255, 0.95);
+  
+  --backdrop-blur: 24px;
+}
+
+[data-theme="dark"],
+.dark {
+  /* Canvas & Base - Dark Secondary */
+  --canvas: #17191D;
+  --canvas-rgb: 23, 25, 29;
+  --surface: #22262C;
+  --surface-muted: #1E2126;
+  
+  /* Text */
+  --text-primary: #F1F3F5;
+  --text-secondary: #9AA0A6;
+  --text-tertiary: #6C727A;
+  
+  /* Accents */
+  --accent-silver: #C2CAD6;
+  --accent-champagne: #D9CEBE;
+  --accent-blue: #2997FF;
+  
+  /* Translucent Glass (Nav / Floating controls) */
+  --glass-translucent-bg: rgba(42, 46, 54, 0.70);
+  --glass-translucent-border: rgba(255, 255, 255, 0.14);
+  --glass-translucent-highlight: rgba(255, 255, 255, 0.22);
+  --glass-translucent-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.45), 0 2px 6px 0 rgba(0, 0, 0, 0.3);
+  
+  /* Frosted Glass (Content cards & panels) */
+  --glass-frosted-bg: rgba(34, 38, 44, 0.65);
+  --glass-frosted-border: rgba(255, 255, 255, 0.10);
+  --glass-frosted-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.5), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  
+  /* Interactive hover states */
+  --glass-hover-bg: rgba(52, 58, 68, 0.82);
+  --glass-hover-border: rgba(255, 255, 255, 0.22);
+  
+  --backdrop-blur: 28px;
+}

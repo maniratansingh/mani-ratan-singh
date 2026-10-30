@@ -1,0 +1,70 @@
+/* Translucent Glass - Navigation and floating pills */
+.glass-translucent {
+  background: var(--glass-translucent-bg);
+  backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
+  border: 1px solid var(--glass-translucent-border);
+  box-shadow: var(--glass-translucent-shadow),
+              inset 0 1px 1px 0 var(--glass-translucent-highlight);
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Frosted Glass - Content surfaces, cards, and modules */
+.glass-frosted {
+  background: var(--glass-frosted-bg);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--glass-frosted-border);
+  box-shadow: var(--glass-frosted-shadow),
+              inset 0 1px 0 0 var(--glass-translucent-highlight);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-frosted:hover {
+  background: var(--glass-hover-bg);
+  border-color: var(--glass-hover-border);
+}
+
+/* Glass Pill Base */
+.glass-pill {
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Edge light reflection overlay */
+.glass-reflection {
+  position: relative;
+}
+
+.glass-reflection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--glass-translucent-highlight) 50%,
+    transparent 100%
+  );
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Reduced transparency fallback */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-translucent,
+  .glass-frosted {
+    background: var(--surface) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
