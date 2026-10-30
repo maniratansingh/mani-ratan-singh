@@ -1,18 +1,19 @@
 export const siteConfig = {
-  name: "Mani Ratan Singh",
-  title: "Mani Ratan Singh — Personal Luxury Digital Experience",
+  name: "Mani Ratan Pratap Singh",
+  displayName: "Mani Ratan Singh",
+  title: "Mani Ratan Singh — My Simplicity Is My Identity",
   description:
-    "A personal digital experience inspired by Apple Liquid Glass, luxury editorial design and immersive 3D artwork.",
+    "Personal digital presence of Mani Ratan Pratap Singh (MRPS). Technologist, photographer, and homelab builder based in India.",
   url: "https://maniratansingh.com",
   ogImage: "https://maniratansingh.com/og.jpg",
-  author: "Mani Ratan Singh",
-  initials: "MRS.",
+  author: "Mani Ratan Pratap Singh",
+  initials: "MRPS",
+  motto: "My Simplicity Is My Identity",
   location: "India",
   links: {
     github: "https://github.com/maniratansingh",
-    portfolio: "https://mrps.in",
-    x: "https://x.com/maniratansingh",
-    linkedin: "https://linkedin.com/in/maniratansingh",
+    techLab: "https://mrps.in",
+    instagram: "https://www.instagram.com/maniratanpratapsingh/",
     email: "mailto:contact@mrps.in",
   },
   navItems: [

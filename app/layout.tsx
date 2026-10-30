@@ -70,15 +70,14 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     name: siteConfig.name,
-    alternateName: "MRPS",
+    alternateName: ["Mani Ratan Singh", "MRPS", "maniratanpratapsingh"],
     url: siteConfig.url,
     sameAs: [
+      siteConfig.links.techLab,
+      siteConfig.links.instagram,
       siteConfig.links.github,
-      siteConfig.links.portfolio,
-      siteConfig.links.x,
-      siteConfig.links.linkedin,
     ],
-    jobTitle: "Technologist & Designer",
+    jobTitle: "Technologist & Photographer",
     description: siteConfig.description,
   };
 
