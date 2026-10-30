@@ -10,7 +10,11 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: light dark;
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 body {
@@ -19,7 +23,7 @@ body {
     var(--lg-wallpaper-veil),
     var(--lg-wallpaper-tint);
   background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-repeat: repeat, no-repeat;
   color: var(--lg-text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", system-ui, sans-serif;

@@ -1,7 +1,7 @@
 /* =========================================================================
    MANI RATAN SINGH — LIQUID GLASS CORE SPECIFICATION (iOS 26 Beta 1 Target)
    Derived from jellyfin-liquid-glass by Mani Ratan Singh
-   DARK MODE IS DEFAULT
+   DARK MODE IS DEFAULT — FEATURING THE SIGNATURE DEEP BLUE OCEANIC ATMOSPHERE
    ========================================================================= */
 
 /* Shared Animation & Spring Curves */
@@ -24,7 +24,7 @@
 }
 
 /* =========================================================================
-   DEFAULT & DARK MODE: Authentic jellyfin-liquid-glass (iOS 26 Beta 1 Spec)
+   DEFAULT & DARK MODE: Authentic jellyfin-liquid-glass "The Blue Atmosphere"
    ========================================================================= */
 :root,
 .dark,
@@ -40,14 +40,18 @@
   --lg-bg-raised: #16161a;
   --lg-bg-glow: radial-gradient(130% 70% at 50% -20%, rgb(52 58 76 / 0.5), transparent 70%);
 
-  /* Background tint & SVG fractalNoise veil */
+  /* The Signature Deep Blue Oceanic Atmosphere */
   --lg-wallpaper-tint:
-    radial-gradient(90% 70% at 18% 0%, rgb(30 90 220 / 0.45), transparent 70%),
-    linear-gradient(165deg, #0d318a, #0a2466 45%, #071a4a);
+    radial-gradient(90% 75% at 18% 5%, rgba(30, 90, 220, 0.65) 0%, rgba(13, 49, 138, 0.45) 40%, transparent 75%),
+    radial-gradient(80% 60% at 82% 35%, rgba(0, 145, 255, 0.4) 0%, rgba(10, 36, 102, 0.2) 50%, transparent 70%),
+    radial-gradient(90% 70% at 45% 90%, rgba(30, 90, 220, 0.35) 0%, transparent 65%),
+    linear-gradient(165deg, #0d318a 0%, #0a2466 45%, #071a4a 100%);
+
+  /* Micro-grain texture & subtle vignette */
   --lg-wallpaper-veil:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse 110% 90% at 50% 42%, rgb(6 7 10 / 0.14) 25%, transparent 60%, rgb(6 7 10 / 0.32)),
-    linear-gradient(rgb(11 11 14 / 0), rgb(11 11 14 / 0.08) 55%, rgb(11 11 14 / 0.18));
+    radial-gradient(ellipse 110% 90% at 50% 42%, rgba(6, 7, 10, 0.12) 25%, transparent 60%, rgba(6, 7, 10, 0.35)),
+    linear-gradient(rgba(11, 11, 14, 0), rgba(11, 11, 14, 0.08) 55%, rgba(11, 11, 14, 0.2));
 
   /* Labels from the iOS dark label ladder */
   --lg-text: #f5f5f7;
