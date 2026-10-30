@@ -2,8 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { siteContent } from "@/config/content";
+import { ArrowUpRight, Sparkles, BookOpen } from "lucide-react";
+import { siteContent, ProjectItem } from "@/config/content";
+import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
+import { ProjectModal } from "@/components/sections/ProjectModal";
 
 function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
@@ -26,6 +28,7 @@ function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
 export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { projects } = siteContent;
   const [filter, setFilter] = React.useState<string>("All");
+  const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
 
   const categories = ["All", "Web & Design", "Embedded Systems", "Applied AI"];
 
@@ -56,7 +59,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
             </span>
           </h2>
           <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-md">
-            Original software systems, embedded hardware builds, and tactile interface themes.
+            Click any artifact to open architectural specifications and engineering case studies.
           </p>
         </div>
 
@@ -79,12 +82,13 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         </div>
       </div>
 
-      {/* Floating Liquid Glass Project Cards */}
+      {/* Floating 3D Interactive Liquid Glass Project Cards with Cursor Specular Light */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {filteredProjects.map((project, idx) => (
-          <div
+        {filteredProjects.map((project) => (
+          <InteractiveGlassCard
             key={project.id}
-            className="liquid-glass-surface p-8 sm:p-10 flex flex-col justify-between group"
+            onClick={() => setSelectedProject(project)}
+            className="p-8 sm:p-10 flex flex-col justify-between"
           >
             <div>
               {/* Year & Category Pill */}
@@ -92,22 +96,25 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
                 <span className="px-3 py-1 rounded-full liquid-glass-pill text-[var(--accent-champagne)] uppercase font-semibold">
                   {project.category}
                 </span>
-                <span>{project.year}</span>
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>{project.year}</span>
+                </span>
               </div>
 
               {/* Title & Description */}
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center justify-between gap-2 mb-2">
                 <h3 className="text-2xl font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-champagne)] transition-colors">
                   {project.title}
                 </h3>
                 {project.featured && (
-                  <span className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--accent-champagne)]/20 text-[var(--accent-champagne)] border border-[var(--accent-champagne)]/30">
+                  <span className="text-[10px] font-mono tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[var(--accent-champagne)]/20 text-[var(--accent-champagne)] border border-[var(--accent-champagne)]/30">
                     Featured
                   </span>
                 )}
               </div>
 
-              <h4 className="text-sm font-medium text-[var(--accent-champagne)] mb-4">
+              <h4 className="text-sm font-serif italic text-[var(--accent-champagne)] mb-4">
                 {project.subtitle}
               </h4>
 
@@ -134,41 +141,56 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
                     key={tech}
                     className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--surface-muted)] text-[var(--text-tertiary)]"
                   >
-                    {tech}
+                    #{tech}
                   </span>
                 ))}
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3">
-                {project.link && (
-                  <Link
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105"
-                  >
-                    <span>Launch</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                )}
+              {/* Action Buttons & Case Study trigger */}
+              <div className="flex items-center justify-between gap-3 pt-2">
+                <div className="flex items-center gap-3">
+                  {project.link && (
+                    <Link
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105"
+                    >
+                      <span>Launch</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
 
-                {project.github && (
-                  <Link
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:scale-105"
-                  >
-                    <GithubIcon className="w-3.5 h-3.5" />
-                    <span>Source</span>
-                  </Link>
-                )}
+                  {project.github && (
+                    <Link
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:scale-105"
+                    >
+                      <GithubIcon className="w-3.5 h-3.5" />
+                      <span>Source</span>
+                    </Link>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1 text-[11px] font-mono text-[var(--accent-champagne)] group-hover:translate-x-1 transition-transform">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Specs</span>
+                </div>
               </div>
             </div>
-          </div>
+          </InteractiveGlassCard>
         ))}
       </div>
+
+      {/* Case Study Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }

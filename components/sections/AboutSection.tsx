@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { siteContent } from "@/config/content";
+import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
 
 export function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { about } = siteContent;
@@ -38,9 +39,10 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
 
           <div className="flex flex-col gap-3">
             {about.stats.map((stat, idx) => (
-              <div
+              <InteractiveGlassCard
                 key={idx}
-                className="liquid-glass-surface p-4 flex items-center justify-between"
+                tilt={false}
+                className="p-5 flex items-center justify-between"
               >
                 <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
                   {stat.label}
@@ -48,37 +50,37 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
                 <span className="font-medium text-sm text-[var(--text-primary)]">
                   {stat.value}
                 </span>
-              </div>
+              </InteractiveGlassCard>
             ))}
           </div>
         </div>
 
         {/* Right Column: Editorial Narrative & Principles */}
         <div className="lg:col-span-8 flex flex-col gap-12">
-          {/* Statement Quote */}
-          <div className="liquid-glass-surface p-8 sm:p-10">
+          {/* Statement Quote in Specular Glass */}
+          <InteractiveGlassCard className="p-8 sm:p-12">
             <blockquote className="text-2xl sm:text-3xl font-serif italic text-[var(--text-primary)] leading-snug">
               &ldquo;{about.quote}&rdquo;
             </blockquote>
-          </div>
+          </InteractiveGlassCard>
 
           {/* Narrative Paragraphs in Glass Slab */}
-          <div className="liquid-glass-surface p-8 sm:p-10 flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
+          <InteractiveGlassCard tilt={false} className="p-8 sm:p-12 flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </div>
+          </InteractiveGlassCard>
 
           {/* 3 Core Principles as Architectural Liquid Glass Slabs */}
-          <div className="flex flex-col gap-4 mt-4">
+          <div className="flex flex-col gap-4 mt-2">
             <h3 className="text-xs font-mono uppercase tracking-widest text-[var(--accent-silver)] mb-2">
               Foundational Pillars
             </h3>
             <div className="grid grid-cols-1 gap-4">
               {about.principles.map((principle) => (
-                <div
+                <InteractiveGlassCard
                   key={principle.number}
-                  className="p-6 sm:p-8 liquid-glass-surface group"
+                  className="p-6 sm:p-8 group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
                     <span className="text-xs font-mono text-[var(--accent-champagne)]">
@@ -91,7 +93,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed sm:ml-10">
                     {principle.description}
                   </p>
-                </div>
+                </InteractiveGlassCard>
               ))}
             </div>
           </div>

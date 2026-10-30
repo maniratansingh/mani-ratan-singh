@@ -3,55 +3,66 @@
 import * as React from "react";
 import * as THREE from "three";
 import { HeroFallback } from "@/components/hero/HeroFallback";
+import { Sparkles, Eye, Shield } from "lucide-react";
 
-function createStudioEnvironment(renderer: THREE.WebGLRenderer): THREE.Texture {
+type SculptureMode = "prism" | "obsidian" | "optics";
+
+function createStudioEnvironment(renderer: THREE.WebGLRenderer, mode: SculptureMode): THREE.Texture {
   const canvas = document.createElement("canvas");
   canvas.width = 1024;
   canvas.height = 512;
   const ctx = canvas.getContext("2d");
   if (!ctx) return new THREE.Texture();
 
-  // High-contrast iridescent studio environment for dramatic caustic refraction
-  const baseGrad = ctx.createLinearGradient(0, 0, 1024, 512);
-  baseGrad.addColorStop(0, "#F5EFE6");
-  baseGrad.addColorStop(0.25, "#E2D7C3");
-  baseGrad.addColorStop(0.5, "#CBD7E6");
-  baseGrad.addColorStop(0.75, "#FFFFFF");
-  baseGrad.addColorStop(1, "#D8C5AE");
-  ctx.fillStyle = baseGrad;
-  ctx.fillRect(0, 0, 1024, 512);
+  if (mode === "obsidian") {
+    const darkGrad = ctx.createLinearGradient(0, 0, 1024, 512);
+    darkGrad.addColorStop(0, "#121316");
+    darkGrad.addColorStop(0.5, "#252830");
+    darkGrad.addColorStop(1, "#0A0B0D");
+    ctx.fillStyle = darkGrad;
+    ctx.fillRect(0, 0, 1024, 512);
 
-  // High-intensity warm champagne keylight softbox
-  const keyLight = ctx.createRadialGradient(320, 160, 10, 320, 160, 220);
-  keyLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
-  keyLight.addColorStop(0.3, "rgba(255, 245, 230, 0.95)");
-  keyLight.addColorStop(0.7, "rgba(200, 185, 157, 0.4)");
-  keyLight.addColorStop(1, "rgba(255, 255, 255, 0)");
-  ctx.fillStyle = keyLight;
-  ctx.beginPath();
-  ctx.arc(320, 160, 220, 0, Math.PI * 2);
-  ctx.fill();
+    const goldSoftbox = ctx.createRadialGradient(340, 180, 10, 340, 180, 240);
+    goldSoftbox.addColorStop(0, "rgba(222, 205, 179, 1.0)");
+    goldSoftbox.addColorStop(0.5, "rgba(180, 160, 130, 0.4)");
+    goldSoftbox.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = goldSoftbox;
+    ctx.beginPath();
+    ctx.arc(340, 180, 240, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    // High-contrast iridescent studio environment for dramatic caustic refraction
+    const baseGrad = ctx.createLinearGradient(0, 0, 1024, 512);
+    baseGrad.addColorStop(0, "#F5EFE6");
+    baseGrad.addColorStop(0.25, "#E2D7C3");
+    baseGrad.addColorStop(0.5, "#CBD7E6");
+    baseGrad.addColorStop(0.75, "#FFFFFF");
+    baseGrad.addColorStop(1, "#D8C5AE");
+    ctx.fillStyle = baseGrad;
+    ctx.fillRect(0, 0, 1024, 512);
 
-  // Cool silver & azure specular rim source
-  const rimLight = ctx.createRadialGradient(760, 340, 10, 760, 340, 240);
-  rimLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
-  rimLight.addColorStop(0.4, "rgba(190, 215, 245, 0.8)");
-  rimLight.addColorStop(0.8, "rgba(168, 178, 193, 0.3)");
-  rimLight.addColorStop(1, "rgba(255, 255, 255, 0)");
-  ctx.fillStyle = rimLight;
-  ctx.beginPath();
-  ctx.arc(760, 340, 240, 0, Math.PI * 2);
-  ctx.fill();
+    // Keylight softbox
+    const keyLight = ctx.createRadialGradient(320, 160, 10, 320, 160, 220);
+    keyLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+    keyLight.addColorStop(0.3, "rgba(255, 245, 230, 0.95)");
+    keyLight.addColorStop(0.7, "rgba(200, 185, 157, 0.4)");
+    keyLight.addColorStop(1, "rgba(255, 255, 255, 0)");
+    ctx.fillStyle = keyLight;
+    ctx.beginPath();
+    ctx.arc(320, 160, 220, 0, Math.PI * 2);
+    ctx.fill();
 
-  // Prismatic horizon light streak
-  const streak = ctx.createLinearGradient(0, 240, 1024, 272);
-  streak.addColorStop(0, "rgba(200, 185, 157, 0)");
-  streak.addColorStop(0.3, "rgba(255, 255, 255, 0.9)");
-  streak.addColorStop(0.5, "rgba(235, 210, 180, 0.95)");
-  streak.addColorStop(0.7, "rgba(180, 205, 235, 0.9)");
-  streak.addColorStop(1, "rgba(168, 178, 193, 0)");
-  ctx.fillStyle = streak;
-  ctx.fillRect(0, 230, 1024, 55);
+    // Specular rim source
+    const rimLight = ctx.createRadialGradient(760, 340, 10, 760, 340, 240);
+    rimLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+    rimLight.addColorStop(0.4, "rgba(190, 215, 245, 0.8)");
+    rimLight.addColorStop(0.8, "rgba(168, 178, 193, 0.3)");
+    rimLight.addColorStop(1, "rgba(255, 255, 255, 0)");
+    ctx.fillStyle = rimLight;
+    ctx.beginPath();
+    ctx.arc(760, 340, 240, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -64,6 +75,11 @@ export function GlassSculpture() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [webglSupported, setWebglSupported] = React.useState<boolean | null>(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [activeMode, setActiveMode] = React.useState<SculptureMode>("prism");
+
+  // Keep ref for dynamic material updates
+  const modeRef = React.useRef<SculptureMode>("prism");
+  const updateMaterialRef = React.useRef<((mode: SculptureMode) => void) | null>(null);
 
   React.useEffect(() => {
     try {
@@ -109,11 +125,11 @@ export function GlassSculpture() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
 
-    // 2. High-Dynamic Environment Map for Visible Optical Refraction
-    const envTexture = createStudioEnvironment(renderer);
+    // 2. High-Dynamic Environment Map
+    let envTexture = createStudioEnvironment(renderer, modeRef.current);
     scene.environment = envTexture;
 
-    // 3. Lights for Physical Surface Glints & Highlights
+    // 3. Lighting Setup
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
@@ -129,27 +145,29 @@ export function GlassSculpture() {
     pointLight.position.set(0, 1.2, 2.5);
     scene.add(pointLight);
 
-    // 4. Sculpture Architecture (Apple Liquid Glass Optical Physics)
+    // 4. Sculpture Architecture
     const sculptureGroup = new THREE.Group();
     scene.add(sculptureGroup);
 
-    // Primary Torus Knot Optical Glass
-    const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 220, 40, 2, 3);
+    // Primary Torus Knot Geometry
+    const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 240, 44, 2, 3);
+    
+    // Default Prism Glass Material
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#ffffff"),
       transmission: 0.99,
       opacity: 1.0,
       transparent: true,
-      roughness: 0.02, // Mirror-smooth polished glass
-      ior: 1.54, // Dense optical flint glass
-      thickness: 3.2, // Deep internal refraction caustics
+      roughness: 0.02,
+      ior: 1.54,
+      thickness: 3.2,
       specularIntensity: 1.5,
-      specularColor: new THREE.Color("#ffffff"),
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
       attenuationColor: new THREE.Color("#C8B99D"),
       attenuationDistance: 1.6,
-      dispersion: 0.14, // Vibrant optical rainbow chromatic dispersion
+      dispersion: 0.15,
+      wireframe: false,
     });
 
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
@@ -172,7 +190,7 @@ export function GlassSculpture() {
     halo.rotation.x = Math.PI / 2.5;
     sculptureGroup.add(halo);
 
-    // Luminous Polished Champagne Nucleus
+    // Luminous Polished Nucleus
     const coreGeometry = new THREE.IcosahedronGeometry(0.38, 4);
     const coreMaterial = new THREE.MeshStandardMaterial({
       color: 0xe6dcce,
@@ -184,7 +202,62 @@ export function GlassSculpture() {
     const core = new THREE.Mesh(coreGeometry, coreMaterial);
     sculptureGroup.add(core);
 
-    // 5. Interactive Pointer & Drag Physics
+    // 5. Floating Glass Caustic Dust Particles
+    const particleCount = 45;
+    const particleGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 6;
+      positions[i + 1] = (Math.random() - 0.5) * 6;
+      positions[i + 2] = (Math.random() - 0.5) * 4;
+    }
+    particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.045,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending,
+    });
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    // Mode Switcher Implementation
+    updateMaterialRef.current = (mode: SculptureMode) => {
+      modeRef.current = mode;
+      envTexture.dispose();
+      envTexture = createStudioEnvironment(renderer, mode);
+      scene.environment = envTexture;
+
+      if (mode === "obsidian") {
+        glassMaterial.color.set("#1a1b20");
+        glassMaterial.roughness = 0.06;
+        glassMaterial.thickness = 4.0;
+        glassMaterial.ior = 1.62;
+        glassMaterial.dispersion = 0.08;
+        glassMaterial.attenuationColor.set("#52473A");
+        glassMaterial.wireframe = false;
+        coreMaterial.emissive.set("#decb9e");
+      } else if (mode === "optics") {
+        glassMaterial.color.set("#ffffff");
+        glassMaterial.roughness = 0.2;
+        glassMaterial.wireframe = true;
+        glassMaterial.transmission = 0.6;
+      } else {
+        // Prism Default
+        glassMaterial.color.set("#ffffff");
+        glassMaterial.transmission = 0.99;
+        glassMaterial.roughness = 0.02;
+        glassMaterial.thickness = 3.2;
+        glassMaterial.ior = 1.54;
+        glassMaterial.dispersion = 0.15;
+        glassMaterial.attenuationColor.set("#C8B99D");
+        glassMaterial.wireframe = false;
+        coreMaterial.emissive.set("#c8b99d");
+      }
+    };
+
+    // 6. Interactive Dragging with Physical Angular Momentum (Inertia)
     let mouseX = 0;
     let mouseY = 0;
     let targetRotX = 0;
@@ -192,11 +265,15 @@ export function GlassSculpture() {
     let isDragging = false;
     let prevMouseX = 0;
     let prevMouseY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
 
     const onPointerDown = (e: PointerEvent) => {
       isDragging = true;
       prevMouseX = e.clientX;
       prevMouseY = e.clientY;
+      velocityX = 0;
+      velocityY = 0;
     };
 
     const onPointerUp = () => {
@@ -209,8 +286,10 @@ export function GlassSculpture() {
         const deltaY = e.clientY - prevMouseY;
         prevMouseX = e.clientX;
         prevMouseY = e.clientY;
-        sculptureGroup.rotation.y += deltaX * 0.008;
-        sculptureGroup.rotation.x += deltaY * 0.008;
+        velocityX = deltaX * 0.006;
+        velocityY = deltaY * 0.006;
+        sculptureGroup.rotation.y += velocityX;
+        sculptureGroup.rotation.x += velocityY;
         return;
       }
 
@@ -238,13 +317,21 @@ export function GlassSculpture() {
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    // 6. Animation Loop
+    // 7. Animation Loop
     let animationFrameId: number;
     const startTime = performance.now();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = (performance.now() - startTime) * 0.001;
+
+      // Apply drag momentum inertia deceleration
+      if (!isDragging) {
+        velocityX *= 0.94;
+        velocityY *= 0.94;
+        sculptureGroup.rotation.y += velocityX;
+        sculptureGroup.rotation.x += velocityY;
+      }
 
       if (!prefersReducedMotion && !isDragging) {
         sculptureGroup.rotation.y += 0.0035;
@@ -254,18 +341,22 @@ export function GlassSculpture() {
 
         sculptureGroup.position.y = Math.sin(elapsedTime * 0.7) * 0.1;
 
+        // Dust particle orbital drift
+        particles.rotation.y = elapsedTime * 0.03;
+        particles.rotation.x = Math.sin(elapsedTime * 0.02) * 0.05;
+
         // Core dynamic pulse
         const coreScale = 1 + Math.sin(elapsedTime * 1.6) * 0.07;
         core.scale.set(coreScale, coreScale, coreScale);
       }
 
-      // Smooth pointer lerping
+      // Smooth pointer lerp
       targetRotX += (mouseY - targetRotX) * 0.06;
       targetRotY += (mouseX - targetRotY) * 0.06;
 
-      if (!isDragging) {
-        sculptureGroup.rotation.x += targetRotX * 0.06;
-        sculptureGroup.rotation.z = -targetRotY * 0.1;
+      if (!isDragging && Math.abs(velocityX) < 0.001) {
+        sculptureGroup.rotation.x += targetRotX * 0.04;
+        sculptureGroup.rotation.z = -targetRotY * 0.08;
       }
 
       renderer.render(scene, camera);
@@ -287,42 +378,97 @@ export function GlassSculpture() {
       haloMaterial.dispose();
       coreGeometry.dispose();
       coreMaterial.dispose();
+      particleGeometry.dispose();
+      particleMaterial.dispose();
       renderer.dispose();
     };
   }, []);
+
+  const switchMode = (mode: SculptureMode) => {
+    setActiveMode(mode);
+    if (updateMaterialRef.current) {
+      updateMaterialRef.current(mode);
+    }
+  };
 
   if (webglSupported === false) {
     return <HeroFallback />;
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-[440px] sm:h-[560px] lg:h-[660px] flex items-center justify-center select-none"
-    >
-      {/* Radiant ambient optical refraction backdrop */}
+    <div className="flex flex-col items-center w-full">
       <div
-        className="absolute w-[360px] h-[360px] sm:w-[540px] sm:h-[540px] rounded-full blur-[90px] pointer-events-none opacity-85 dark:opacity-45 transition-opacity duration-1000"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(200, 185, 157, 0.4) 0%, rgba(168, 178, 193, 0.3) 45%, rgba(255, 255, 255, 0.5) 70%, transparent 85%)",
-        }}
-        aria-hidden="true"
-      />
+        ref={containerRef}
+        className="relative w-full h-[420px] sm:h-[540px] lg:h-[620px] flex items-center justify-center select-none"
+      >
+        {/* Dynamic optical backlight */}
+        <div
+          className="absolute w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full blur-[90px] pointer-events-none opacity-80 dark:opacity-45 transition-opacity duration-1000"
+          style={{
+            background:
+              activeMode === "obsidian"
+                ? "radial-gradient(circle at center, rgba(82, 71, 58, 0.4) 0%, rgba(30, 32, 40, 0.3) 50%, transparent 80%)"
+                : "radial-gradient(circle at center, rgba(200, 185, 157, 0.42) 0%, rgba(168, 178, 193, 0.3) 45%, rgba(255, 255, 255, 0.5) 70%, transparent 85%)",
+          }}
+          aria-hidden="true"
+        />
 
-      <canvas
-        ref={canvasRef}
-        className={`w-full h-full cursor-grab active:cursor-grabbing transition-opacity duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
-        aria-label="Interactive 3D optical glass sculpture with chromatic dispersion and realistic refraction"
-      />
+        <canvas
+          ref={canvasRef}
+          className={`w-full h-full cursor-grab active:cursor-grabbing transition-opacity duration-700 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          aria-label="Interactive 3D optical glass sculpture with chromatic dispersion and realistic refraction"
+        />
 
-      {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <HeroFallback />
-        </div>
-      )}
+        {!isLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <HeroFallback />
+          </div>
+        )}
+      </div>
+
+      {/* Optical Material Shader Switcher Capsule */}
+      <div className="flex items-center gap-2 p-1.5 rounded-full liquid-glass-pill shadow-xs mt-[-10px] z-20">
+        <button
+          type="button"
+          onClick={() => switchMode("prism")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+            activeMode === "prism"
+              ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          }`}
+        >
+          <Sparkles className="w-3 h-3 text-[var(--accent-champagne)]" />
+          <span>Prism Caustics</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => switchMode("obsidian")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+            activeMode === "obsidian"
+              ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          }`}
+        >
+          <Shield className="w-3 h-3 text-[var(--accent-silver)]" />
+          <span>Obsidian Glass</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => switchMode("optics")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+            activeMode === "optics"
+              ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          }`}
+        >
+          <Eye className="w-3 h-3 text-[var(--accent-azure)]" />
+          <span>Wireframe Lattice</span>
+        </button>
+      </div>
     </div>
   );
 }

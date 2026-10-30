@@ -2,16 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Mail, Copy, Check } from "lucide-react";
+import { ArrowUpRight, Mail, Copy, Check, MessageSquare } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
-import { GlassCard } from "@/components/glass/GlassCard";
-import {
-  revealVariants,
-  staggerContainer,
-  snappySpring,
-} from "@/components/animations/transitions";
+import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
 
 export function ConnectSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { connect } = siteContent;
@@ -26,129 +20,113 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
   return (
     <section
       id="connect"
-      className={`relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${
-        isStandalone ? "pt-32 pb-24" : "py-24 sm:py-32"
+      className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
+        isStandalone ? "pt-32 pb-24" : "py-28 sm:py-36"
       }`}
     >
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "0px" }}
-        className="flex flex-col gap-16"
-      >
-        {/* Section Header */}
-        <motion.div variants={revealVariants} className="max-w-2xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[var(--accent-champagne)] mb-2 block">
-            04 — {connect.title}
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-4">
-            {connect.subtitle}
+      {/* Editorial Header */}
+      <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
+        <span className="text-[var(--accent-champagne)]">04 / DIALOGUE & NETWORK</span>
+        <span>INDEX [ 05 / 05 ]</span>
+      </div>
+
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <div>
+          <h2 className="text-3xl sm:text-6xl font-light tracking-tight text-[var(--text-primary)] uppercase leading-[1.02] mb-3">
+            Initiate <br />
+            <span className="font-serif italic text-[var(--accent-champagne)] normal-case">
+              Contact.
+            </span>
           </h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+          <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-md">
             {connect.description}
           </p>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Interactive Direct Communication Glass Card */}
-        <motion.div variants={revealVariants}>
-          <GlassCard
-            variant="translucent"
-            className="p-8 sm:p-12 relative overflow-hidden"
-          >
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 z-10 relative">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-[var(--accent-champagne)] block mb-2">
-                  Direct Inquiries & Conversations
-                </span>
-                <span className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] font-mono block">
-                  {connect.email}
-                </span>
-              </div>
+      {/* Interactive Direct Communication Glass Card with Spotlight */}
+      <InteractiveGlassCard className="p-8 sm:p-14 mb-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest text-[var(--accent-champagne)] block mb-3">
+              Direct Inquiries & Collaborations
+            </span>
+            <span className="text-2xl sm:text-4xl font-light text-[var(--text-primary)] font-mono tracking-tight block">
+              {connect.email}
+            </span>
+          </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={`mailto:${connect.email}`}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs sm:text-sm font-semibold tracking-wide transition-transform hover:scale-[1.03] active:scale-[0.98] shadow-md"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>Send Email</span>
-                </a>
-
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={snappySpring}
-                  onClick={copyEmail}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full glass-translucent text-[var(--text-primary)] text-xs sm:text-sm font-medium tracking-wide transition-colors hover:bg-[var(--glass-hover-bg)] cursor-pointer"
-                  aria-label="Copy email address"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 text-emerald-500" />
-                      <span>Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 text-[var(--text-secondary)]" />
-                      <span>Copy Address</span>
-                    </>
-                  )}
-                </motion.button>
-              </div>
-            </div>
-          </GlassCard>
-        </motion.div>
-
-        {/* Social / Profiles Grid */}
-        <motion.div variants={revealVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {connect.socials.map((social) => (
-            <Link
-              key={social.name}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group"
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={`mailto:${connect.email}`}
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs uppercase tracking-widest font-semibold transition-transform hover:scale-105 active:scale-95 shadow-md"
             >
-              <GlassCard
-                variant="frosted"
-                interactive
-                className="p-5 flex flex-col justify-between h-full group-hover:border-[var(--glass-hover-border)]"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-[var(--text-primary)]">
-                    {social.name}
-                  </span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                </div>
-                <span className="text-xs font-mono text-[var(--accent-champagne)]">
-                  {social.handle}
+              <Mail className="w-4 h-4" />
+              <span>Send Message</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
+              aria-label="Copy email address"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-500" />
+                  <span>Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4 text-[var(--text-secondary)]" />
+                  <span>Copy Address</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </InteractiveGlassCard>
+
+      {/* Social / Profiles Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-20">
+        {connect.socials.map((social) => (
+          <Link
+            key={social.name}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block"
+          >
+            <InteractiveGlassCard className="p-6 h-full flex flex-col justify-between">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-champagne)] transition-colors">
+                  {social.name}
                 </span>
-              </GlassCard>
-            </Link>
-          ))}
-        </motion.div>
+                <ArrowUpRight className="w-4 h-4 text-[var(--text-tertiary)] group-hover:text-[var(--accent-champagne)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              </div>
+              <span className="text-xs font-mono text-[var(--accent-champagne)]">
+                {social.handle}
+              </span>
+            </InteractiveGlassCard>
+          </Link>
+        ))}
+      </div>
 
-        {/* Luxury Closing Statement & Footer */}
-        <motion.div
-          variants={revealVariants}
-          className="pt-12 border-t border-[var(--glass-frosted-border)] flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-[var(--text-tertiary)]"
-        >
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-champagne)]" />
-            <span>{connect.closingNote}</span>
-          </div>
+      {/* Luxury Editorial Colophon & Sign-off */}
+      <div className="pt-10 border-t border-[var(--glass-border)] flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono text-[var(--text-tertiary)]">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-[var(--accent-champagne)]" />
+          <span>MANIRATANSINGH.COM — EDITION 2025</span>
+        </div>
 
-          <div className="flex items-center gap-4">
-            <span>© {new Date().getFullYear()} {siteConfig.name}</span>
-            <span>•</span>
-            <Link href="https://mrps.in" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">
-              mrps.in
-            </Link>
-          </div>
-        </motion.div>
-      </motion.div>
+        <div className="flex items-center gap-6">
+          <span>ALL RIGHTS RESERVED</span>
+          <span>•</span>
+          <Link href="https://mrps.in" target="_blank" className="hover:text-[var(--text-primary)] transition-colors text-[var(--accent-champagne)]">
+            PRIMARY HUB: MRPS.IN
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
