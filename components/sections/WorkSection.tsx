@@ -52,7 +52,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "0px" }}
         className="flex flex-col gap-12"
       >
         {/* Section Header */}
