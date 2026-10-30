@@ -10,15 +10,14 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 body {
   background-color: var(--lg-bg);
   background-image:
     var(--lg-wallpaper-veil),
-    radial-gradient(90% 70% at 18% 0%, rgb(30 90 220 / 0.35), transparent 70%),
-    linear-gradient(165deg, #0d318a, #0a2466 45%, #071a4a);
+    var(--lg-wallpaper-tint);
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--lg-text);
@@ -32,6 +31,7 @@ body {
   overflow-x: hidden;
   caret-color: var(--lg-accent);
   text-rendering: optimizeLegibility;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* Luxury Editorial Serif Font Family */
@@ -79,6 +79,12 @@ body {
 h1, h2, h3, h4 {
   text-wrap: balance;
   letter-spacing: -0.03em;
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4 {
   text-shadow: 0 1px 2px rgb(8 10 16 / 0.45);
 }
 

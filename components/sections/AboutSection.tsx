@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { siteContent } from "@/config/content";
 import { ArrowUpRight } from "lucide-react";
+import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
 
 export function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { about } = siteContent;
@@ -34,7 +35,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left Column: Living Parameters Spec Sheet (Architectural Table) */}
         <div className="lg:col-span-5 flex flex-col gap-8">
-          <div className="p-8 sm:p-10 liquid-glass-surface">
+          <InteractiveGlassCard className="p-8 sm:p-10">
             <div className="flex items-center justify-between pb-4 border-b border-[var(--glass-border)] mb-6">
               <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
                 SPECIFICATION SHEET
@@ -81,7 +82,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
                 </Link>
               </div>
             </div>
-          </div>
+          </InteractiveGlassCard>
 
           <div className="p-6 border border-[var(--glass-border)] rounded-2xl bg-[var(--surface-muted)]/30">
             <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-2 font-mono">

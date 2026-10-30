@@ -17,7 +17,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div
-        className="w-9 h-9 rounded-full glass-translucent flex items-center justify-center opacity-60"
+        className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center opacity-60"
         aria-hidden="true"
       />
     );
@@ -32,9 +32,9 @@ export function ThemeToggle() {
       whileTap={{ scale: 0.94 }}
       transition={snappySpring}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative w-9 h-9 rounded-full glass-translucent flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] cursor-pointer"
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer"
+      aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
       <motion.div
         key={isDark ? "dark" : "light"}
@@ -46,7 +46,7 @@ export function ThemeToggle() {
         {isDark ? (
           <Sun className="w-4 h-4 text-[var(--accent-champagne)]" />
         ) : (
-          <Moon className="w-4 h-4 text-[var(--text-secondary)]" />
+          <Moon className="w-4 h-4 text-[var(--text-primary)]" />
         )}
       </motion.div>
     </motion.button>

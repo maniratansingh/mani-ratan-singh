@@ -1,10 +1,115 @@
 /* =========================================================================
    MANI RATAN SINGH — LIQUID GLASS CORE SPECIFICATION (iOS 26 Beta 1 Target)
    Derived from jellyfin-liquid-glass by Mani Ratan Singh
+   Supports both Authentic Dark Mode & High-Contrast Light Mode
    ========================================================================= */
 
+/* Shared Animation & Spring Curves */
 :root {
-  /* Accent: iOS 26 systemBlue, dark appearance (HIG color table) */
+  --lg-radius-control: 999px;
+  --lg-radius-panel: 24px;
+  --lg-radius-inner: 16px;
+  --lg-radius-card: 16px;
+  --lg-control-size: 44px;
+
+  /* SwiftUI linear() springs derived from .bouncy and .snappy */
+  --lg-spring-bouncy: linear(0, 0.046, 0.156, 0.297, 0.446, 0.587, 0.712, 0.815, 0.896, 0.956, 0.998, 1.025,
+      1.039, 1.045, 1.045, 1.041, 1.035, 1.029, 1.022, 1.016, 1.011, 1.006, 1.003, 1.001, 0.999, 0.998, 0.998,
+      0.998, 1);
+  --lg-spring-bouncy-dur: 730ms;
+  --lg-spring-snappy: linear(0, 0.035, 0.119, 0.228, 0.345, 0.46, 0.565, 0.658, 0.737, 0.802, 0.856, 0.897,
+      0.93, 0.954, 0.972, 0.985, 0.994, 1, 1.003, 1.005, 1.006, 1.006, 1.006, 1.005, 1.005, 1.004, 1.003, 1.003, 1);
+  --lg-spring-snappy-dur: 640ms;
+  --lg-press-scale: 1.04;
+}
+
+/* =========================================================================
+   LIGHT MODE: High-Contrast Luxury Alabaster Editorial
+   ========================================================================= */
+:root,
+.light,
+[data-theme="light"] {
+  --lg-accent-rgb: 0 113 227;
+  --lg-accent: rgb(var(--lg-accent-rgb));
+  --lg-accent-champagne: #B89355;
+  --lg-accent-champagne-rgb: 184 147 85;
+
+  /* Surfaces: Warm architectural alabaster / fine-art paper */
+  --lg-bg: #F8F8F5;
+  --lg-bg-rgb: 248 248 245;
+  --lg-bg-raised: #FFFFFF;
+  --lg-bg-glow: radial-gradient(130% 70% at 50% -20%, rgba(184, 147, 85, 0.25), transparent 70%);
+
+  /* Background tint & SVG fractalNoise veil */
+  --lg-wallpaper-tint:
+    radial-gradient(90% 70% at 18% 0%, rgba(184, 147, 85, 0.18), transparent 70%),
+    linear-gradient(165deg, #F7F4EE, #EFEAE0 45%, #E6DEC9);
+  --lg-wallpaper-veil:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 110% 90% at 50% 42%, rgba(8, 8, 10, 0.02) 25%, transparent 60%, rgba(8, 8, 10, 0.04)),
+    linear-gradient(rgba(248, 248, 245, 0), rgba(248, 248, 245, 0.3) 55%, rgba(248, 248, 245, 0.7));
+
+  /* Labels: Razor sharp high-contrast jet black & charcoal */
+  --lg-text: #08080A;
+  --lg-text-rgb: 8 8 10;
+  --lg-text-2: rgb(54 58 66);
+  --lg-text-3: rgb(108 114 126);
+  --lg-separator: rgba(8, 8, 10, 0.08);
+  --lg-fill-1: rgba(0, 0, 0, 0.07);
+  --lg-fill-2: rgba(0, 0, 0, 0.04);
+  --lg-fill-3: rgba(0, 0, 0, 0.02);
+  --lg-danger: #dc2626;
+  --lg-success: #16a34a;
+
+  /* Glass material tiers - Light */
+  --lg-frost-control: blur(6px) saturate(1.8);
+  --lg-frost-bar: blur(12px) saturate(1.8);
+  --lg-frost-panel: blur(24px) saturate(1.9);
+  --lg-tint-control: rgba(255, 255, 255, 0.88);
+  --lg-tint-bar: rgba(255, 255, 255, 0.92);
+  --lg-tint-panel: rgba(255, 255, 255, 0.78);
+  --lg-hover-fill: rgba(255, 255, 255, 0.96);
+  --lg-press-fill: rgba(0, 0, 0, 0.06);
+
+  /* Dual opposite-lobe rim lighting - Light */
+  --lg-rim:
+    inset 1.5px 1px 0 -0.5px rgba(255, 255, 255, 0.98),
+    inset -1.5px -0.75px 0 -0.5px rgba(8, 8, 10, 0.06),
+    inset 0 0 0 0.5px rgba(8, 8, 10, 0.08),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.6);
+  --lg-rim-strong:
+    inset 1.5px 1px 0 -0.5px rgba(255, 255, 255, 1.0),
+    inset -1.5px -0.75px 0 -0.5px rgba(8, 8, 10, 0.09),
+    inset 0 0 0 0.5px rgba(8, 8, 10, 0.16),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+
+  --lg-sheen: radial-gradient(90% 60% at 22% 0%, rgba(255, 255, 255, 0.65), transparent 60%);
+  --lg-shadow-control: 0 2px 8px rgba(8, 8, 10, 0.04), 0 0 1px rgba(8, 8, 10, 0.06);
+  --lg-shadow-panel: 0 20px 48px -12px rgba(8, 8, 10, 0.08), 0 2px 6px -1px rgba(8, 8, 10, 0.03);
+
+  /* Semantic Aliases */
+  --canvas: var(--lg-bg);
+  --canvas-rgb: var(--lg-bg-rgb);
+  --surface: var(--lg-bg-raised);
+  --surface-muted: #F1F1ED;
+  --text-primary: var(--lg-text);
+  --text-secondary: var(--lg-text-2);
+  --text-tertiary: var(--lg-text-3);
+  --accent-champagne: var(--lg-accent-champagne);
+  --accent-azure: var(--lg-accent);
+  --glass-border: var(--lg-separator);
+  --glass-border-hover: rgba(8, 8, 10, 0.2);
+  --glass-surface-bg: var(--lg-tint-panel);
+  --glass-pill-bg: var(--lg-tint-bar);
+  --glass-shadow: var(--lg-shadow-panel);
+  --glass-pill-shadow: var(--lg-shadow-control);
+}
+
+/* =========================================================================
+   DARK MODE: Authentic jellyfin-liquid-glass (iOS 26 Beta 1 Spec)
+   ========================================================================= */
+.dark,
+[data-theme="dark"] {
   --lg-accent-rgb: 0 145 255;
   --lg-accent: rgb(var(--lg-accent-rgb));
   --lg-accent-champagne: #C8B99D;
@@ -20,13 +125,12 @@
   --lg-wallpaper-tint:
     radial-gradient(90% 70% at 18% 0%, rgb(30 90 220 / 0.45), transparent 70%),
     linear-gradient(165deg, #0d318a, #0a2466 45%, #071a4a);
-  --lg-wallpaper-filter: brightness(0.85) saturate(1.1);
   --lg-wallpaper-veil:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
     radial-gradient(ellipse 110% 90% at 50% 42%, rgb(6 7 10 / 0.14) 25%, transparent 60%, rgb(6 7 10 / 0.32)),
     linear-gradient(rgb(11 11 14 / 0), rgb(11 11 14 / 0.08) 55%, rgb(11 11 14 / 0.18));
 
-  /* Labels, from the iOS dark label ladder */
+  /* Labels from the iOS dark label ladder */
   --lg-text: #f5f5f7;
   --lg-text-rgb: 245 245 247;
   --lg-text-2: rgb(235 235 245 / 0.72);
@@ -38,37 +142,17 @@
   --lg-danger: #ff453a;
   --lg-success: #30d158;
 
-  /* Type */
-  --lg-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
-  --lg-text-shadow: 0 1px 2px rgb(8 10 16 / 0.35);
-
-  /* Shape */
-  --lg-radius-control: 999px;
-  --lg-radius-panel: 24px;
-  --lg-radius-inner: 16px;
-  --lg-radius-card: 14px;
-  --lg-control-size: 44px;
-
-  /*
-    Glass material. Three tiers:
-    control: buttons and small capsules, Control-Center-clear (blur about 2px, fill 2-6%).
-    bar:     the floating app bar and now-playing bar.
-    panel:   menus, sheets, dialogs, drawer. Larger glass reads thicker in iOS 26.
-  */
+  /* Glass material tiers - Dark */
   --lg-frost-control: blur(2px) saturate(1.35);
   --lg-frost-bar: blur(4px) saturate(1.35);
   --lg-frost-panel: blur(14px) saturate(1.4);
   --lg-tint-control: rgb(255 255 255 / 0.05);
   --lg-tint-bar: rgb(255 255 255 / 0.04);
   --lg-tint-panel: rgb(26 26 30 / 0.48);
-  --lg-tint-clear: rgb(255 255 255 / 0.02);
   --lg-hover-fill: rgb(255 255 255 / 0.08);
   --lg-press-fill: rgb(255 255 255 / 0.16);
 
-  /*
-    Rim: a hairline that catches light on two opposite lobes (upper left and lower right)
-    rather than an even stroke. Offset inset shadows on a rounded box draw those crescents.
-  */
+  /* Dual opposite-lobe rim lighting - Dark */
   --lg-rim:
     inset 1.5px 0.75px 0 -0.5px rgb(255 255 255 / 0.62),
     inset -1.5px -0.75px 0 -0.5px rgb(255 255 255 / 0.4),
@@ -84,17 +168,7 @@
   --lg-shadow-control: 0 2px 8px rgb(6 7 10 / 0.14), 0 0 1px rgb(6 7 10 / 0.22);
   --lg-shadow-panel: 0 16px 48px rgb(6 7 10 / 0.35), 0 1px 3px rgb(6 7 10 / 0.2);
 
-  /* Motion: SwiftUI springs */
-  --lg-spring-bouncy: linear(0, 0.046, 0.156, 0.297, 0.446, 0.587, 0.712, 0.815, 0.896, 0.956, 0.998, 1.025,
-      1.039, 1.045, 1.045, 1.041, 1.035, 1.029, 1.022, 1.016, 1.011, 1.006, 1.003, 1.001, 0.999, 0.998, 0.998,
-      0.998, 1);
-  --lg-spring-bouncy-dur: 730ms;
-  --lg-spring-snappy: linear(0, 0.035, 0.119, 0.228, 0.345, 0.46, 0.565, 0.658, 0.737, 0.802, 0.856, 0.897,
-      0.93, 0.954, 0.972, 0.985, 0.994, 1, 1.003, 1.005, 1.006, 1.006, 1.006, 1.005, 1.005, 1.004, 1.003, 1.003, 1);
-  --lg-spring-snappy-dur: 640ms;
-  --lg-press-scale: 1.04;
-
-  /* Standard Application Semantic Aliases */
+  /* Semantic Aliases */
   --canvas: var(--lg-bg);
   --canvas-rgb: var(--lg-bg-rgb);
   --surface: var(--lg-bg-raised);
