@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { siteConfig } from "@/config/site";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { MobileNav } from "@/components/navigation/MobileNav";
@@ -27,15 +27,15 @@ export function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={snappySpring}
-        className={`pointer-events-auto flex items-center gap-1 sm:gap-2 px-3 py-2 rounded-full glass-translucent glass-reflection transition-all duration-300 ${
-          scrolled ? "shadow-lg" : "shadow-sm"
+        className={`pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 rounded-full liquid-glass-pill transition-all duration-300 ${
+          scrolled ? "shadow-xl" : "shadow-sm"
         }`}
         aria-label="Main Navigation"
       >
         {/* Monogram / Brandmark */}
         <Link
           href="/"
-          className="group relative px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-[var(--text-primary)] hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] flex items-center gap-1.5"
+          className="group relative px-3 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase text-[var(--text-primary)] hover:opacity-80 transition-opacity focus-visible:outline-none flex items-center gap-2"
           aria-label="Mani Ratan Singh Home"
         >
           <span className="w-2 h-2 rounded-full bg-[var(--accent-champagne)] animate-pulse" />
@@ -43,7 +43,7 @@ export function Navbar() {
         </Link>
 
         {/* Divider */}
-        <div className="h-4 w-[1px] bg-[var(--glass-translucent-border)] mx-1" aria-hidden="true" />
+        <div className="h-4 w-[1px] bg-[var(--glass-border)] mx-1" aria-hidden="true" />
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-1">
@@ -56,7 +56,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
+                className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors focus-visible:outline-none ${
                   isActive
                     ? "text-[var(--text-primary)] font-semibold"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -65,7 +65,7 @@ export function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="activeNavIndicator"
-                    className="absolute inset-0 rounded-full bg-[var(--glass-hover-bg)] border border-[var(--glass-translucent-border)] -z-10 shadow-xs"
+                    className="absolute inset-0 rounded-full bg-black/[0.05] dark:bg-white/[0.1] border border-[var(--glass-border)] -z-10 shadow-xs"
                     transition={snappySpring}
                   />
                 )}
@@ -75,7 +75,7 @@ export function Navbar() {
           })}
         </div>
 
-        {/* Theme Toggle */}
+        {/* Theme Toggle & Mobile Menu */}
         <div className="flex items-center gap-1.5 pl-1">
           <ThemeToggle />
           <MobileNav />
