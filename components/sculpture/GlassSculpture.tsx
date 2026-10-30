@@ -30,6 +30,34 @@ function createStudioEnvironment(renderer: THREE.WebGLRenderer, mode: SculptureM
     ctx.beginPath();
     ctx.arc(340, 180, 240, 0, Math.PI * 2);
     ctx.fill();
+  } else if (mode === "optics") {
+    // Cybernetic dark studio with azure & champagne specular rim lights for wireframe lattice
+    const darkLatticeGrad = ctx.createLinearGradient(0, 0, 1024, 512);
+    darkLatticeGrad.addColorStop(0, "#08090d");
+    darkLatticeGrad.addColorStop(0.5, "#0e1320");
+    darkLatticeGrad.addColorStop(1, "#06070a");
+    ctx.fillStyle = darkLatticeGrad;
+    ctx.fillRect(0, 0, 1024, 512);
+
+    // Cyan key specular
+    const cyanLight = ctx.createRadialGradient(320, 160, 10, 320, 160, 240);
+    cyanLight.addColorStop(0, "rgba(0, 240, 255, 0.95)");
+    cyanLight.addColorStop(0.4, "rgba(0, 180, 255, 0.5)");
+    cyanLight.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = cyanLight;
+    ctx.beginPath();
+    ctx.arc(320, 160, 240, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Champagne gold rim
+    const goldRim = ctx.createRadialGradient(760, 340, 10, 760, 340, 220);
+    goldRim.addColorStop(0, "rgba(223, 192, 133, 0.85)");
+    goldRim.addColorStop(0.5, "rgba(180, 150, 90, 0.3)");
+    goldRim.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = goldRim;
+    ctx.beginPath();
+    ctx.arc(760, 340, 220, 0, Math.PI * 2);
+    ctx.fill();
   } else {
     // High-contrast iridescent studio environment for dramatic caustic refraction
     const baseGrad = ctx.createLinearGradient(0, 0, 1024, 512);
@@ -75,10 +103,10 @@ export function GlassSculpture() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [webglSupported, setWebglSupported] = React.useState<boolean | null>(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [activeMode, setActiveMode] = React.useState<SculptureMode>("prism");
 
-  // Keep ref for dynamic material updates
-  const modeRef = React.useRef<SculptureMode>("prism");
+  // Wireframe Lattice is default
+  const [activeMode, setActiveMode] = React.useState<SculptureMode>("optics");
+  const modeRef = React.useRef<SculptureMode>("optics");
   const updateMaterialRef = React.useRef<((mode: SculptureMode) => void) | null>(null);
 
   React.useEffect(() => {
@@ -125,9 +153,13 @@ export function GlassSculpture() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
 
-    // 2. High-Dynamic Environment Map
-    let envTexture = createStudioEnvironment(renderer, modeRef.current);
-    scene.environment = envTexture;
+    // 2. Pre-generate and Cache Studio Environment Textures
+    const envTextures: Record<SculptureMode, THREE.Texture> = {
+      prism: createStudioEnvironment(renderer, "prism"),
+      obsidian: createStudioEnvironment(renderer, "obsidian"),
+      optics: createStudioEnvironment(renderer, "optics"),
+    };
+    scene.environment = envTextures.optics;
 
     // 3. Lighting Setup
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
@@ -152,52 +184,51 @@ export function GlassSculpture() {
     // Primary Torus Knot Geometry
     const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 240, 44, 2, 3);
     
-    // Default Prism Glass Material
+    // Default Material: Wireframe Lattice
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#ffffff"),
-      transmission: 0.99,
-      opacity: 1.0,
+      color: new THREE.Color("#00f0ff"),
+      transmission: 0,
+      opacity: 0.9,
       transparent: true,
-      roughness: 0.02,
+      roughness: 0.15,
+      metalness: 0.85,
       ior: 1.54,
       thickness: 3.2,
       specularIntensity: 1.5,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.02,
-      attenuationColor: new THREE.Color("#C8B99D"),
-      attenuationDistance: 1.6,
-      dispersion: 0.15,
-      wireframe: false,
+      clearcoatRoughness: 0.1,
+      emissive: new THREE.Color("#004466"),
+      emissiveIntensity: 0.6,
+      wireframe: true,
     });
 
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
     sculptureGroup.add(mainSculpture);
 
-    // Orbiting Prismatic Thin Glass Halo
+    // Orbiting Prismatic Thin Halo
     const haloGeometry = new THREE.TorusGeometry(1.85, 0.06, 32, 100);
     const haloMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#f4f0ea"),
-      transmission: 0.95,
+      color: new THREE.Color("#DFC085"),
+      transmission: 0,
       transparent: true,
-      roughness: 0.05,
-      ior: 1.50,
-      thickness: 0.8,
-      clearcoat: 1.0,
-      attenuationColor: new THREE.Color("#A8B2C1"),
-      attenuationDistance: 2.0,
+      opacity: 0.85,
+      roughness: 0.1,
+      metalness: 0.8,
+      wireframe: true,
     });
     const halo = new THREE.Mesh(haloGeometry, haloMaterial);
     halo.rotation.x = Math.PI / 2.5;
     sculptureGroup.add(halo);
 
-    // Luminous Polished Nucleus
+    // Luminous Nucleus
     const coreGeometry = new THREE.IcosahedronGeometry(0.38, 4);
     const coreMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe6dcce,
-      emissive: 0xc8b99d,
-      emissiveIntensity: 0.9,
+      color: 0xffffff,
+      emissive: 0x00f0ff,
+      emissiveIntensity: 1.2,
       roughness: 0.1,
       metalness: 0.9,
+      wireframe: true,
     });
     const core = new THREE.Mesh(coreGeometry, coreMaterial);
     sculptureGroup.add(core);
@@ -222,38 +253,90 @@ export function GlassSculpture() {
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
-    // Mode Switcher Implementation
+    // Robust Mode Switcher Implementation (Deterministic & Bug-Free)
     updateMaterialRef.current = (mode: SculptureMode) => {
       modeRef.current = mode;
-      envTexture.dispose();
-      envTexture = createStudioEnvironment(renderer, mode);
-      scene.environment = envTexture;
+      scene.environment = envTextures[mode];
 
-      if (mode === "obsidian") {
+      if (mode === "optics") {
+        // Wireframe Lattice
+        glassMaterial.wireframe = true;
+        glassMaterial.color.set("#00f0ff");
+        glassMaterial.transmission = 0;
+        glassMaterial.opacity = 0.9;
+        glassMaterial.roughness = 0.15;
+        glassMaterial.metalness = 0.85;
+        glassMaterial.emissive.set("#004466");
+        glassMaterial.emissiveIntensity = 0.6;
+        glassMaterial.needsUpdate = true;
+
+        haloMaterial.wireframe = true;
+        haloMaterial.color.set("#DFC085");
+        haloMaterial.transmission = 0;
+        haloMaterial.opacity = 0.85;
+        haloMaterial.needsUpdate = true;
+
+        coreMaterial.wireframe = true;
+        coreMaterial.color.set("#ffffff");
+        coreMaterial.emissive.set("#00f0ff");
+        coreMaterial.emissiveIntensity = 1.2;
+        coreMaterial.needsUpdate = true;
+      } else if (mode === "obsidian") {
+        // Obsidian Glass
+        glassMaterial.wireframe = false;
         glassMaterial.color.set("#1a1b20");
-        glassMaterial.roughness = 0.06;
+        glassMaterial.transmission = 0.94;
+        glassMaterial.opacity = 1.0;
+        glassMaterial.roughness = 0.05;
+        glassMaterial.metalness = 0.1;
         glassMaterial.thickness = 4.0;
         glassMaterial.ior = 1.62;
         glassMaterial.dispersion = 0.08;
         glassMaterial.attenuationColor.set("#52473A");
-        glassMaterial.wireframe = false;
+        glassMaterial.attenuationDistance = 1.2;
+        glassMaterial.emissive.set("#000000");
+        glassMaterial.emissiveIntensity = 0;
+        glassMaterial.needsUpdate = true;
+
+        haloMaterial.wireframe = false;
+        haloMaterial.color.set("#252830");
+        haloMaterial.transmission = 0.9;
+        haloMaterial.opacity = 1.0;
+        haloMaterial.needsUpdate = true;
+
+        coreMaterial.wireframe = false;
+        coreMaterial.color.set(0x1a1a1a);
         coreMaterial.emissive.set("#decb9e");
-      } else if (mode === "optics") {
-        glassMaterial.color.set("#ffffff");
-        glassMaterial.roughness = 0.2;
-        glassMaterial.wireframe = true;
-        glassMaterial.transmission = 0.6;
+        coreMaterial.emissiveIntensity = 1.1;
+        coreMaterial.needsUpdate = true;
       } else {
-        // Prism Default
+        // Prism Caustics
+        glassMaterial.wireframe = false;
         glassMaterial.color.set("#ffffff");
         glassMaterial.transmission = 0.99;
+        glassMaterial.opacity = 1.0;
         glassMaterial.roughness = 0.02;
+        glassMaterial.metalness = 0.0;
         glassMaterial.thickness = 3.2;
         glassMaterial.ior = 1.54;
         glassMaterial.dispersion = 0.15;
         glassMaterial.attenuationColor.set("#C8B99D");
-        glassMaterial.wireframe = false;
+        glassMaterial.attenuationDistance = 1.6;
+        glassMaterial.emissive.set("#000000");
+        glassMaterial.emissiveIntensity = 0;
+        glassMaterial.needsUpdate = true;
+
+        haloMaterial.wireframe = false;
+        haloMaterial.color.set("#f4f0ea");
+        haloMaterial.transmission = 0.95;
+        haloMaterial.opacity = 1.0;
+        haloMaterial.needsUpdate = true;
+
+        coreMaterial.wireframe = false;
+        coreMaterial.color.set(0xe6dcce);
         coreMaterial.emissive.set("#c8b99d");
+        coreMaterial.emissiveIntensity = 0.9;
+        coreMaterial.needsUpdate = true;
       }
     };
 
@@ -268,19 +351,31 @@ export function GlassSculpture() {
     let velocityX = 0;
     let velocityY = 0;
 
-    const onPointerDown = (e: PointerEvent) => {
+    const onCanvasPointerDown = (e: PointerEvent) => {
       isDragging = true;
       prevMouseX = e.clientX;
       prevMouseY = e.clientY;
       velocityX = 0;
       velocityY = 0;
+      try {
+        canvas.setPointerCapture?.(e.pointerId);
+      } catch {
+        // Fallback for environments where pointer capture is unsupported
+      }
     };
 
-    const onPointerUp = () => {
-      isDragging = false;
+    const onPointerUp = (e: PointerEvent) => {
+      if (isDragging) {
+        isDragging = false;
+        try {
+          canvas.releasePointerCapture?.(e.pointerId);
+        } catch {
+          // ignore
+        }
+      }
     };
 
-    const onPointerMove = (e: PointerEvent) => {
+    const onWindowPointerMove = (e: PointerEvent) => {
       if (isDragging) {
         const deltaX = e.clientX - prevMouseX;
         const deltaY = e.clientY - prevMouseY;
@@ -294,15 +389,22 @@ export function GlassSculpture() {
       }
 
       const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseX = x * 0.45;
-      mouseY = y * 0.45;
+      if (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      ) {
+        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+        mouseX = x * 0.45;
+        mouseY = y * 0.45;
+      }
     };
 
-    window.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointerdown", onCanvasPointerDown);
     window.addEventListener("pointerup", onPointerUp);
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointermove", onWindowPointerMove, { passive: true });
 
     // Handle Resize
     const handleResize = () => {
@@ -367,11 +469,13 @@ export function GlassSculpture() {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointerdown", onCanvasPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointermove", onWindowPointerMove);
       resizeObserver.disconnect();
-      envTexture.dispose();
+      envTextures.prism.dispose();
+      envTextures.obsidian.dispose();
+      envTextures.optics.dispose();
       mainGeometry.dispose();
       glassMaterial.dispose();
       haloGeometry.dispose();
@@ -403,11 +507,13 @@ export function GlassSculpture() {
       >
         {/* Dynamic optical backlight */}
         <div
-          className="absolute w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full blur-[90px] pointer-events-none opacity-80 dark:opacity-45 transition-opacity duration-1000"
+          className="absolute w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full blur-[90px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
           style={{
             background:
               activeMode === "obsidian"
                 ? "radial-gradient(circle at center, rgba(82, 71, 58, 0.4) 0%, rgba(30, 32, 40, 0.3) 50%, transparent 80%)"
+                : activeMode === "optics"
+                ? "radial-gradient(circle at center, rgba(0, 240, 255, 0.28) 0%, rgba(112, 0, 255, 0.2) 45%, transparent 75%)"
                 : "radial-gradient(circle at center, rgba(200, 185, 157, 0.42) 0%, rgba(168, 178, 193, 0.3) 45%, rgba(255, 255, 255, 0.5) 70%, transparent 85%)",
           }}
           aria-hidden="true"
@@ -432,6 +538,19 @@ export function GlassSculpture() {
       <div className="flex items-center gap-2 p-1.5 rounded-full liquid-glass-pill shadow-xs mt-[-10px] z-20">
         <button
           type="button"
+          onClick={() => switchMode("optics")}
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+            activeMode === "optics"
+              ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
+              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          }`}
+        >
+          <Eye className="w-3 h-3 text-[var(--accent-azure)]" />
+          <span>Wireframe Lattice</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => switchMode("prism")}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
             activeMode === "prism"
@@ -454,19 +573,6 @@ export function GlassSculpture() {
         >
           <Shield className="w-3 h-3 text-[var(--accent-silver)]" />
           <span>Obsidian Glass</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => switchMode("optics")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
-            activeMode === "optics"
-              ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
-              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-          }`}
-        >
-          <Eye className="w-3 h-3 text-[var(--accent-azure)]" />
-          <span>Wireframe Lattice</span>
         </button>
       </div>
     </div>
