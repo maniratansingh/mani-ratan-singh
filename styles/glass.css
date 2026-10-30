@@ -1,115 +1,99 @@
 /* =========================================================================
-   APPLE LIQUID GLASS ULTRA-FIDELITY SYSTEM
+   MANI RATAN SINGH — LIQUID GLASS ULTRA-FIDELITY MATERIAL
+   Derived from jellyfin-liquid-glass by Mani Ratan Singh (iOS 26 Beta 1 Spec)
    ========================================================================= */
 
-/* Primary Liquid Glass Surface (Panels, Modules, Monograph Plates) */
+/* Primary Liquid Glass Surface (Cards, Panels, Modules) */
 .liquid-glass-surface {
-  background: var(--glass-surface-bg);
-  backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(102%);
-  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(102%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: 1.25rem;
   position: relative;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  isolation: isolate;
+  border-radius: var(--lg-radius-panel);
+  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
+              box-shadow 0.35s ease;
 }
 
-/* Prismatic Edge Specular Sheen (Hairline light catch on top border) */
 .liquid-glass-surface::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 6%;
-  right: 6%;
-  height: 1.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.85) 25%,
-    rgba(255, 255, 255, 1.0) 50%,
-    rgba(255, 255, 255, 0.85) 75%,
-    transparent 100%
-  );
-  opacity: 0.95;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
   pointer-events: none;
-  z-index: 2;
+  backdrop-filter: var(--lg-frost-panel);
+  -webkit-backdrop-filter: var(--lg-frost-panel);
+  background: var(--lg-tint-panel);
 }
 
-/* Secondary internal reflection on the left edge */
 .liquid-glass-surface::after {
   content: "";
   position: absolute;
-  top: 15%;
-  bottom: 25%;
-  left: 0;
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.7) 50%,
-    transparent 100%
-  );
-  opacity: 0.6;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
   pointer-events: none;
-  z-index: 2;
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+  background: var(--lg-sheen);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.liquid-glass-surface:hover {
-  border-color: var(--glass-border-hover);
-  box-shadow: var(--glass-shadow-hover);
-  transform: translateY(-2px);
+.liquid-glass-surface:hover::after {
+  background: var(--lg-sheen), var(--lg-hover-fill);
+  box-shadow: var(--lg-rim-strong), var(--lg-shadow-panel);
 }
 
-/* Liquid Glass Pill (Floating Navbar, Controls, Lens Badges) */
+/* Liquid Glass Pill (Floating Navbar, Action Buttons, Badges) */
 .liquid-glass-pill {
-  background: var(--glass-pill-bg);
-  backdrop-filter: blur(28px) saturate(220%) contrast(104%);
-  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(104%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-pill-shadow);
-  border-radius: 9999px;
   position: relative;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  isolation: isolate;
+  border-radius: var(--lg-radius-control);
+  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
+              box-shadow 0.3s ease;
 }
 
-.liquid-glass-pill:hover {
-  border-color: var(--glass-border-hover);
-  box-shadow: var(--glass-shadow-hover);
+.liquid-glass-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  backdrop-filter: var(--lg-frost-bar);
+  -webkit-backdrop-filter: var(--lg-frost-bar);
+  background: var(--lg-tint-bar);
 }
 
-/* Monograph Paper Frame for Editorial Imagery */
+.liquid-glass-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: var(--lg-rim), var(--lg-shadow-control);
+  background: var(--lg-sheen);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.liquid-glass-pill:hover::after {
+  background: var(--lg-sheen), var(--lg-hover-fill);
+  box-shadow: var(--lg-rim-strong), var(--lg-shadow-control);
+}
+
+.liquid-glass-pill:active {
+  transform: scale(0.97);
+}
+
+/* Monograph Paper Frame for Photographic Plates */
 .editorial-frame {
-  background: var(--surface);
-  border: 1px solid var(--glass-border);
-  box-shadow: 
-    0 1px 3px rgba(8, 8, 10, 0.04),
-    0 16px 36px -12px rgba(8, 8, 10, 0.08);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--lg-radius-card);
+  overflow: hidden;
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
+              box-shadow 0.4s ease;
 }
 
 .editorial-frame:hover {
-  border-color: var(--accent-champagne);
-  box-shadow: 
-    0 2px 6px rgba(8, 8, 10, 0.06),
-    0 24px 48px -12px rgba(8, 8, 10, 0.12);
-}
-
-/* Subtle Architectural Grid Background Texture */
-.architectural-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(8, 8, 10, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(8, 8, 10, 0.03) 1px, transparent 1px);
-}
-
-.dark .architectural-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  box-shadow: var(--lg-rim-strong), 0 24px 64px rgb(6 7 10 / 0.5);
 }

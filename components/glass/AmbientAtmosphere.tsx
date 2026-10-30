@@ -18,7 +18,6 @@ export function AmbientAtmosphere() {
     };
 
     const update = () => {
-      // Smooth lerp for fluid optical response
       currentX += (targetX - currentX) * 0.08;
       currentY += (targetY - currentY) * 0.08;
       setMousePos({ x: currentX, y: currentY });
@@ -36,44 +35,26 @@ export function AmbientAtmosphere() {
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none -z-20 overflow-hidden select-none"
+      className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none"
       aria-hidden="true"
     >
       {/* Dynamic Cursor Light Caustic (Gently illuminates behind glass) */}
       <div
-        className="fixed w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px] opacity-35 dark:opacity-20 pointer-events-none transition-opacity duration-500"
+        className="fixed w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px] opacity-25 pointer-events-none transition-opacity duration-500"
         style={{
           left: `${mousePos.x}px`,
           top: `${mousePos.y}px`,
           background:
-            "radial-gradient(circle at center, rgba(184, 147, 85, 0.45) 0%, rgba(107, 124, 147, 0.25) 45%, transparent 75%)",
+            "radial-gradient(circle at center, rgba(0, 145, 255, 0.4) 0%, rgba(52, 58, 76, 0.25) 50%, transparent 70%)",
         }}
       />
 
-      {/* 1. Primary Luminous Champagne Optical Orb (Top-Right / Hero backdrop) */}
+      {/* Top Ambient Radial Glow */}
       <div
-        className="absolute -top-[10%] right-[2%] w-[650px] h-[650px] sm:w-[950px] sm:h-[950px] rounded-full blur-[140px] opacity-45 dark:opacity-25 transition-all duration-1000"
+        className="absolute -top-[10%] left-[20%] w-[700px] h-[700px] rounded-full blur-[140px] opacity-35"
         style={{
           background:
-            "radial-gradient(circle at center, rgba(184, 147, 85, 0.35) 0%, rgba(244, 237, 224, 0.5) 45%, transparent 70%)",
-        }}
-      />
-
-      {/* 2. Cool Titanium & Opal Caustic Orb (Mid-Left / Behind Narrative & Works) */}
-      <div
-        className="absolute top-[35%] -left-[10%] w-[550px] h-[550px] sm:w-[850px] sm:h-[850px] rounded-full blur-[150px] opacity-40 dark:opacity-20 transition-all duration-1000"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(107, 124, 147, 0.3) 0%, rgba(228, 235, 242, 0.4) 45%, transparent 70%)",
-        }}
-      />
-
-      {/* 3. Warm Amber Horizon Glow (Lower-Right / Photography & Lab) */}
-      <div
-        className="absolute top-[70%] right-[10%] w-[500px] h-[500px] sm:w-[750px] sm:h-[750px] rounded-full blur-[140px] opacity-35 dark:opacity-15 transition-all duration-1000"
-        style={{
-          background:
-            "radial-gradient(circle at center, rgba(184, 147, 85, 0.3) 0%, transparent 65%)",
+            "radial-gradient(circle at center, rgba(52, 58, 76, 0.6) 0%, rgba(30, 90, 220, 0.2) 50%, transparent 70%)",
         }}
       />
     </div>

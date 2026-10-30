@@ -10,21 +10,27 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--canvas);
-  color: var(--text-primary);
+  background-color: var(--lg-bg);
+  background-image:
+    var(--lg-wallpaper-veil),
+    radial-gradient(90% 70% at 18% 0%, rgb(30 90 220 / 0.35), transparent 70%),
+    linear-gradient(165deg, #0d318a, #0a2466 45%, #071a4a);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--lg-text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    "Helvetica Neue", Arial, sans-serif;
+    "Helvetica Neue", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  caret-color: var(--accent-champagne);
+  caret-color: var(--lg-accent);
   text-rendering: optimizeLegibility;
 }
 
@@ -48,31 +54,32 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-champagne);
+  background: var(--lg-accent);
   opacity: 0.4;
   border-radius: 9999px;
-  border: 1px solid var(--canvas);
+  border: 1px solid var(--lg-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-primary);
+  background: var(--lg-text);
 }
 
 /* Luxury Themed Selection */
 ::selection {
-  background-color: var(--accent-champagne);
-  color: #08080A;
+  background-color: var(--lg-accent);
+  color: #ffffff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-champagne);
+  outline: 2px solid var(--lg-accent);
   outline-offset: 3px;
 }
 
-/* Fluid Editorial Typography Scales */
+/* Text Shadows over Glass Surfaces */
 h1, h2, h3, h4 {
   text-wrap: balance;
   letter-spacing: -0.03em;
+  text-shadow: 0 1px 2px rgb(8 10 16 / 0.45);
 }
 
 p {
