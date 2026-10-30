@@ -6,10 +6,7 @@ import { Navbar } from "@/components/navigation/Navbar";
 import { AmbientAtmosphere } from "@/components/glass/AmbientAtmosphere";
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F7F7F5" },
-    { media: "(prefers-color-scheme: dark)", color: "#17191D" },
-  ],
+  themeColor: "#0b0b0e",
   width: "device-width",
   initialScale: 1,
 };
@@ -82,7 +79,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
