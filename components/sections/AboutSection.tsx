@@ -5,7 +5,6 @@ import Link from "next/link";
 import { siteContent } from "@/config/content";
 import { ArrowUpRight } from "lucide-react";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
-import { SemanticWarpLens } from "@/components/interactive/SemanticWarpLens";
 
 export function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { about } = siteContent;
@@ -107,14 +106,6 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </div>
-
-          {/* Interactive Semantic Warp Lens Canvas (Story & Ethos in Kinetic Motion) */}
-          <div className="my-2">
-            <SemanticWarpLens
-              title="Kinetic Identity Lens"
-              subtitle="Hover or drag across the matrix to warp the letters of my story"
-            />
           </div>
 
           {/* Foundational Principles (Architectural List, Not Generic Equal Cards) */}
