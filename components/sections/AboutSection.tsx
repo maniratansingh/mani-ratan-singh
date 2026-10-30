@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
 import { siteContent } from "@/config/content";
-import { GlassCard } from "@/components/glass/GlassCard";
-import {
-  revealVariants,
-  staggerContainer,
-} from "@/components/animations/transitions";
 
 export function AboutSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { about } = siteContent;
@@ -15,85 +9,92 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
   return (
     <section
       id="about"
-      className={`relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${
-        isStandalone ? "pt-32 pb-24" : "py-24 sm:py-32"
+      className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
+        isStandalone ? "pt-32 pb-24" : "py-28 sm:py-36"
       }`}
     >
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "0px" }}
-        className="flex flex-col gap-16"
-      >
-        {/* Section Header */}
-        <motion.div variants={revealVariants} className="max-w-2xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[var(--accent-champagne)] mb-2 block">
-            01 — {about.title}
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-4">
-            {about.subtitle}
-          </h2>
-          <p className="text-lg sm:text-xl italic text-[var(--text-secondary)] font-serif border-l-2 border-[var(--accent-champagne)] pl-4 py-1">
-            &ldquo;{about.quote}&rdquo;
-          </p>
-        </motion.div>
+      {/* Editorial Category Header */}
+      <div className="flex items-center justify-between border-b border-[var(--glass-frosted-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
+        <span className="text-[var(--accent-champagne)]">01 / BIOGRAPHY & ETHOS</span>
+        <span>MANI RATAN SINGH</span>
+        <span>INDEX [ 02 / 05 ]</span>
+      </div>
 
-        {/* Narrative & Story */}
-        <motion.div
-          variants={revealVariants}
-          className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
-        >
-          <div className="md:col-span-8 flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+      {/* Main Asymmetrical Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* Left Column: Metrics & Identity Parameters */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
+          <div>
+            <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[var(--text-primary)] uppercase leading-[1.05] mb-4">
+              Tactile <br />
+              <span className="font-serif italic text-[var(--accent-champagne)] normal-case">
+                Materiality.
+              </span>
+            </h2>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+              Bridging digital architecture, tactile electronics, and sensory interface design.
+            </p>
+          </div>
+
+          <div className="flex flex-col border-t border-[var(--glass-frosted-border)]">
+            {about.stats.map((stat, idx) => (
+              <div
+                key={idx}
+                className="flex items-center justify-between py-3.5 border-b border-[var(--glass-frosted-border)] text-xs"
+              >
+                <span className="font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
+                  {stat.label}
+                </span>
+                <span className="font-medium text-[var(--text-primary)]">
+                  {stat.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Column: Editorial Narrative & Principles */}
+        <div className="lg:col-span-8 flex flex-col gap-12">
+          {/* Statement Quote */}
+          <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-serif italic text-[var(--text-primary)] leading-snug border-l-2 border-[var(--accent-champagne)] pl-6 sm:pl-8 py-2">
+            &ldquo;{about.quote}&rdquo;
+          </blockquote>
+
+          {/* Narrative Paragraphs */}
+          <div className="flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </div>
 
-          {/* Quick Metrics / Focus Badges */}
-          <div className="md:col-span-4 grid grid-cols-1 gap-4">
-            {about.stats.map((stat, idx) => (
-              <GlassCard key={idx} variant="frosted" className="p-5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--text-tertiary)] block mb-1">
-                  {stat.label}
-                </span>
-                <span className="text-lg font-semibold text-[var(--text-primary)]">
-                  {stat.value}
-                </span>
-              </GlassCard>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* 3 Core Philosophical Pillars */}
-        <motion.div variants={revealVariants} className="flex flex-col gap-6">
-          <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
-            Guiding Philosophy
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {about.principles.map((principle) => (
-              <GlassCard
-                key={principle.number}
-                variant="frosted"
-                interactive
-                className="flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-xs font-mono font-bold text-[var(--accent-champagne)] mb-3 block">
-                    {principle.number}
-                  </span>
-                  <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
-                    {principle.title}
-                  </h4>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+          {/* 3 Core Principles as Architectural Horizontal Slabs */}
+          <div className="flex flex-col gap-4 mt-6">
+            <h3 className="text-xs font-mono uppercase tracking-widest text-[var(--accent-silver)] mb-2">
+              Foundational Pillars
+            </h3>
+            <div className="grid grid-cols-1 gap-4">
+              {about.principles.map((principle) => (
+                <div
+                  key={principle.number}
+                  className="p-6 sm:p-8 rounded-2xl glass-frosted glass-reflection transition-all duration-300 hover:border-[var(--glass-hover-border)]"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
+                    <span className="text-xs font-mono text-[var(--accent-champagne)]">
+                      [ {principle.number} ]
+                    </span>
+                    <h4 className="text-lg sm:text-xl font-medium text-[var(--text-primary)] sm:text-left flex-1 sm:ml-6">
+                      {principle.title}
+                    </h4>
+                  </div>
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed sm:ml-10">
                     {principle.description}
                   </p>
                 </div>
-              </GlassCard>
-            ))}
+              ))}
+            </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
