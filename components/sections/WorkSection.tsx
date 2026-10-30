@@ -192,32 +192,50 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
 
                 {/* Simulated Jellyfin Media Glass Card with Dual Crescent Rim */}
                 <div
-                  className={`p-6 rounded-xl transition-all duration-500 border ${
+                  className={`p-6 rounded-2xl transition-all duration-500 relative overflow-hidden backdrop-blur-2xl border ${
                     jellyfinTheme === "glass"
-                      ? "bg-white/80 dark:bg-white/10 border-white/80 shadow-lg text-[var(--text-primary)]"
+                      ? "bg-white/[0.08] border-white/30 text-[var(--text-primary)] shadow-[inset_1.5px_1.5px_0_rgba(255,255,255,0.95),inset_-1.5px_-1.5px_0_rgba(0,240,255,0.35),0_24px_50px_rgba(0,0,0,0.5)]"
                       : jellyfinTheme === "obsidian"
-                      ? "bg-black/90 border-neutral-700 shadow-2xl text-white"
-                      : "bg-[#F5EFE6]/90 dark:bg-[#252018]/90 border-[var(--accent-champagne)] shadow-xl text-[var(--text-primary)]"
+                      ? "bg-black/85 border-neutral-700/60 text-white shadow-[inset_1.5px_1.5px_0_rgba(255,255,255,0.45),inset_-1.5px_-1.5px_0_rgba(0,0,0,0.9),0_28px_60px_rgba(0,0,0,0.7)]"
+                      : "bg-[#252018]/80 border-[var(--accent-champagne)]/50 text-[var(--text-primary)] shadow-[inset_1.5px_1.5px_0_rgba(223,192,133,0.9),inset_-1.5px_-1.5px_0_rgba(223,192,133,0.25),0_24px_50px_rgba(0,0,0,0.5)]"
                   }`}
                 >
-                  <div className="flex items-center justify-between text-xs font-mono mb-4 opacity-75">
-                    <span>JELLYFIN SERVER</span>
-                    <span>1080p · HEVC 10-BIT</span>
+                  {/* Top Specular Glint Sheen */}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent"
+                    aria-hidden="true"
+                  />
+
+                  <div className="flex items-center justify-between text-xs font-mono mb-4 opacity-80">
+                    <span className="flex items-center gap-1.5 font-semibold tracking-wider">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      JELLYFIN HOMELAB NODE
+                    </span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 border border-white/20">
+                      4K · HEVC 10-BIT
+                    </span>
                   </div>
-                  <div className="h-28 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center border border-black/10 dark:border-white/10 mb-4">
-                    <div className="flex flex-col items-center text-center p-3">
-                      <Sparkles className="w-6 h-6 text-[var(--accent-champagne)] mb-1" />
-                      <span className="text-xs font-medium uppercase tracking-wider">
-                        Dual Crescent Rim
+
+                  <div className="h-32 rounded-xl bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center border border-white/15 mb-4 relative overflow-hidden">
+                    <div className="flex flex-col items-center text-center p-3 relative z-10">
+                      <Sparkles className="w-7 h-7 text-[var(--accent-champagne)] mb-1.5 animate-pulse" />
+                      <span className="text-xs font-semibold uppercase tracking-wider">
+                        {jellyfinTheme === "glass" ? "Liquid Glass Frost" : jellyfinTheme === "obsidian" ? "Deep Obsidian" : "Champagne Gold"}
                       </span>
-                      <span className="text-[10px] font-mono opacity-70">
-                        `inset 1.5px 0.75px ... inset -1.5px`
+                      <span className="text-[10px] font-mono text-[var(--text-tertiary)] mt-0.5">
+                        Dual Lobe · 20px Frost · Specular Glint
                       </span>
                     </div>
                   </div>
-                  <div className="space-y-1.5 text-xs">
-                    <div className="h-2 w-3/4 bg-current opacity-20 rounded" />
-                    <div className="h-2 w-1/2 bg-current opacity-10 rounded" />
+
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-tertiary)]">
+                      <span>Refraction Index</span>
+                      <span className="text-[var(--accent-azure)] font-bold">η = 1.52 (Crown Glass)</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full w-4/5 bg-gradient-to-r from-[var(--accent-azure)] to-[var(--accent-champagne)] rounded-full" />
+                    </div>
                   </div>
                 </div>
 

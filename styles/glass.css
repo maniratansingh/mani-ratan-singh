@@ -1,5 +1,5 @@
 /* =========================================================================
-   MANI RATAN SINGH — LIQUID GLASS ULTRA-FIDELITY MATERIAL
+   MANI RATAN SINGH — LIQUID GLASS ULTRA-FIDELITY MATERIAL SPECIFICATION
    Derived from jellyfin-liquid-glass by Mani Ratan Singh (iOS 26 Beta 1 Spec)
    ========================================================================= */
 
@@ -8,15 +8,18 @@
   position: relative;
   isolation: isolate;
   border-radius: var(--lg-radius-panel);
+  border: 1px solid var(--glass-border);
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.35s ease;
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
 }
 
+/* Glass Frost & Backdrop Diffusion Substrate */
 .liquid-glass-surface::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--lg-frost-panel);
@@ -24,6 +27,7 @@
   background: var(--lg-tint-panel);
 }
 
+/* Dual-Lobe Crescent Rim Highlights, Specular Sheen & Depth Shadow */
 .liquid-glass-surface::after {
   content: "";
   position: absolute;
@@ -32,13 +36,26 @@
   border-radius: inherit;
   pointer-events: none;
   box-shadow: var(--lg-rim), var(--lg-shadow-panel);
-  background: var(--lg-sheen);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 1.5px, transparent 16px),
+    var(--lg-sheen);
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
+.liquid-glass-surface:hover {
+  border-color: var(--glass-border-hover);
+}
+
 .liquid-glass-surface:hover::after {
-  background: var(--lg-sheen), var(--lg-hover-fill);
-  box-shadow: var(--lg-rim-strong), var(--lg-shadow-panel);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 2px, transparent 20px),
+    var(--lg-sheen),
+    var(--lg-hover-fill);
+  box-shadow:
+    var(--lg-rim-strong),
+    0 32px 72px -16px rgba(6, 7, 10, 0.65),
+    0 0 24px rgba(0, 240, 255, 0.16),
+    0 0 45px rgba(255, 0, 127, 0.08);
 }
 
 /* Liquid Glass Pill (Floating Navbar, Action Buttons, Badges) */
@@ -46,15 +63,18 @@
   position: relative;
   isolation: isolate;
   border-radius: var(--lg-radius-control);
+  border: 1px solid var(--glass-border);
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.3s ease;
+              box-shadow 0.3s ease,
+              border-color 0.3s ease,
+              background-color 0.3s ease;
 }
 
 .liquid-glass-pill::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   border-radius: inherit;
   pointer-events: none;
   backdrop-filter: var(--lg-frost-bar);
@@ -70,17 +90,46 @@
   border-radius: inherit;
   pointer-events: none;
   box-shadow: var(--lg-rim), var(--lg-shadow-control);
-  background: var(--lg-sheen);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.03) 1px, transparent 60%),
+    var(--lg-sheen);
   transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 
+.liquid-glass-pill:hover {
+  border-color: var(--glass-border-hover);
+}
+
 .liquid-glass-pill:hover::after {
-  background: var(--lg-sheen), var(--lg-hover-fill);
-  box-shadow: var(--lg-rim-strong), var(--lg-shadow-control);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.06) 1.5px, transparent 60%),
+    var(--lg-sheen),
+    var(--lg-hover-fill);
+  box-shadow:
+    var(--lg-rim-strong),
+    0 8px 24px -4px rgba(6, 7, 10, 0.35),
+    0 0 16px rgba(0, 240, 255, 0.2);
 }
 
 .liquid-glass-pill:active {
   transform: scale(0.97);
+}
+
+/* Light mode overrides for high-contrast refinement */
+.light .liquid-glass-surface:hover::after,
+[data-theme="light"] .liquid-glass-surface:hover::after {
+  box-shadow:
+    var(--lg-rim-strong),
+    0 32px 72px -16px rgba(8, 8, 10, 0.14),
+    0 0 24px rgba(0, 113, 227, 0.12);
+}
+
+.light .liquid-glass-pill:hover::after,
+[data-theme="light"] .liquid-glass-pill:hover::after {
+  box-shadow:
+    var(--lg-rim-strong),
+    0 8px 24px -4px rgba(8, 8, 10, 0.1),
+    0 0 16px rgba(0, 113, 227, 0.14);
 }
 
 /* Monograph Paper Frame for Photographic Plates */
@@ -89,11 +138,63 @@
   isolation: isolate;
   border-radius: var(--lg-radius-card);
   overflow: hidden;
+  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim), var(--lg-shadow-panel);
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.4s ease;
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
 }
 
 .editorial-frame:hover {
-  box-shadow: var(--lg-rim-strong), 0 24px 64px rgb(6 7 10 / 0.5);
+  border-color: var(--glass-border-hover);
+  box-shadow:
+    var(--lg-rim-strong),
+    0 32px 72px -12px rgba(6, 7, 10, 0.55),
+    0 0 24px rgba(0, 240, 255, 0.14);
+}
+
+/* Backward-compatible & utility classes for glass components */
+.glass-surface {
+  background: var(--lg-tint-panel);
+  backdrop-filter: var(--lg-frost-panel);
+  -webkit-backdrop-filter: var(--lg-frost-panel);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+}
+
+.glass-pill {
+  background: var(--lg-tint-bar);
+  backdrop-filter: var(--lg-frost-bar);
+  -webkit-backdrop-filter: var(--lg-frost-bar);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--lg-rim), var(--lg-shadow-control);
+}
+
+.glass-translucent {
+  background: var(--lg-tint-control);
+  backdrop-filter: var(--lg-frost-control);
+  -webkit-backdrop-filter: var(--lg-frost-control);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--lg-rim);
+}
+
+.glass-frosted {
+  background: var(--lg-tint-panel);
+  backdrop-filter: var(--lg-frost-panel);
+  -webkit-backdrop-filter: var(--lg-frost-panel);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+}
+
+.glass-reflection {
+  position: relative;
+}
+
+.glass-reflection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--lg-sheen);
 }

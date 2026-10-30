@@ -75,12 +75,27 @@ export function InteractiveGlassCard({
         onClick ? "cursor-pointer" : ""
       } ${className}`}
     >
-      {/* Dynamic Specular Light Spotlight (Tracks Cursor Position) */}
+      {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Tracks Cursor) */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-500 z-10"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(450px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.38), transparent 70%)`,
+          background: `radial-gradient(520px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.28) 0%, rgba(0, 240, 255, 0.12) 30%, rgba(255, 0, 127, 0.05) 55%, transparent 75%)`,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Reactive Crystal Edge Refraction (Rim Specular Tracker) */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-10"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          padding: "1.2px",
+          background: `radial-gradient(360px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.7) 0%, rgba(0, 240, 255, 0.35) 40%, transparent 75%)`,
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
         }}
         aria-hidden="true"
       />
