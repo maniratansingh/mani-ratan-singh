@@ -4,50 +4,54 @@ import * as React from "react";
 import * as THREE from "three";
 import { HeroFallback } from "@/components/hero/HeroFallback";
 
-function createProceduralStudioEnv(renderer: THREE.WebGLRenderer): THREE.Texture {
+function createStudioEnvironment(renderer: THREE.WebGLRenderer): THREE.Texture {
   const canvas = document.createElement("canvas");
   canvas.width = 1024;
   canvas.height = 512;
   const ctx = canvas.getContext("2d");
   if (!ctx) return new THREE.Texture();
 
-  // 1. Luxury ambient studio base gradient (warm champagne into cool silver)
-  const grad = ctx.createLinearGradient(0, 0, 1024, 512);
-  grad.addColorStop(0, "#F7F5F0");
-  grad.addColorStop(0.3, "#E8E2D8");
-  grad.addColorStop(0.6, "#D8DFE8");
-  grad.addColorStop(0.85, "#FFFFFF");
-  grad.addColorStop(1, "#C5B9A8");
-  ctx.fillStyle = grad;
+  // High-contrast iridescent studio environment for dramatic caustic refraction
+  const baseGrad = ctx.createLinearGradient(0, 0, 1024, 512);
+  baseGrad.addColorStop(0, "#F5EFE6");
+  baseGrad.addColorStop(0.25, "#E2D7C3");
+  baseGrad.addColorStop(0.5, "#CBD7E6");
+  baseGrad.addColorStop(0.75, "#FFFFFF");
+  baseGrad.addColorStop(1, "#D8C5AE");
+  ctx.fillStyle = baseGrad;
   ctx.fillRect(0, 0, 1024, 512);
 
-  // 2. Main key light softbox (high intensity specular source)
-  const softbox1 = ctx.createRadialGradient(280, 140, 10, 280, 140, 180);
-  softbox1.addColorStop(0, "rgba(255, 255, 255, 1.0)");
-  softbox1.addColorStop(0.4, "rgba(255, 250, 240, 0.85)");
-  softbox1.addColorStop(1, "rgba(255, 255, 255, 0.0)");
-  ctx.fillStyle = softbox1;
+  // High-intensity warm champagne keylight softbox
+  const keyLight = ctx.createRadialGradient(320, 160, 10, 320, 160, 220);
+  keyLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+  keyLight.addColorStop(0.3, "rgba(255, 245, 230, 0.95)");
+  keyLight.addColorStop(0.7, "rgba(200, 185, 157, 0.4)");
+  keyLight.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = keyLight;
   ctx.beginPath();
-  ctx.arc(280, 140, 180, 0, Math.PI * 2);
+  ctx.arc(320, 160, 220, 0, Math.PI * 2);
   ctx.fill();
 
-  // 3. Rim fill softbox (cool silver edge highlight)
-  const softbox2 = ctx.createRadialGradient(780, 360, 20, 780, 360, 220);
-  softbox2.addColorStop(0, "rgba(240, 245, 255, 0.95)");
-  softbox2.addColorStop(0.5, "rgba(200, 215, 235, 0.5)");
-  softbox2.addColorStop(1, "rgba(200, 215, 235, 0.0)");
-  ctx.fillStyle = softbox2;
+  // Cool silver & azure specular rim source
+  const rimLight = ctx.createRadialGradient(760, 340, 10, 760, 340, 240);
+  rimLight.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+  rimLight.addColorStop(0.4, "rgba(190, 215, 245, 0.8)");
+  rimLight.addColorStop(0.8, "rgba(168, 178, 193, 0.3)");
+  rimLight.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = rimLight;
   ctx.beginPath();
-  ctx.arc(780, 360, 220, 0, Math.PI * 2);
+  ctx.arc(760, 340, 240, 0, Math.PI * 2);
   ctx.fill();
 
-  // 4. Accent Champagne horizon streak
-  const streak = ctx.createLinearGradient(0, 240, 1024, 270);
-  streak.addColorStop(0, "rgba(197, 185, 168, 0)");
-  streak.addColorStop(0.5, "rgba(245, 235, 220, 0.7)");
-  streak.addColorStop(1, "rgba(174, 182, 195, 0)");
+  // Prismatic horizon light streak
+  const streak = ctx.createLinearGradient(0, 240, 1024, 272);
+  streak.addColorStop(0, "rgba(200, 185, 157, 0)");
+  streak.addColorStop(0.3, "rgba(255, 255, 255, 0.9)");
+  streak.addColorStop(0.5, "rgba(235, 210, 180, 0.95)");
+  streak.addColorStop(0.7, "rgba(180, 205, 235, 0.9)");
+  streak.addColorStop(1, "rgba(168, 178, 193, 0)");
   ctx.fillStyle = streak;
-  ctx.fillRect(0, 230, 1024, 50);
+  ctx.fillRect(0, 230, 1024, 55);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -88,11 +92,11 @@ export function GlassSculpture() {
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const width = container.clientWidth || 600;
-    const height = container.clientHeight || 600;
+    const width = container.clientWidth || 640;
+    const height = container.clientHeight || 640;
 
-    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 0, 5.4);
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0, 5.2);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -103,84 +107,84 @@ export function GlassSculpture() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.25;
 
-    // 2. Procedural Studio Environment for True Optical Refraction
-    const envTexture = createProceduralStudioEnv(renderer);
+    // 2. High-Dynamic Environment Map for Visible Optical Refraction
+    const envTexture = createStudioEnvironment(renderer);
     scene.environment = envTexture;
 
-    // 3. Directional & Point Lights for Physical Highlights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
+    // 3. Lights for Physical Surface Glints & Highlights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.8);
-    keyLight.position.set(5, 6, 4);
+    const keyLight = new THREE.DirectionalLight(0xfff8ee, 3.5);
+    keyLight.position.set(5, 7, 5);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xdbe6f2, 2.2);
-    rimLight.position.set(-5, -3, -4);
+    const rimLight = new THREE.DirectionalLight(0xdceaff, 2.8);
+    rimLight.position.set(-6, -4, -4);
     scene.add(rimLight);
 
-    const centerPoint = new THREE.PointLight(0xc5b9a8, 3.2, 8);
-    centerPoint.position.set(0, 1, 2);
-    scene.add(centerPoint);
+    const pointLight = new THREE.PointLight(0xc8b99d, 4.0, 10);
+    pointLight.position.set(0, 1.2, 2.5);
+    scene.add(pointLight);
 
-    // 4. Sculpture Group
+    // 4. Sculpture Architecture (Apple Liquid Glass Optical Physics)
     const sculptureGroup = new THREE.Group();
     scene.add(sculptureGroup);
 
-    // Primary Liquid Glass Shell
-    const mainGeometry = new THREE.TorusKnotGeometry(1.24, 0.44, 200, 36, 2, 3);
+    // Primary Torus Knot Optical Glass
+    const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 220, 40, 2, 3);
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      transmission: 0.98,
+      color: new THREE.Color("#ffffff"),
+      transmission: 0.99,
       opacity: 1.0,
       transparent: true,
-      roughness: 0.05,
-      ior: 1.52,
-      thickness: 2.6,
-      specularIntensity: 1.2,
-      specularColor: new THREE.Color(0xffffff),
+      roughness: 0.02, // Mirror-smooth polished glass
+      ior: 1.54, // Dense optical flint glass
+      thickness: 3.2, // Deep internal refraction caustics
+      specularIntensity: 1.5,
+      specularColor: new THREE.Color("#ffffff"),
       clearcoat: 1.0,
-      clearcoatRoughness: 0.03,
-      attenuationColor: new THREE.Color("#C5B9A8"),
-      attenuationDistance: 1.8,
-      dispersion: 0.09, // Real chromatic dispersion prism optics
+      clearcoatRoughness: 0.02,
+      attenuationColor: new THREE.Color("#C8B99D"),
+      attenuationDistance: 1.6,
+      dispersion: 0.14, // Vibrant optical rainbow chromatic dispersion
     });
 
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
     sculptureGroup.add(mainSculpture);
 
-    // Secondary Floating Inner Glass Ribbon
-    const innerGeometry = new THREE.TorusGeometry(0.85, 0.16, 24, 80);
-    const innerGlassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xf5f0ea,
-      transmission: 0.92,
-      opacity: 1.0,
+    // Orbiting Prismatic Thin Glass Halo
+    const haloGeometry = new THREE.TorusGeometry(1.85, 0.06, 32, 100);
+    const haloMaterial = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#f4f0ea"),
+      transmission: 0.95,
       transparent: true,
-      roughness: 0.12,
-      ior: 1.48,
-      thickness: 1.5,
-      attenuationColor: new THREE.Color("#AEB6C3"),
-      attenuationDistance: 2.5,
+      roughness: 0.05,
+      ior: 1.50,
+      thickness: 0.8,
+      clearcoat: 1.0,
+      attenuationColor: new THREE.Color("#A8B2C1"),
+      attenuationDistance: 2.0,
     });
-    const innerRibbon = new THREE.Mesh(innerGeometry, innerGlassMaterial);
-    innerRibbon.rotation.x = Math.PI / 3;
-    sculptureGroup.add(innerRibbon);
+    const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+    halo.rotation.x = Math.PI / 2.5;
+    sculptureGroup.add(halo);
 
-    // Luminous Metallic Champagne Nucleus Core
-    const coreGeometry = new THREE.IcosahedronGeometry(0.36, 3);
+    // Luminous Polished Champagne Nucleus
+    const coreGeometry = new THREE.IcosahedronGeometry(0.38, 4);
     const coreMaterial = new THREE.MeshStandardMaterial({
-      color: 0xd9cebe,
-      emissive: 0xc5b9a8,
-      emissiveIntensity: 0.7,
-      roughness: 0.15,
-      metalness: 0.85,
+      color: 0xe6dcce,
+      emissive: 0xc8b99d,
+      emissiveIntensity: 0.9,
+      roughness: 0.1,
+      metalness: 0.9,
     });
     const core = new THREE.Mesh(coreGeometry, coreMaterial);
     sculptureGroup.add(core);
 
-    // 5. Interactive Mouse & Pointer Tracking
+    // 5. Interactive Pointer & Drag Physics
     let mouseX = 0;
     let mouseY = 0;
     let targetRotX = 0;
@@ -213,8 +217,8 @@ export function GlassSculpture() {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseX = x * 0.35;
-      mouseY = y * 0.35;
+      mouseX = x * 0.45;
+      mouseY = y * 0.45;
     };
 
     window.addEventListener("pointerdown", onPointerDown);
@@ -243,22 +247,21 @@ export function GlassSculpture() {
       const elapsedTime = (performance.now() - startTime) * 0.001;
 
       if (!prefersReducedMotion && !isDragging) {
-        // Slow majestic floating rotation
-        sculptureGroup.rotation.y += 0.003;
-        mainSculpture.rotation.x = Math.sin(elapsedTime * 0.35) * 0.15;
-        innerRibbon.rotation.y -= 0.005;
-        innerRibbon.rotation.z = Math.cos(elapsedTime * 0.4) * 0.2;
+        sculptureGroup.rotation.y += 0.0035;
+        mainSculpture.rotation.x = Math.sin(elapsedTime * 0.4) * 0.16;
+        halo.rotation.z += 0.002;
+        halo.rotation.x = Math.PI / 2.5 + Math.sin(elapsedTime * 0.5) * 0.08;
 
-        sculptureGroup.position.y = Math.sin(elapsedTime * 0.6) * 0.09;
+        sculptureGroup.position.y = Math.sin(elapsedTime * 0.7) * 0.1;
 
-        // Core breath
-        const coreScale = 1 + Math.sin(elapsedTime * 1.5) * 0.06;
+        // Core dynamic pulse
+        const coreScale = 1 + Math.sin(elapsedTime * 1.6) * 0.07;
         core.scale.set(coreScale, coreScale, coreScale);
       }
 
-      // Smooth pointer lerp
-      targetRotX += (mouseY - targetRotX) * 0.05;
-      targetRotY += (mouseX - targetRotY) * 0.05;
+      // Smooth pointer lerping
+      targetRotX += (mouseY - targetRotX) * 0.06;
+      targetRotY += (mouseX - targetRotY) * 0.06;
 
       if (!isDragging) {
         sculptureGroup.rotation.x += targetRotX * 0.06;
@@ -280,8 +283,8 @@ export function GlassSculpture() {
       envTexture.dispose();
       mainGeometry.dispose();
       glassMaterial.dispose();
-      innerGeometry.dispose();
-      innerGlassMaterial.dispose();
+      haloGeometry.dispose();
+      haloMaterial.dispose();
       coreGeometry.dispose();
       coreMaterial.dispose();
       renderer.dispose();
@@ -295,11 +298,15 @@ export function GlassSculpture() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[400px] sm:h-[520px] lg:h-[620px] flex items-center justify-center select-none"
+      className="relative w-full h-[440px] sm:h-[560px] lg:h-[660px] flex items-center justify-center select-none"
     >
-      {/* Dynamic ambient optical diffusion glow */}
+      {/* Radiant ambient optical refraction backdrop */}
       <div
-        className="absolute w-80 h-80 sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-tr from-[var(--accent-champagne)]/30 via-[var(--accent-silver)]/35 to-white/40 blur-[90px] pointer-events-none opacity-75 dark:opacity-40 transition-opacity duration-1000"
+        className="absolute w-[360px] h-[360px] sm:w-[540px] sm:h-[540px] rounded-full blur-[90px] pointer-events-none opacity-85 dark:opacity-45 transition-opacity duration-1000"
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(200, 185, 157, 0.4) 0%, rgba(168, 178, 193, 0.3) 45%, rgba(255, 255, 255, 0.5) 70%, transparent 85%)",
+        }}
         aria-hidden="true"
       />
 

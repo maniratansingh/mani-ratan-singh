@@ -14,7 +14,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
       }`}
     >
       {/* Editorial Category Header */}
-      <div className="flex items-center justify-between border-b border-[var(--glass-frosted-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
+      <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
         <span className="text-[var(--accent-champagne)]">01 / BIOGRAPHY & ETHOS</span>
         <span>MANI RATAN SINGH</span>
         <span>INDEX [ 02 / 05 ]</span>
@@ -36,16 +36,16 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
             </p>
           </div>
 
-          <div className="flex flex-col border-t border-[var(--glass-frosted-border)]">
+          <div className="flex flex-col gap-3">
             {about.stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between py-3.5 border-b border-[var(--glass-frosted-border)] text-xs"
+                className="liquid-glass-surface p-4 flex items-center justify-between"
               >
-                <span className="font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
+                <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-wider">
                   {stat.label}
                 </span>
-                <span className="font-medium text-[var(--text-primary)]">
+                <span className="font-medium text-sm text-[var(--text-primary)]">
                   {stat.value}
                 </span>
               </div>
@@ -56,19 +56,21 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
         {/* Right Column: Editorial Narrative & Principles */}
         <div className="lg:col-span-8 flex flex-col gap-12">
           {/* Statement Quote */}
-          <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-serif italic text-[var(--text-primary)] leading-snug border-l-2 border-[var(--accent-champagne)] pl-6 sm:pl-8 py-2">
-            &ldquo;{about.quote}&rdquo;
-          </blockquote>
+          <div className="liquid-glass-surface p-8 sm:p-10">
+            <blockquote className="text-2xl sm:text-3xl font-serif italic text-[var(--text-primary)] leading-snug">
+              &ldquo;{about.quote}&rdquo;
+            </blockquote>
+          </div>
 
-          {/* Narrative Paragraphs */}
-          <div className="flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
+          {/* Narrative Paragraphs in Glass Slab */}
+          <div className="liquid-glass-surface p-8 sm:p-10 flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
           </div>
 
-          {/* 3 Core Principles as Architectural Horizontal Slabs */}
-          <div className="flex flex-col gap-4 mt-6">
+          {/* 3 Core Principles as Architectural Liquid Glass Slabs */}
+          <div className="flex flex-col gap-4 mt-4">
             <h3 className="text-xs font-mono uppercase tracking-widest text-[var(--accent-silver)] mb-2">
               Foundational Pillars
             </h3>
@@ -76,13 +78,13 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
               {about.principles.map((principle) => (
                 <div
                   key={principle.number}
-                  className="p-6 sm:p-8 rounded-2xl glass-frosted glass-reflection transition-all duration-300 hover:border-[var(--glass-hover-border)]"
+                  className="p-6 sm:p-8 liquid-glass-surface group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
                     <span className="text-xs font-mono text-[var(--accent-champagne)]">
                       [ {principle.number} ]
                     </span>
-                    <h4 className="text-lg sm:text-xl font-medium text-[var(--text-primary)] sm:text-left flex-1 sm:ml-6">
+                    <h4 className="text-lg sm:text-xl font-medium text-[var(--text-primary)] sm:text-left flex-1 sm:ml-6 group-hover:text-[var(--accent-champagne)] transition-colors">
                       {principle.title}
                     </h4>
                   </div>

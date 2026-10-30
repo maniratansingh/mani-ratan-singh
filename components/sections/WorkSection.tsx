@@ -42,7 +42,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
       }`}
     >
       {/* Editorial Header */}
-      <div className="flex items-center justify-between border-b border-[var(--glass-frosted-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
+      <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4 mb-16 text-xs font-mono tracking-widest uppercase text-[var(--text-tertiary)]">
         <span className="text-[var(--accent-champagne)]">03 / CURATED ARCHIVES</span>
         <span>INDEX [ 04 / 05 ]</span>
       </div>
@@ -60,17 +60,17 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
           </p>
         </div>
 
-        {/* Minimal Category Tabs */}
+        {/* Minimal Category Tabs as Liquid Glass Pills */}
         <div className="flex flex-wrap gap-2 text-xs font-mono">
           {categories.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-full transition-all cursor-pointer ${
                 filter === cat
-                  ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold"
-                  : "glass-translucent text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-sm"
+                  : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
             >
               {cat}
@@ -79,60 +79,74 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         </div>
       </div>
 
-      {/* Editorial Table-Like Project List with Glass Expanders */}
-      <div className="flex flex-col border-t border-[var(--glass-frosted-border)]">
+      {/* Floating Liquid Glass Project Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {filteredProjects.map((project, idx) => (
           <div
             key={project.id}
-            className="group py-8 sm:py-10 border-b border-[var(--glass-frosted-border)] transition-colors hover:bg-[var(--glass-frosted-bg)] px-4 -mx-4 rounded-2xl"
+            className="liquid-glass-surface p-8 sm:p-10 flex flex-col justify-between group"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-              {/* Year & Category */}
-              <div className="lg:col-span-3 flex items-center gap-4 text-xs font-mono text-[var(--text-tertiary)]">
-                <span>0{idx + 1}</span>
-                <span>/</span>
+            <div>
+              {/* Year & Category Pill */}
+              <div className="flex items-center justify-between gap-4 text-xs font-mono text-[var(--text-tertiary)] mb-6">
+                <span className="px-3 py-1 rounded-full liquid-glass-pill text-[var(--accent-champagne)] uppercase font-semibold">
+                  {project.category}
+                </span>
                 <span>{project.year}</span>
-                <span>/</span>
-                <span className="text-[var(--accent-champagne)] uppercase">{project.category}</span>
               </div>
 
               {/* Title & Description */}
-              <div className="lg:col-span-6 flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-xl sm:text-2xl font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-champagne)] transition-colors">
-                    {project.title}
-                  </h3>
-                  {project.featured && (
-                    <span className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--surface-muted)] text-[var(--accent-champagne)] border border-[var(--glass-frosted-border)]">
-                      Featured
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                  {project.description}
-                </p>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-champagne)] transition-colors">
+                  {project.title}
+                </h3>
+                {project.featured && (
+                  <span className="text-[10px] font-mono tracking-wider uppercase px-2 py-0.5 rounded-full bg-[var(--accent-champagne)]/20 text-[var(--accent-champagne)] border border-[var(--accent-champagne)]/30">
+                    Featured
+                  </span>
+                )}
+              </div>
 
-                {/* Tech Chips */}
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[11px] font-mono text-[var(--text-tertiary)]"
-                    >
-                      #{tech}
-                    </span>
-                  ))}
-                </div>
+              <h4 className="text-sm font-medium text-[var(--accent-champagne)] mb-4">
+                {project.subtitle}
+              </h4>
+
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
+                {project.description}
+              </p>
+
+              {/* Bullet Highlights */}
+              <div className="flex flex-col gap-2 mb-6 text-xs text-[var(--text-secondary)]">
+                {project.highlights.map((h, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-champagne)] shrink-0 mt-1.5" />
+                    <span>{h}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              {/* Tech Chips */}
+              <div className="flex flex-wrap gap-2 mb-6 pt-4 border-t border-[var(--glass-border)]">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--surface-muted)] text-[var(--text-tertiary)]"
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
 
               {/* Action Buttons */}
-              <div className="lg:col-span-3 flex lg:justify-end items-center gap-3 pt-2 lg:pt-0">
+              <div className="flex items-center gap-3">
                 {project.link && (
                   <Link
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105"
                   >
                     <span>Launch</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -144,7 +158,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full glass-translucent text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:bg-[var(--glass-hover-bg)]"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:scale-105"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
                     <span>Source</span>

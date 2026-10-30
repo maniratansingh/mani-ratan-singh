@@ -1,68 +1,125 @@
-/* Translucent Glass - Navigation and floating pills */
-.glass-translucent {
-  background: var(--glass-translucent-bg);
-  backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
-  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(160%);
-  border: 1px solid var(--glass-translucent-border);
-  box-shadow: var(--glass-translucent-shadow),
-              inset 0 1px 1px 0 var(--glass-translucent-highlight);
-  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* =========================================================================
+   APPLE LIQUID GLASS ULTRA-FIDELITY SYSTEM
+   ========================================================================= */
+
+/* Primary Liquid Glass Surface (Cards, Panels, Modules) */
+.liquid-glass-surface {
+  background: var(--glass-surface-bg);
+  backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(103%);
+  -webkit-backdrop-filter: blur(var(--backdrop-blur)) saturate(var(--backdrop-saturate)) brightness(103%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Frosted Glass - Content surfaces, cards, and modules */
-.glass-frosted {
-  background: var(--glass-frosted-bg);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid var(--glass-frosted-border);
-  box-shadow: var(--glass-frosted-shadow),
-              inset 0 1px 0 0 var(--glass-translucent-highlight);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+/* Prismatic Edge Specular Sheen (Hairline light catch on top border) */
+.liquid-glass-surface::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.95) 30%,
+    rgba(255, 255, 255, 1.0) 50%,
+    rgba(255, 255, 255, 0.95) 70%,
+    transparent 100%
+  );
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.glass-frosted:hover {
-  background: var(--glass-hover-bg);
-  border-color: var(--glass-hover-border);
+/* Secondary internal reflection on the left edge */
+.liquid-glass-surface::after {
+  content: "";
+  position: absolute;
+  top: 15%;
+  bottom: 25%;
+  left: 0;
+  width: 1.5px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* Glass Pill Base */
-.glass-pill {
+.liquid-glass-surface:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-4px);
+}
+
+/* Liquid Glass Pill (Floating Navbar, Controls, Lens Badges) */
+.liquid-glass-pill {
+  background: var(--glass-pill-bg);
+  backdrop-filter: blur(28px) saturate(220%) contrast(106%);
+  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(106%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-pill-shadow);
   border-radius: 9999px;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-pill:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+/* Active lens highlight effect */
+.liquid-glass-lens {
   position: relative;
   overflow: hidden;
 }
 
-/* Edge light reflection overlay */
-.glass-reflection {
-  position: relative;
-}
-
-.glass-reflection::before {
+.liquid-glass-lens::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--glass-translucent-highlight) 50%,
-    transparent 100%
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(255, 255, 255, 0.5) 0%,
+    transparent 75%
   );
-  opacity: 0.85;
   pointer-events: none;
+  opacity: 0.7;
 }
 
-/* Reduced transparency fallback */
+/* Legacy aliases for backward compatibility */
+.glass-translucent {
+  composes: liquid-glass-pill;
+}
+.glass-frosted {
+  composes: liquid-glass-surface;
+}
+.glass-reflection {
+  composes: liquid-glass-surface;
+}
+.glass-pill {
+  composes: liquid-glass-pill;
+}
+
+/* Reduced transparency OS accessibility fallback */
 @media (prefers-reduced-transparency: reduce) {
-  .glass-translucent,
-  .glass-frosted {
+  .liquid-glass-surface,
+  .liquid-glass-pill {
     background: var(--surface) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;

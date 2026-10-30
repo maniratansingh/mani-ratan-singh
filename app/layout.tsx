@@ -3,6 +3,7 @@ import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Navbar } from "@/components/navigation/Navbar";
+import { AmbientAtmosphere } from "@/components/glass/AmbientAtmosphere";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -89,8 +90,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased min-h-screen selection:bg-[var(--accent-champagne)] selection:text-black">
+      <body className="antialiased min-h-screen selection:bg-[var(--accent-champagne)] selection:text-black relative">
         <ThemeProvider>
+          <AmbientAtmosphere />
           <Navbar />
           <main className="relative flex flex-col">{children}</main>
         </ThemeProvider>
