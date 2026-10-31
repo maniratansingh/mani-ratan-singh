@@ -142,7 +142,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-2xl mx-auto my-1 relative"
+          className="w-full max-w-3xl mx-auto my-1 relative"
         >
           <DynamicSculpture />
         </motion.div>

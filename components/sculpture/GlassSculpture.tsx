@@ -140,7 +140,20 @@ export function GlassSculpture() {
     const height = container.clientHeight || 640;
 
     const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    camera.position.set(0, 0, 5.2);
+    
+    const updateCameraDistance = (w: number, h: number) => {
+      const aspect = w / h;
+      camera.aspect = aspect;
+      // Responsive camera distance to guarantee sculpture is never clipped on any screen size
+      if (aspect < 1) {
+        camera.position.z = 5.8 / Math.max(0.65, aspect * 0.95);
+      } else {
+        camera.position.z = 5.8;
+      }
+      camera.updateProjectionMatrix();
+    };
+
+    updateCameraDistance(width, height);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -181,8 +194,8 @@ export function GlassSculpture() {
     const sculptureGroup = new THREE.Group();
     scene.add(sculptureGroup);
 
-    // Primary Torus Knot Geometry (100% Hollow & Open - No Internal Box)
-    const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 240, 44, 2, 3);
+    // Primary Torus Knot Geometry (Proportionally scaled to prevent boundary clipping)
+    const mainGeometry = new THREE.TorusKnotGeometry(1.05, 0.36, 240, 44, 2, 3);
     
     // Default Material: Wireframe Lattice with Neon Cyan Edge Glow
     const glassMaterial = new THREE.MeshPhysicalMaterial({
@@ -205,8 +218,8 @@ export function GlassSculpture() {
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
     sculptureGroup.add(mainSculpture);
 
-    // Orbiting Prismatic Thin Halo Ring
-    const haloGeometry = new THREE.TorusGeometry(1.85, 0.05, 32, 120);
+    // Orbiting Prismatic Thin Halo Ring (Proportionally scaled with generous clearance)
+    const haloGeometry = new THREE.TorusGeometry(1.58, 0.045, 32, 120);
     const haloMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#DFC085"),
       transmission: 0,
@@ -220,14 +233,14 @@ export function GlassSculpture() {
     halo.rotation.x = Math.PI / 2.5;
     sculptureGroup.add(halo);
 
-    // 5. Floating Glass Caustic Dust Particles
-    const particleCount = 50;
+    // 5. Floating Glass Caustic Dust Particles (Restricted within sculpture aura)
+    const particleCount = 45;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 6;
-      positions[i + 1] = (Math.random() - 0.5) * 6;
-      positions[i + 2] = (Math.random() - 0.5) * 4;
+      positions[i] = (Math.random() - 0.5) * 3.6;
+      positions[i + 1] = (Math.random() - 0.5) * 3.6;
+      positions[i + 2] = (Math.random() - 0.5) * 2.8;
     }
     particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const particleMaterial = new THREE.PointsMaterial({
@@ -389,8 +402,7 @@ export function GlassSculpture() {
       if (!container) return;
       const newWidth = container.clientWidth;
       const newHeight = container.clientHeight;
-      camera.aspect = newWidth / newHeight;
-      camera.updateProjectionMatrix();
+      updateCameraDistance(newWidth, newHeight);
       renderer.setSize(newWidth, newHeight);
     };
 
