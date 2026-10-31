@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -33,13 +34,21 @@ export function Navbar() {
         }`}
         aria-label="Main Navigation"
       >
-        {/* Monogram / Brandmark */}
+        {/* Monogram / Brandmark with Micro-Portrait */}
         <Link
           href="/"
-          className="group relative px-3 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase text-[var(--text-primary)] hover:opacity-80 transition-opacity focus-visible:outline-none flex items-center gap-2"
+          className="group relative pl-1 pr-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase text-[var(--text-primary)] hover:opacity-85 transition-opacity focus-visible:outline-none flex items-center gap-2"
           aria-label="Mani Ratan Singh Home"
         >
-          <span className="w-2 h-2 rounded-full bg-[var(--accent-champagne)] animate-pulse" />
+          <div className="relative w-6 h-6 rounded-full overflow-hidden border border-[var(--glass-border)] shadow-xs shrink-0">
+            <Image
+              src="https://avatars.githubusercontent.com/u/85608407?v=4"
+              alt="Mani Ratan Singh"
+              fill
+              sizes="24px"
+              className="object-cover"
+            />
+          </div>
           <span>{siteConfig.initials}</span>
         </Link>
 

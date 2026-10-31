@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail, Copy, Check } from "lucide-react";
 import { siteContent } from "@/config/content";
@@ -39,13 +40,24 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       {/* Direct Inquiries Glass Slab */}
       <InteractiveGlassCard className="p-6 sm:p-10 md:p-14 mb-14">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div>
-            <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-3 font-mono">
-              Direct Communication
-            </span>
-            <span className="text-2xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] tracking-tight block select-all break-all sm:break-normal">
-              {connect.email}
-            </span>
+          <div className="flex items-center gap-5 sm:gap-6">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame">
+              <Image
+                src="https://avatars.githubusercontent.com/u/85608407?v=4"
+                alt="Mani Ratan Singh"
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-1.5 font-mono">
+                Direct Communication
+              </span>
+              <span className="text-xl sm:text-3xl lg:text-4xl font-light text-[var(--text-primary)] tracking-tight block select-all break-all sm:break-normal">
+                {connect.email}
+              </span>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
