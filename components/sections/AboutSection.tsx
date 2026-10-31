@@ -39,6 +39,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
               alt="Mani Ratan Pratap Singh"
               fill
               priority
+              loading="eager"
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
             />
