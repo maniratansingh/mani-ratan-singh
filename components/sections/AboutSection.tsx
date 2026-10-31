@@ -31,29 +31,26 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
 
       {/* Main Narrative Spread */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* Left Column: Author Circular Portrait Medallion */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center gap-6 py-2">
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[340px] lg:h-[340px] rounded-full p-2.5 liquid-glass-pill shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-            <div className="relative w-full h-full rounded-full overflow-hidden border border-[var(--glass-border)] bg-black/20">
-              <Image
-                src="https://avatars.githubusercontent.com/u/85608407?v=4"
-                alt="Mani Ratan Pratap Singh"
-                fill
-                priority
-                loading="eager"
-                sizes="(max-width: 1024px) 320px, 340px"
-                className="object-cover object-center"
-              />
-            </div>
-            {/* Monograph Tag Centered on Bottom Rim */}
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
-              <span className="px-4 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-widest liquid-glass-pill text-[var(--text-primary)] shadow-md border border-[var(--glass-border)]">
+        {/* Left Column: Author Square Monograph Plate */}
+        <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="relative w-full aspect-square min-h-[320px] sm:min-h-[400px] rounded-3xl overflow-hidden editorial-frame shadow-2xl bg-black/30">
+            <Image
+              src="/author.png"
+              alt="Mani Ratan Pratap Singh"
+              fill
+              priority
+              loading="eager"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
+            />
+            {/* Top Glass Badge */}
+            <div className="absolute top-4 left-4 z-10">
+              <span className="px-3.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider liquid-glass-pill text-[var(--text-primary)]">
                 Mani Ratan Singh
               </span>
             </div>
           </div>
-
-          <div className="flex items-center justify-between w-full max-w-[340px] text-xs font-mono text-[var(--text-tertiary)] px-2 mt-2">
+          <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] px-2">
             <span>PORTRAIT ARCHIVE</span>
             <span>PURVANCHAL · IN</span>
           </div>

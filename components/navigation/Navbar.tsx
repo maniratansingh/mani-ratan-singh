@@ -42,7 +42,7 @@ export function Navbar() {
         >
           <div className="relative w-6 h-6 rounded-full overflow-hidden border border-[var(--glass-border)] shadow-xs shrink-0">
             <Image
-              src="https://avatars.githubusercontent.com/u/85608407?v=4"
+              src="/author.png"
               alt="Mani Ratan Singh"
               fill
               sizes="24px"

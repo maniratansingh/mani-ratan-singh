@@ -117,7 +117,7 @@ export function MobileNav() {
                     <div className="flex items-center gap-3">
                       <div className="relative w-11 h-11 rounded-full overflow-hidden border border-[var(--glass-border)] ring-2 ring-white/10 shadow-sm shrink-0 bg-black/30">
                         <Image
-                          src="https://avatars.githubusercontent.com/u/85608407?v=4"
+                          src="/author.png"
                           alt="Mani Ratan Singh"
                           fill
                           sizes="44px"
