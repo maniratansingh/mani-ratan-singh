@@ -41,7 +41,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       <InteractiveGlassCard className="p-6 sm:p-10 md:p-14 mb-14">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="flex items-center gap-5 sm:gap-6">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-[var(--glass-border)] ring-2 ring-white/10 shadow-xl shrink-0 bg-black/20">
               <Image
                 src="https://avatars.githubusercontent.com/u/85608407?v=4"
                 alt="Mani Ratan Singh"
