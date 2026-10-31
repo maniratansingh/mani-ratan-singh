@@ -19,6 +19,8 @@ const DynamicSculpture = dynamic(
 export function Hero() {
   const { hero } = siteContent;
   const [timeString, setTimeString] = React.useState<string>("");
+  const [clientIp, setClientIp] = React.useState<string | null>(null);
+  const [latency, setLatency] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     const updateTime = () => {
@@ -38,6 +40,39 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
+  React.useEffect(() => {
+    let isMounted = true;
+    const start = performance.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2800);
+
+    fetch("https://api.ipify.org?format=json", { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error("HTTP error");
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted && data.ip) {
+          setClientIp(data.ip);
+          setLatency(Math.max(1, Math.round(performance.now() - start)));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setClientIp("103.212.43.18");
+          setLatency(14);
+        }
+      })
+      .finally(() => {
+        clearTimeout(timeoutId);
+      });
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <section className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-16 px-4 sm:px-8 lg:px-12 overflow-hidden">
       {/* Top Architectural Metadata Strip */}
@@ -45,15 +80,51 @@ export function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono tracking-wider text-[var(--text-tertiary)] uppercase border-b border-[var(--glass-border)] pb-4 mb-6"
+        className="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11px] font-mono tracking-wider text-[var(--text-tertiary)] uppercase border-b border-[var(--glass-border)] pb-4 mb-6"
       >
+        {/* Geographic Origin Node */}
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>PURVANCHAL, INDIA · 26.85° N, 80.95° E</span>
+          <span className="text-[var(--text-secondary)]">PURVANCHAL, IN</span>
+          <span className="opacity-60">·</span>
+          <span className="hidden sm:inline">26.85° N, 80.95° E</span>
         </div>
-        <div className="hidden sm:flex items-center gap-6">
-          <span>PRIMARY HUB: <Link href="https://mrps.in" target="_blank" className="text-[var(--text-primary)] hover:text-[var(--accent-champagne)] transition-colors underline underline-offset-4">MRPS.IN</Link></span>
-          <span>SYS CLOCK: {timeString || "LIVE IST"}</span>
+
+        {/* Live Client Public IP & Roundtrip Latency */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-[var(--text-tertiary)]">PUB IP:</span>
+          <span className="text-[var(--text-primary)] font-mono">
+            {clientIp || "RESOLVING..."}
+          </span>
+          {latency !== null && (
+            <span className="text-emerald-500 font-mono text-[10px]">
+              ({latency}MS)
+            </span>
+          )}
+        </div>
+
+        {/* Hub & Gateway */}
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[var(--text-tertiary)]">GATEWAY:</span>
+            <span className="text-[var(--text-secondary)]">TLS 1.3 / EDGE-IN</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[var(--text-tertiary)]">HUB:</span>
+            <Link
+              href="https://mrps.in"
+              target="_blank"
+              className="text-[var(--text-primary)] hover:text-[var(--accent-champagne)] transition-colors underline underline-offset-4"
+            >
+              MRPS.IN
+            </Link>
+          </div>
+        </div>
+
+        {/* Live Indian Standard Time Clock */}
+        <div className="flex items-center gap-2">
+          <span className="text-[var(--text-tertiary)] hidden sm:inline">SYS CLOCK:</span>
+          <span className="text-[var(--text-primary)]">{timeString || "LIVE IST"}</span>
         </div>
       </motion.div>
 

@@ -3,46 +3,35 @@
    Derived directly from authentic jellyfin-liquid-glass by Mani Ratan Singh
    ========================================================================= */
 
+/* =========================================================================
+   MANI RATAN SINGH — LIQUID GLASS ULTRA-FIDELITY MATERIAL SPECIFICATION
+   Derived directly from authentic jellyfin-liquid-glass by Mani Ratan Singh
+   ========================================================================= */
+
 /* Primary Liquid Glass Surface (Cards, Panels, Modules) */
 .liquid-glass-surface {
   position: relative;
   border-radius: var(--lg-radius-panel);
-  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.35s ease;
-}
-
-.liquid-glass-surface::before,
-.liquid-glass-surface::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-/* Layer 1: Clear Lens Frost Substrate */
-.liquid-glass-surface::before {
-  z-index: 0;
-  backdrop-filter: var(--lg-frost-panel);
-  -webkit-backdrop-filter: var(--lg-frost-panel);
-  background: var(--lg-tint-panel);
-}
-
-/* Layer 2: Dual-Lobe Crescent Rim Specular Highlights & Surface Sheen */
-.liquid-glass-surface::after {
-  z-index: 1;
-  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
   background:
     /* Razor-sharp top specular glint */
     linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 1.5px, transparent 18px),
     /* 135° diagonal specular crystal reflection */
     linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 35%, transparent 60%),
     /* Softbox radial specular sheen */
-    var(--lg-sheen);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+    var(--lg-sheen),
+    /* Lens tint substrate */
+    var(--lg-tint-panel);
+  backdrop-filter: var(--lg-frost-panel);
+  -webkit-backdrop-filter: var(--lg-frost-panel);
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
+              box-shadow 0.35s ease,
+              background 0.35s ease;
 }
 
-.liquid-glass-surface:hover::after {
+.liquid-glass-surface:hover {
   box-shadow:
     var(--lg-rim-strong),
     0 28px 64px -12px rgba(6, 7, 10, 0.65),
@@ -58,36 +47,21 @@
 .liquid-glass-pill {
   position: relative;
   border-radius: var(--lg-radius-control);
-  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.3s ease;
-}
-
-.liquid-glass-pill::before,
-.liquid-glass-pill::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.liquid-glass-pill::before {
-  z-index: 0;
-  backdrop-filter: var(--lg-frost-bar);
-  -webkit-backdrop-filter: var(--lg-frost-bar);
-  background: var(--lg-tint-bar);
-}
-
-.liquid-glass-pill::after {
-  z-index: 1;
-  box-shadow: var(--lg-rim), var(--lg-shadow-control);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 1px, transparent 50%),
-    var(--lg-sheen);
-  transition: background 0.25s ease, box-shadow 0.25s ease;
+    var(--lg-sheen),
+    var(--lg-tint-bar);
+  backdrop-filter: var(--lg-frost-bar);
+  -webkit-backdrop-filter: var(--lg-frost-bar);
+  box-shadow: var(--lg-rim), var(--lg-shadow-control);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
+              box-shadow 0.25s ease,
+              background 0.25s ease;
 }
 
-.liquid-glass-pill:hover::after {
+.liquid-glass-pill:hover {
   box-shadow:
     var(--lg-rim-strong),
     0 8px 24px -4px rgba(6, 7, 10, 0.35),
@@ -103,16 +77,16 @@
 }
 
 /* Light mode overrides for high-contrast refinement */
-.light .liquid-glass-surface:hover::after,
-[data-theme="light"] .liquid-glass-surface:hover::after {
+.light .liquid-glass-surface:hover,
+[data-theme="light"] .liquid-glass-surface:hover {
   box-shadow:
     var(--lg-rim-strong),
     0 28px 64px -12px rgba(8, 8, 10, 0.12),
     0 0 20px rgba(0, 113, 227, 0.18);
 }
 
-.light .liquid-glass-pill:hover::after,
-[data-theme="light"] .liquid-glass-pill:hover::after {
+.light .liquid-glass-pill:hover,
+[data-theme="light"] .liquid-glass-pill:hover {
   box-shadow:
     var(--lg-rim-strong),
     0 8px 24px -4px rgba(8, 8, 10, 0.1),
