@@ -33,7 +33,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Left Column: Author Portrait Plate */}
         <div className="lg:col-span-5 flex flex-col gap-4">
-          <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden editorial-frame shadow-2xl">
+          <div className="relative w-full aspect-[4/5] min-h-[380px] sm:min-h-[460px] rounded-3xl overflow-hidden editorial-frame shadow-2xl">
             <Image
               src="https://avatars.githubusercontent.com/u/85608407?v=4"
               alt="Mani Ratan Pratap Singh"
