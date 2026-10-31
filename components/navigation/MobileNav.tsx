@@ -154,7 +154,7 @@ export function MobileNav() {
                         Exploration Index
                       </span>
                       <span className="text-[10px] font-mono text-[var(--text-tertiary)] opacity-60">
-                        01 — 06
+                        01 — 0{siteConfig.navItems.length}
                       </span>
                     </div>
 

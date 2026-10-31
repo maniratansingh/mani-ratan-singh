@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Compass, Cpu, Layers, Disc3 } from "lucide-react";
 import { siteContent } from "@/config/content";
-import { SensoryAudioVisualizer } from "@/components/sections/SensoryAudioVisualizer";
 
 const realmIcons = [Layers, Cpu, Disc3, Compass];
 
@@ -30,11 +29,6 @@ export function WorldSection({ isStandalone = false }: { isStandalone?: boolean 
         <div className="text-xs font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
           <span>CREATIVE REALMS · 03</span>
         </div>
-      </div>
-
-      {/* Procedural Audio & WebGL Caustics Laboratory (Interactive Focal Artifact) */}
-      <div className="mb-16">
-        <SensoryAudioVisualizer />
       </div>
 
       {/* 4 Creative & Technological Realms (Architectural Editorial Spreads) */}

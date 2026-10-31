@@ -1,6 +1,5 @@
 import { Hero } from "@/components/hero/Hero";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { WorldSection } from "@/components/sections/WorldSection";
 import { PhotographySection } from "@/components/sections/PhotographySection";
 import { WorkSection } from "@/components/sections/WorkSection";
 import { TechnicalEssaysSection } from "@/components/sections/TechnicalEssaysSection";
@@ -12,7 +11,6 @@ export default function HomePage() {
       <Hero />
       <div className="relative flex flex-col gap-12 sm:gap-16">
         <AboutSection />
-        <WorldSection />
         <PhotographySection />
         <WorkSection />
         <TechnicalEssaysSection />

@@ -21,7 +21,6 @@ export const siteConfig = {
     { label: "About", href: "/about" },
     { label: "Photography", href: "/#photography" },
     { label: "Works", href: "/work" },
-    { label: "My World", href: "/explore" },
     { label: "Connect", href: "/connect" },
   ],
 };

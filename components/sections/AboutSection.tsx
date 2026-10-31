@@ -56,8 +56,8 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
           </div>
         </div>
 
-        {/* Right Column: Statement, Story & Foundational Pillars */}
-        <div className="lg:col-span-7 flex flex-col gap-10">
+        {/* Right Column: Statement & Story */}
+        <div className="lg:col-span-7 flex flex-col gap-8 justify-center">
           {/* Statement Quote */}
           <blockquote className="text-3xl sm:text-4xl lg:text-5xl font-serif italic text-[var(--text-primary)] leading-[1.15] pl-6 border-l-2 border-[var(--accent-champagne)] py-1">
             &ldquo;{about.quote}&rdquo;
@@ -68,31 +68,6 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
-          </div>
-
-          {/* Foundational Principles */}
-          <div className="mt-4 pt-8 border-t border-[var(--glass-border)] flex flex-col gap-6">
-            <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-              FOUNDATIONAL PILLARS
-            </span>
-
-            <div className="flex flex-col divide-y divide-[var(--glass-border)]">
-              {about.principles.map((principle) => (
-                <div key={principle.number} className="py-6 group">
-                  <div className="flex items-baseline gap-4 mb-2">
-                    <span className="text-sm font-mono text-[var(--accent-champagne)]">
-                      {principle.number}
-                    </span>
-                    <h3 className="text-2xl font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors">
-                      {principle.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed pl-8 max-w-xl">
-                    {principle.description}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
