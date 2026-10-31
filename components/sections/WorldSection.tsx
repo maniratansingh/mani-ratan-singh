@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Compass, Cpu, Layers, Disc3, Sparkles } from "lucide-react";
+import { Compass, Cpu, Layers, Disc3 } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { SensoryAudioVisualizer } from "@/components/sections/SensoryAudioVisualizer";
 
@@ -75,27 +75,6 @@ export function WorldSection({ isStandalone = false }: { isStandalone?: boolean 
             </div>
           );
         })}
-      </div>
-
-      {/* Active Obsessions & Inquiries */}
-      <div className="p-8 sm:p-12 liquid-glass-surface flex flex-col gap-6">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[var(--accent-champagne)]" />
-          <h3 className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-            Active Mechanical & Typographic Inquiries
-          </h3>
-        </div>
-
-        <div className="flex flex-wrap gap-2.5">
-          {world.curiosities.map((curiosity, idx) => (
-            <span
-              key={idx}
-              className="px-4 py-2 rounded-full liquid-glass-pill text-xs font-mono text-[var(--text-secondary)] transition-all hover:text-[var(--text-primary)] hover:scale-105"
-            >
-              {curiosity}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   );

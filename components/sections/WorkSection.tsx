@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowUpRight, BookOpen, Layers, Terminal, Sparkles, Cpu, Activity, Filter } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { siteContent, ProjectItem } from "@/config/content";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
 import { ProjectModal } from "@/components/sections/ProjectModal";
@@ -30,9 +30,6 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
   const [filter, setFilter] = React.useState<string>("All");
   const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
 
-  // Jellyfin Interactive Theme Switcher state
-  const [jellyfinTheme, setJellyfinTheme] = React.useState<"glass" | "obsidian" | "champagne">("glass");
-
   const categories = ["All", "Web & Design", "Embedded Systems", "Community & Health", "Open Source"];
 
   const filteredProjects =
@@ -40,7 +37,6 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
       ? projects
       : projects.filter((p) => p.category === filter);
 
-  const leadProject = projects.find((p) => p.id === "jellyfin-liquid-glass");
   const hospitalProject = projects.find((p) => p.id === "purvanchal-hospitals");
   const musicProject = projects.find((p) => p.id === "aesthetic-music-player");
 
@@ -81,175 +77,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         </div>
       </div>
 
-      {/* LEAD EXHIBIT 01: Jellyfin Liquid Glass Theme with Interactive Preview (Shown when All or Web & Design) */}
-      {(filter === "All" || filter === "Web & Design") && leadProject && (
-        <article className="mb-16">
-          <InteractiveGlassCard className="p-8 sm:p-14">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              {/* Left Column: Context & Ethos */}
-              <div className="lg:col-span-7 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-xs font-mono text-[var(--text-tertiary)] mb-4">
-                    <span className="px-3 py-1 rounded-full liquid-glass-pill text-[var(--accent-champagne)] font-medium uppercase tracking-wider">
-                      {leadProject.category}
-                    </span>
-                    <span>{leadProject.year}</span>
-                    <span className="text-emerald-500 font-medium flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      Live Open Source
-                    </span>
-                  </div>
-
-                  <h3 className="text-3xl sm:text-5xl font-light text-[var(--text-primary)] uppercase tracking-tight mb-2">
-                    {leadProject.title}
-                  </h3>
-                  <h4 className="text-lg sm:text-xl font-serif italic text-[var(--accent-champagne)] mb-6">
-                    {leadProject.subtitle}
-                  </h4>
-
-                  <p className="text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-xl">
-                    {leadProject.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {leadProject.technologies.map((t) => (
-                      <span
-                        key={t}
-                        className="px-3 py-1 rounded-full text-xs font-mono bg-black/[0.04] dark:bg-white/[0.04] text-[var(--text-secondary)] border border-[var(--glass-border)]"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  {leadProject.github && (
-                    <Link
-                      href={leadProject.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs uppercase tracking-widest font-semibold hover:opacity-90 hover:scale-105 transition-all shadow-md"
-                    >
-                      <GithubIcon className="w-4 h-4" />
-                      <span>View GitHub Repository</span>
-                    </Link>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProject(leadProject)}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full liquid-glass-pill text-xs uppercase tracking-widest font-medium text-[var(--text-primary)] hover:scale-105 transition-transform cursor-pointer"
-                  >
-                    <BookOpen className="w-4 h-4 text-[var(--accent-champagne)]" />
-                    <span>Architecture Specifications</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Right Column: Live Interactive Glass Simulation Console */}
-              <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-[var(--glass-border)] bg-[var(--surface-muted)]/40 flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-                    LIVE THEME RENDERER
-                  </span>
-                  <div className="flex gap-1">
-                    <button
-                      type="button"
-                      onClick={() => setJellyfinTheme("glass")}
-                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all cursor-pointer ${
-                        jellyfinTheme === "glass"
-                          ? "bg-[var(--text-primary)] text-[var(--canvas)] font-bold"
-                          : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-                      }`}
-                    >
-                      Frost
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setJellyfinTheme("obsidian")}
-                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all cursor-pointer ${
-                        jellyfinTheme === "obsidian"
-                          ? "bg-[var(--text-primary)] text-[var(--canvas)] font-bold"
-                          : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-                      }`}
-                    >
-                      Obsidian
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setJellyfinTheme("champagne")}
-                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all cursor-pointer ${
-                        jellyfinTheme === "champagne"
-                          ? "bg-[var(--text-primary)] text-[var(--canvas)] font-bold"
-                          : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-                      }`}
-                    >
-                      Gold
-                    </button>
-                  </div>
-                </div>
-
-                {/* Simulated Jellyfin Media Glass Card with Dual Crescent Rim */}
-                <div
-                  className={`p-6 rounded-2xl transition-all duration-500 relative overflow-hidden backdrop-blur-2xl border ${
-                    jellyfinTheme === "glass"
-                      ? "bg-white/[0.08] border-white/30 text-[var(--text-primary)] shadow-[inset_1.5px_1.5px_0_rgba(255,255,255,0.95),inset_-1.5px_-1.5px_0_rgba(0,240,255,0.35),0_24px_50px_rgba(0,0,0,0.5)]"
-                      : jellyfinTheme === "obsidian"
-                      ? "bg-black/85 border-neutral-700/60 text-white shadow-[inset_1.5px_1.5px_0_rgba(255,255,255,0.45),inset_-1.5px_-1.5px_0_rgba(0,0,0,0.9),0_28px_60px_rgba(0,0,0,0.7)]"
-                      : "bg-[#252018]/80 border-[var(--accent-champagne)]/50 text-[var(--text-primary)] shadow-[inset_1.5px_1.5px_0_rgba(223,192,133,0.9),inset_-1.5px_-1.5px_0_rgba(223,192,133,0.25),0_24px_50px_rgba(0,0,0,0.5)]"
-                  }`}
-                >
-                  {/* Top Specular Glint Sheen */}
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent"
-                    aria-hidden="true"
-                  />
-
-                  <div className="flex items-center justify-between text-xs font-mono mb-4 opacity-80">
-                    <span className="flex items-center gap-1.5 font-semibold tracking-wider">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                      JELLYFIN HOMELAB NODE
-                    </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 border border-white/20">
-                      4K · HEVC 10-BIT
-                    </span>
-                  </div>
-
-                  <div className="h-32 rounded-xl bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center border border-white/15 mb-4 relative overflow-hidden">
-                    <div className="flex flex-col items-center text-center p-3 relative z-10">
-                      <Sparkles className="w-7 h-7 text-[var(--accent-champagne)] mb-1.5 animate-pulse" />
-                      <span className="text-xs font-semibold uppercase tracking-wider">
-                        {jellyfinTheme === "glass" ? "Liquid Glass Frost" : jellyfinTheme === "obsidian" ? "Deep Obsidian" : "Champagne Gold"}
-                      </span>
-                      <span className="text-[10px] font-mono text-[var(--text-tertiary)] mt-0.5">
-                        Dual Lobe · 20px Frost · Specular Glint
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-tertiary)]">
-                      <span>Refraction Index</span>
-                      <span className="text-[var(--accent-azure)] font-bold">η = 1.52 (Crown Glass)</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-4/5 bg-gradient-to-r from-[var(--accent-azure)] to-[var(--accent-champagne)] rounded-full" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-[11px] font-mono text-[var(--text-tertiary)] space-y-1">
-                  <p>• Zero external font requests for 100% homelab autonomy</p>
-                  <p>• Respects prefers-reduced-motion OS constraints</p>
-                </div>
-              </div>
-            </div>
-          </InteractiveGlassCard>
-        </article>
-      )}
-
-      {/* EXHIBIT 02: Healthcare Infrastructure & Audio Lab (When All or matching category) */}
+      {/* EXHIBIT 01: Healthcare Infrastructure & Audio Lab (When All or matching category) */}
       {(filter === "All" || filter === "Community & Health" || filter === "Web & Design") && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
           {/* Healthcare Digital Infrastructure */}
@@ -380,20 +208,20 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         </div>
       )}
 
-      {/* EXHIBIT 03: Embedded Hardware & Systems Workbench Ledger */}
+      {/* EXHIBIT 02: Systems & Architecture Ledger */}
       <div>
         <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--glass-border)]">
           <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-            HARDWARE SCHEMATICS & BENCHMARKS LEDGER
+            ENGINEERING & SYSTEMS ARCHITECTURE LEDGER
           </span>
           <span className="text-xs font-mono text-[var(--accent-champagne)]">
-            C++ · PYTHON · KOTLIN
+            OPEN SOURCE · HARDWARE · EMBEDDED
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredProjects
-            .filter((p) => !["jellyfin-liquid-glass", "purvanchal-hospitals", "aesthetic-music-player"].includes(p.id) || filter !== "All")
+            .filter((p) => !["purvanchal-hospitals", "aesthetic-music-player"].includes(p.id) || filter !== "All")
             .map((p) => (
               <InteractiveGlassCard
                 key={p.id}
