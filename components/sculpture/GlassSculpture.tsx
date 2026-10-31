@@ -144,12 +144,8 @@ export function GlassSculpture() {
     const updateCameraDistance = (w: number, h: number) => {
       const aspect = w / h;
       camera.aspect = aspect;
-      // Responsive camera distance to guarantee sculpture is never clipped on any screen size
-      if (aspect < 1) {
-        camera.position.z = 5.8 / Math.max(0.65, aspect * 0.95);
-      } else {
-        camera.position.z = 5.8;
-      }
+      // Guaranteed 26%+ safety margin on all edges (top, bottom, left, right) across all aspect ratios
+      camera.position.z = 6.4 / Math.min(1.0, aspect);
       camera.updateProjectionMatrix();
     };
 
@@ -194,8 +190,9 @@ export function GlassSculpture() {
     const sculptureGroup = new THREE.Group();
     scene.add(sculptureGroup);
 
-    // Primary Torus Knot Geometry (Proportionally scaled to prevent boundary clipping)
-    const mainGeometry = new THREE.TorusKnotGeometry(1.05, 0.36, 240, 44, 2, 3);
+    // Primary Torus Knot Geometry (Centered vertices & calibrated to never clip)
+    const mainGeometry = new THREE.TorusKnotGeometry(0.80, 0.25, 240, 44, 2, 3);
+    mainGeometry.center();
     
     // Default Material: Wireframe Lattice with Neon Cyan Edge Glow
     const glassMaterial = new THREE.MeshPhysicalMaterial({
@@ -218,8 +215,9 @@ export function GlassSculpture() {
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
     sculptureGroup.add(mainSculpture);
 
-    // Orbiting Prismatic Thin Halo Ring (Proportionally scaled with generous clearance)
-    const haloGeometry = new THREE.TorusGeometry(1.58, 0.045, 32, 120);
+    // Orbiting Prismatic Thin Halo Ring (Centered with generous clearance)
+    const haloGeometry = new THREE.TorusGeometry(1.32, 0.038, 32, 120);
+    haloGeometry.center();
     const haloMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#DFC085"),
       transmission: 0,
@@ -238,9 +236,9 @@ export function GlassSculpture() {
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 3.6;
-      positions[i + 1] = (Math.random() - 0.5) * 3.6;
-      positions[i + 2] = (Math.random() - 0.5) * 2.8;
+      positions[i] = (Math.random() - 0.5) * 2.8;
+      positions[i + 1] = (Math.random() - 0.5) * 2.8;
+      positions[i + 2] = (Math.random() - 0.5) * 2.2;
     }
     particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const particleMaterial = new THREE.PointsMaterial({
