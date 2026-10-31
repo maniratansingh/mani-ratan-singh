@@ -18,11 +18,69 @@ import {
   MapPin,
   ShieldCheck,
   Sparkles,
+  ExternalLink,
+  BookOpen,
+  FolderGit2,
+  Server,
+  Globe,
+  Radio,
 } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
 import { motion } from "framer-motion";
+
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+      <path d="M9 18c-4.51 2-5-2-7-2" />
+    </svg>
+  );
+}
+
+interface EndpointDirectoryItem {
+  id: string;
+  name: string;
+  handle: string;
+  url: string;
+  category: string;
+  role: string;
+  description: string;
+  specs: string[];
+  ctaLabel: string;
+  icon: React.ComponentType<{ className?: string }>;
+  highlight?: boolean;
+  isPrivate?: boolean;
+}
 
 export function ConnectSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { connect } = siteContent;
@@ -75,38 +133,87 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
     "General Inquiry",
   ];
 
-  const inquiryDomains = [
+  // Comprehensive Expanded Digital Presence & Endpoints Directory
+  const digitalEndpoints: EndpointDirectoryItem[] = [
     {
-      id: "01",
-      title: "Tactile Hardware & Microcontrollers",
-      icon: Cpu,
+      id: "technical-lab",
+      name: "The Technical Lab & Workbench",
+      handle: "mrps.in",
+      url: "https://mrps.in",
+      category: "Primary Engineering Hub",
+      role: "Engineering Workbench & Open Homelab",
       description:
-        "Prototyping RP2040 custom controllers, ESP32 telemetry displays, satellite GPS timekeepers, and low-latency C++ firmware.",
-      tag: "Embedded Systems",
-    },
-    {
-      id: "02",
-      title: "Liquid Glass & Optical UI Design",
-      icon: Layers,
-      description:
-        "Architecting physical glassmorphic design systems, Three.js spatial simulations, and high-performance WebGL shaders.",
-      tag: "Design Engineering",
-    },
-    {
-      id: "03",
-      title: "Community & Public Infrastructure",
+        "The primary open engineering hub hosting homelab telemetry, C++ hardware write-ups, benchmarking reports, and open-source releases with ultra-fast edge loading.",
+      specs: ["10GbE SFP+ Edge", "Zero Telemetry", "C++ Firmware", "Apple Silicon Clusters"],
+      ctaLabel: "Launch Workbench",
       icon: Terminal,
-      description:
-        "Building accessible, ultra-fast healthcare platforms and regional hospital appointment portals across Purvanchal.",
-      tag: "Public Health",
+      highlight: true,
     },
     {
-      id: "04",
-      title: "Visual Arts & Long Exposures",
-      icon: Camera,
+      id: "github-repos",
+      name: "Open Source Codebases & Firmware",
+      handle: "@maniratansingh",
+      url: "https://github.com/maniratansingh",
+      category: "Code & Architecture",
+      role: "Public Git Repositories",
       description:
-        "Inquiries regarding fine-art prints, 24mm nocturnal architectural geometry, long-exposure light trails, and visual curation.",
-      tag: "Photography",
+        "Public source code for Jellyfin Liquid Glass, RP2040 mechanical macropad firmware, offline Android image compressors, WebGL shader experiments, and system tools.",
+      specs: ["GPL / MIT Open Source", "CSS Architecture", "Embedded C++", "Next.js / WebGL"],
+      ctaLabel: "Explore GitHub",
+      icon: GithubIcon,
+    },
+    {
+      id: "instagram-salon",
+      name: "Visual Salon & Storytelling",
+      handle: "@maniratanpratapsingh",
+      url: "https://www.instagram.com/maniratanpratapsingh/",
+      category: "Photography & Art",
+      role: "Visual Archive & Stories",
+      description:
+        "Visual storytelling through nocturnal long exposures, architectural geometry, urban light streaks at blue hour, and monochrome atmospheric contrast.",
+      specs: ["24mm Prime", "Long Exposures", "Geometric Architecture", "Purvanchal Stories"],
+      ctaLabel: "View Visual Salon",
+      icon: InstagramIcon,
+    },
+    {
+      id: "photography-archive",
+      name: "Full-Fidelity Photographic Archive",
+      handle: "mrps.in/photos",
+      url: "https://mrps.in/photos/",
+      category: "Fine Art Photography",
+      role: "High-Resolution Darkroom",
+      description:
+        "Dedicated uncompressed gallery cataloging full-resolution photographic plates with comprehensive EXIF camera metadata, lens metrics, and print inquiries.",
+      specs: ["Uncompressed Optical", "EXIF Data Sheets", "Travertine & Mist", "Print Requests"],
+      ctaLabel: "Open Photo Archive",
+      icon: Camera,
+    },
+    {
+      id: "dispatches-blog",
+      name: "Dispatches from the Lab",
+      handle: "mrps.in/blog",
+      url: "https://mrps.in/blog/",
+      category: "Technical Essays",
+      role: "System Benchmark Reports",
+      description:
+        "Technical write-ups and dispatches: 37.7 Gbps Thunderbolt 4 Mac AI clustering, rural eye hospital platforms in Purvanchal, GPS clocks, and semantic web architecture.",
+      specs: ["Thunderbolt 4 Benchmarks", "Hospital Systems", "GPS Satellites", "Markdown Notes"],
+      ctaLabel: "Read Dispatches",
+      icon: BookOpen,
+    },
+    {
+      id: "node-vault",
+      name: "Private Homelab Node Vault",
+      handle: "vault.mrps.in / Protected",
+      url: "/vault",
+      category: "Restricted Infrastructure",
+      role: "Internal Subdomain Gateway",
+      description:
+        "Password-gated doorway into private infrastructure subdomains: Jellyfin Media Server (4K HEVC 10-bit), TrueNAS ZFS storage arrays, and local AI clusters.",
+      specs: ["Passcode Authenticated", "ZFS Storage", "Local LLM Inference", "Encrypted Subnets"],
+      ctaLabel: "Unlock Vault",
+      icon: Lock,
+      isPrivate: true,
     },
   ];
 
@@ -124,7 +231,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
             Connect
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-xl leading-relaxed">
-            Open for engineering collaborations, tactile hardware inquiries, optical interface architecture, and thoughtful dialogue.
+            Direct communication, open-source repositories, engineering workbench dispatches, and infrastructure endpoints.
           </p>
         </div>
 
@@ -149,7 +256,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       </div>
 
       {/* Direct Inquiries Glass Slab */}
-      <InteractiveGlassCard className="p-6 sm:p-10 md:p-12 mb-12">
+      <InteractiveGlassCard className="p-6 sm:p-10 md:p-12 mb-16">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
           <div className="flex items-center gap-5 sm:gap-6">
             <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame bg-black/20">
@@ -157,6 +264,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
                 src="/author.png"
                 alt="Mani Ratan Singh"
                 fill
+                priority
                 loading="eager"
                 sizes="80px"
                 className="object-cover"
@@ -203,198 +311,212 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
         </div>
       </InteractiveGlassCard>
 
-      {/* Two Column Grid: Interactive Dispatch Composer & Collaboration Domains */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-        {/* Left Column: Direct In-Page Dispatch Composer */}
-        <div className="lg:col-span-6">
-          <InteractiveGlassCard className="p-6 sm:p-8 h-full flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-[var(--glass-border)]">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[var(--accent-champagne)]" />
-                  <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-                    Direct Dispatch Composer
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono text-emerald-400">P2P ENCRYPTED</span>
-              </div>
+      {/* =========================================================
+          EXPANDED CANONICAL DIGITAL PRESENCE & ENDPOINTS DIRECTORY
+          ========================================================= */}
+      <div className="mb-20">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-4 mb-8 border-b border-[var(--glass-border)]">
+          <div>
+            <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)] block mb-1">
+              CANONICAL DIGITAL PRESENCE & NETWORK ENDPOINTS
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-light text-[var(--text-primary)] uppercase tracking-tight">
+              Global Platform Directory
+            </h3>
+          </div>
+          <span className="text-xs font-mono text-[var(--accent-champagne)] flex items-center gap-2">
+            <Radio className="w-3.5 h-3.5 text-emerald-400" />
+            <span>06 ACTIVE ENDPOINTS</span>
+          </span>
+        </div>
 
-              <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">
-                Compose a message directly. Clicking dispatch opens your native email client with all fields prefilled—100% private with zero cloud telemetry.
-              </p>
+        {/* Rich Architectural Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {digitalEndpoints.map((endpoint) => {
+            const Icon = endpoint.icon;
 
-              <form onSubmit={handleDispatch} className="flex flex-col gap-4">
-                {/* Topic Selector Chips */}
+            return (
+              <InteractiveGlassCard
+                key={endpoint.id}
+                className={`p-6 sm:p-7 flex flex-col justify-between h-full group transition-all duration-300 ${
+                  endpoint.highlight
+                    ? "ring-1 ring-[var(--accent-champagne)]/30"
+                    : ""
+                }`}
+              >
                 <div>
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-2">
-                    Inquiry Topic
-                  </label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {topics.map((t) => (
-                      <button
-                        key={t}
-                        type="button"
-                        onClick={() => setSelectedTopic(t)}
-                        className={`px-3 py-1.5 rounded-full text-[11px] font-mono transition-all cursor-pointer ${
-                          selectedTopic === t
-                            ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
-                            : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        }`}
+                  {/* Category & Status */}
+                  <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] mb-4">
+                    <span className="text-[10px] uppercase tracking-wider text-[var(--accent-champagne)] font-medium">
+                      {endpoint.category}
+                    </span>
+                    {endpoint.isPrivate ? (
+                      <span className="flex items-center gap-1 text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">
+                        <Lock className="w-2.5 h-2.5" />
+                        <span>AUTH REQ</span>
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span>ONLINE</span>
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Header Title with Custom Icon */}
+                  <div className="flex items-start gap-3.5 mb-3">
+                    <div className="w-9 h-9 rounded-xl liquid-glass-pill flex items-center justify-center text-[var(--accent-champagne)] shrink-0 mt-0.5">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg sm:text-xl font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors leading-snug">
+                        {endpoint.name}
+                      </h4>
+                      <span className="text-xs font-mono text-[var(--accent-champagne)] block mt-0.5">
+                        {endpoint.handle}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Role / Subtitle */}
+                  <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider block mb-3">
+                    {endpoint.role}
+                  </span>
+
+                  {/* Detailed Description */}
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-6">
+                    {endpoint.description}
+                  </p>
+
+                  {/* Architectural Specs / Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {endpoint.specs.map((spec) => (
+                      <span
+                        key={spec}
+                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/[0.04] dark:bg-white/[0.04] text-[var(--text-tertiary)] border border-[var(--glass-border)]"
                       >
-                        {t}
-                      </button>
+                        {spec}
+                      </span>
                     ))}
                   </div>
                 </div>
 
-                {/* Name & Contact */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <div>
-                    <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                      Your Name / Handle
-                    </label>
-                    <input
-                      type="text"
-                      value={senderName}
-                      onChange={(e) => setSenderName(e.target.value)}
-                      placeholder="e.g. Alex Vance"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                      Your Email / Link
-                    </label>
-                    <input
-                      type="text"
-                      value={senderContact}
-                      onChange={(e) => setSenderContact(e.target.value)}
-                      placeholder="e.g. alex@studio.com"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* Message Textarea */}
-                <div className="pt-1">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                    Message Dispatch
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Share project details, hardware specifications, or thoughts..."
-                    required
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors resize-none leading-relaxed"
-                  />
-                </div>
-
-                {/* Submit Action */}
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-xl bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-mono uppercase tracking-wider font-semibold transition-transform hover:scale-[1.01] active:scale-[0.98] shadow-md cursor-pointer flex items-center justify-center gap-2 mt-2"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Dispatch via Email Client</span>
-                </button>
-              </form>
-            </div>
-          </InteractiveGlassCard>
-        </div>
-
-        {/* Right Column: Collaboration & Inquiry Domains */}
-        <div className="lg:col-span-6 flex flex-col gap-3.5">
-          <div className="flex items-center justify-between pb-2 border-b border-[var(--glass-border)]">
-            <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-              Primary Inquiry & Collaboration Domains
-            </span>
-            <span className="text-[10px] font-mono text-[var(--accent-champagne)]">01 — 04</span>
-          </div>
-
-          {inquiryDomains.map((domain) => {
-            const Icon = domain.icon;
-            return (
-              <InteractiveGlassCard key={domain.id} className="p-5 flex flex-col justify-between group">
-                <div className="flex items-start justify-between gap-4 mb-2">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-[var(--accent-champagne)]">
-                      [{domain.id}]
-                    </span>
-                    <h3 className="text-base sm:text-lg font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors">
-                      {domain.title}
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] px-2.5 py-0.5 rounded-full border border-[var(--glass-border)] shrink-0">
-                    {domain.tag}
+                {/* Direct Action Link */}
+                <div className="pt-4 border-t border-[var(--glass-border)] flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
+                    DESTINATION
                   </span>
+                  <Link
+                    href={endpoint.url}
+                    target={endpoint.url.startsWith("http") ? "_blank" : undefined}
+                    rel={endpoint.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass-pill text-xs font-mono text-[var(--accent-champagne)] group-hover:scale-105 transition-transform"
+                  >
+                    <span>{endpoint.ctaLabel}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </Link>
                 </div>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed pl-7">
-                  {domain.description}
-                </p>
               </InteractiveGlassCard>
             );
           })}
         </div>
       </div>
 
-      {/* Social / Profiles Grid */}
+      {/* Direct In-Page Dispatch Composer */}
       <div className="mb-16">
-        <div className="flex items-center justify-between pb-3 mb-6 border-b border-[var(--glass-border)]">
-          <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-            Canonical Digital Presence & Endpoints
-          </span>
-          <span className="text-xs font-mono text-[var(--accent-champagne)]">ONLINE DIRECTORY</span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {connect.socials.map((social) => (
-            <Link
-              key={social.name}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block"
-            >
-              <InteractiveGlassCard className="p-6 h-full flex flex-col justify-between">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-champagne)] transition-colors">
-                    {social.name}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-[var(--text-tertiary)] group-hover:text-[var(--accent-champagne)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                </div>
-                <span className="text-xs font-mono text-[var(--accent-champagne)]">
-                  {social.handle}
-                </span>
-              </InteractiveGlassCard>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Studio Telemetry & Response Cadence Card */}
-      <div className="p-6 rounded-2xl border border-[var(--glass-border)] bg-[var(--surface-muted)]/20 mb-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-        <div className="flex items-center gap-3">
-          <ShieldCheck className="w-5 h-5 text-[var(--accent-champagne)] shrink-0" />
-          <div className="text-xs">
-            <span className="font-semibold text-[var(--text-primary)] block">
-              Response Cadence & Privacy
-            </span>
-            <span className="text-[var(--text-secondary)]">
-              Typical turnaround is within 24–48 hours for engineering inquiries and creative collaborations.
-            </span>
+        <InteractiveGlassCard className="p-6 sm:p-10 max-w-3xl mx-auto">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-[var(--glass-border)]">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[var(--accent-champagne)]" />
+              <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
+                Direct Dispatch Composer
+              </span>
+            </div>
+            <span className="text-[10px] font-mono text-emerald-400">P2P ENCRYPTED</span>
           </div>
-        </div>
 
-        <Link
-          href="/vault"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full liquid-glass-pill text-xs font-mono text-[var(--accent-champagne)] hover:scale-105 transition-transform shrink-0"
-        >
-          <Lock className="w-3.5 h-3.5" />
-          <span>Access Private Node Vault</span>
-          <ArrowUpRight className="w-3 h-3" />
-        </Link>
+          <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">
+            Compose a message directly. Clicking dispatch opens your native email client with all fields prefilled—100% private with zero cloud telemetry.
+          </p>
+
+          <form onSubmit={handleDispatch} className="flex flex-col gap-4">
+            {/* Topic Selector Chips */}
+            <div>
+              <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-2">
+                Inquiry Topic
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {topics.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setSelectedTopic(t)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-mono transition-all cursor-pointer ${
+                      selectedTopic === t
+                        ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
+                        : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Name & Contact */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div>
+                <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
+                  Your Name / Handle
+                </label>
+                <input
+                  type="text"
+                  value={senderName}
+                  onChange={(e) => setSenderName(e.target.value)}
+                  placeholder="e.g. Alex Vance"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
+                  Your Email / Link
+                </label>
+                <input
+                  type="text"
+                  value={senderContact}
+                  onChange={(e) => setSenderContact(e.target.value)}
+                  placeholder="e.g. alex@studio.com"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Message Textarea */}
+            <div className="pt-1">
+              <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
+                Message Dispatch
+              </label>
+              <textarea
+                rows={4}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Share project details, hardware specifications, or thoughts..."
+                required
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors resize-none leading-relaxed"
+              />
+            </div>
+
+            {/* Submit Action */}
+            <button
+              type="submit"
+              className="w-full py-3.5 rounded-xl bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-mono uppercase tracking-wider font-semibold transition-transform hover:scale-[1.01] active:scale-[0.98] shadow-md cursor-pointer flex items-center justify-center gap-2 mt-2"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span>Dispatch via Email Client</span>
+            </button>
+          </form>
+        </InteractiveGlassCard>
       </div>
 
       {/* Footer Colophon */}
