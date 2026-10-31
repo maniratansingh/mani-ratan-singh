@@ -14,7 +14,6 @@ import {
   Clock,
   MapPin,
   BookOpen,
-  Radio,
 } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
@@ -57,21 +56,6 @@ function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-interface EndpointDirectoryItem {
-  id: string;
-  name: string;
-  handle: string;
-  url: string;
-  category: string;
-  role: string;
-  description: string;
-  specs: string[];
-  ctaLabel: string;
-  icon: React.ComponentType<{ className?: string }>;
-  highlight?: boolean;
-  isPrivate?: boolean;
-}
-
 export function ConnectSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { connect } = siteContent;
   const [copied, setCopied] = React.useState(false);
@@ -101,87 +85,42 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Comprehensive Expanded Digital Presence & Endpoints Directory
-  const digitalEndpoints: EndpointDirectoryItem[] = [
+  const endpoints = [
     {
-      id: "technical-lab",
-      name: "The Technical Lab & Workbench",
+      name: "Technical Lab",
       handle: "mrps.in",
       url: "https://mrps.in",
-      category: "Primary Engineering Hub",
-      role: "Engineering Workbench & Open Homelab",
-      description:
-        "The primary open engineering hub hosting homelab telemetry, C++ hardware write-ups, benchmarking reports, and open-source releases with ultra-fast edge loading.",
-      specs: ["10GbE SFP+ Edge", "Zero Telemetry", "C++ Firmware", "Apple Silicon Clusters"],
-      ctaLabel: "Launch Workbench",
       icon: Terminal,
-      highlight: true,
     },
     {
-      id: "github-repos",
-      name: "Open Source Codebases & Firmware",
+      name: "GitHub",
       handle: "@maniratansingh",
       url: "https://github.com/maniratansingh",
-      category: "Code & Architecture",
-      role: "Public Git Repositories",
-      description:
-        "Public source code for Jellyfin Liquid Glass, RP2040 mechanical macropad firmware, offline Android image compressors, WebGL shader experiments, and system tools.",
-      specs: ["GPL / MIT Open Source", "CSS Architecture", "Embedded C++", "Next.js / WebGL"],
-      ctaLabel: "Explore GitHub",
       icon: GithubIcon,
     },
     {
-      id: "instagram-salon",
-      name: "Visual Salon & Storytelling",
+      name: "Instagram",
       handle: "@maniratanpratapsingh",
       url: "https://www.instagram.com/maniratanpratapsingh/",
-      category: "Photography & Art",
-      role: "Visual Archive & Stories",
-      description:
-        "Visual storytelling through nocturnal long exposures, architectural geometry, urban light streaks at blue hour, and monochrome atmospheric contrast.",
-      specs: ["24mm Prime", "Long Exposures", "Geometric Architecture", "Purvanchal Stories"],
-      ctaLabel: "View Visual Salon",
       icon: InstagramIcon,
     },
     {
-      id: "photography-archive",
-      name: "Full-Fidelity Photographic Archive",
+      name: "Photo Archive",
       handle: "mrps.in/photos",
       url: "https://mrps.in/photos/",
-      category: "Fine Art Photography",
-      role: "High-Resolution Darkroom",
-      description:
-        "Dedicated uncompressed gallery cataloging full-resolution photographic plates with comprehensive EXIF camera metadata, lens metrics, and print inquiries.",
-      specs: ["Uncompressed Optical", "EXIF Data Sheets", "Travertine & Mist", "Print Requests"],
-      ctaLabel: "Open Photo Archive",
       icon: Camera,
     },
     {
-      id: "dispatches-blog",
-      name: "Dispatches from the Lab",
+      name: "Dispatches",
       handle: "mrps.in/blog",
       url: "https://mrps.in/blog/",
-      category: "Technical Essays",
-      role: "System Benchmark Reports",
-      description:
-        "Technical write-ups and dispatches: 37.7 Gbps Thunderbolt 4 Mac AI clustering, rural eye hospital platforms in Purvanchal, GPS clocks, and semantic web architecture.",
-      specs: ["Thunderbolt 4 Benchmarks", "Hospital Systems", "GPS Satellites", "Markdown Notes"],
-      ctaLabel: "Read Dispatches",
       icon: BookOpen,
     },
     {
-      id: "node-vault",
-      name: "Private Homelab Node Vault",
-      handle: "vault.mrps.in / Protected",
+      name: "Node Vault",
+      handle: "/vault",
       url: "/vault",
-      category: "Restricted Infrastructure",
-      role: "Internal Subdomain Gateway",
-      description:
-        "Password-gated doorway into private infrastructure subdomains: Jellyfin Media Server (4K HEVC 10-bit), TrueNAS ZFS storage arrays, and local AI clusters.",
-      specs: ["Passcode Authenticated", "ZFS Storage", "Local LLM Inference", "Encrypted Subnets"],
-      ctaLabel: "Unlock Vault",
       icon: Lock,
-      isPrivate: true,
     },
   ];
 
@@ -279,112 +218,44 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
         </div>
       </InteractiveGlassCard>
 
-      {/* =========================================================
-          EXPANDED CANONICAL DIGITAL PRESENCE & ENDPOINTS DIRECTORY
-          ========================================================= */}
-      <div className="mb-20">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-4 mb-8 border-b border-[var(--glass-border)]">
-          <div>
-            <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)] block mb-1">
-              CANONICAL DIGITAL PRESENCE & NETWORK ENDPOINTS
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-light text-[var(--text-primary)] uppercase tracking-tight">
-              Global Platform Directory
-            </h3>
-          </div>
-          <span className="text-xs font-mono text-[var(--accent-champagne)] flex items-center gap-2">
-            <Radio className="w-3.5 h-3.5 text-emerald-400" />
-            <span>06 ACTIVE ENDPOINTS</span>
+      {/* Endpoints Directory */}
+      <div className="mb-16">
+        <div className="flex items-center justify-between pb-3 mb-6 border-b border-[var(--glass-border)]">
+          <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
+            Endpoints
           </span>
+          <span className="text-xs font-mono text-[var(--accent-champagne)]">Online Directory</span>
         </div>
 
-        {/* Rich Architectural Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {digitalEndpoints.map((endpoint) => {
-            const Icon = endpoint.icon;
-
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {endpoints.map((item) => {
+            const Icon = item.icon;
+            const isExternal = item.url.startsWith("http");
             return (
-              <InteractiveGlassCard
-                key={endpoint.id}
-                className={`p-6 sm:p-7 flex flex-col justify-between h-full group transition-all duration-300 ${
-                  endpoint.highlight
-                    ? "ring-1 ring-[var(--accent-champagne)]/30"
-                    : ""
-                }`}
+              <Link
+                key={item.name}
+                href={item.url}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className="group block"
               >
-                <div>
-                  {/* Category & Status */}
-                  <div className="flex items-center justify-between text-xs font-mono text-[var(--text-tertiary)] mb-4">
-                    <span className="text-[10px] uppercase tracking-wider text-[var(--accent-champagne)] font-medium">
-                      {endpoint.category}
-                    </span>
-                    {endpoint.isPrivate ? (
-                      <span className="flex items-center gap-1 text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">
-                        <Lock className="w-2.5 h-2.5" />
-                        <span>AUTH REQ</span>
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        <span>ONLINE</span>
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Header Title with Custom Icon */}
-                  <div className="flex items-start gap-3.5 mb-3">
-                    <div className="w-9 h-9 rounded-xl liquid-glass-pill flex items-center justify-center text-[var(--accent-champagne)] shrink-0 mt-0.5">
+                <InteractiveGlassCard className="p-4 sm:p-5 h-full flex flex-col justify-between">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-8 h-8 rounded-lg liquid-glass-pill flex items-center justify-center text-[var(--accent-champagne)] group-hover:scale-105 transition-transform">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <div>
-                      <h4 className="text-lg sm:text-xl font-light text-[var(--text-primary)] uppercase tracking-tight group-hover:text-[var(--accent-champagne)] transition-colors leading-snug">
-                        {endpoint.name}
-                      </h4>
-                      <span className="text-xs font-mono text-[var(--accent-champagne)] block mt-0.5">
-                        {endpoint.handle}
-                      </span>
-                    </div>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[var(--text-tertiary)] group-hover:text-[var(--accent-champagne)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </div>
-
-                  {/* Role / Subtitle */}
-                  <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase tracking-wider block mb-3">
-                    {endpoint.role}
-                  </span>
-
-                  {/* Detailed Description */}
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-6">
-                    {endpoint.description}
-                  </p>
-
-                  {/* Architectural Specs / Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {endpoint.specs.map((spec) => (
-                      <span
-                        key={spec}
-                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/[0.04] dark:bg-white/[0.04] text-[var(--text-tertiary)] border border-[var(--glass-border)]"
-                      >
-                        {spec}
-                      </span>
-                    ))}
+                  <div>
+                    <span className="text-[11px] font-mono text-[var(--text-tertiary)] block mb-0.5 group-hover:text-[var(--accent-champagne)] transition-colors">
+                      {item.name}
+                    </span>
+                    <span className="text-xs font-mono font-medium text-[var(--text-primary)] truncate block">
+                      {item.handle}
+                    </span>
                   </div>
-                </div>
-
-                {/* Direct Action Link */}
-                <div className="pt-4 border-t border-[var(--glass-border)] flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
-                    DESTINATION
-                  </span>
-                  <Link
-                    href={endpoint.url}
-                    target={endpoint.url.startsWith("http") ? "_blank" : undefined}
-                    rel={endpoint.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass-pill text-xs font-mono text-[var(--accent-champagne)] group-hover:scale-105 transition-transform"
-                  >
-                    <span>{endpoint.ctaLabel}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </Link>
-                </div>
-              </InteractiveGlassCard>
+                </InteractiveGlassCard>
+              </Link>
             );
           })}
         </div>
