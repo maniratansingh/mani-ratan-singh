@@ -77,10 +77,10 @@ export function InteractiveGlassCard({
     >
       {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Tracks Cursor) */}
       <div
-        className="pointer-events-none absolute -inset-px transition-opacity duration-500 z-10"
+        className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(520px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.28) 0%, rgba(0, 240, 255, 0.12) 30%, rgba(255, 0, 127, 0.05) 55%, transparent 75%)`,
+          background: `radial-gradient(520px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)`,
         }}
         aria-hidden="true"
       />
@@ -91,7 +91,7 @@ export function InteractiveGlassCard({
         style={{
           opacity: isHovered ? 1 : 0,
           padding: "1.2px",
-          background: `radial-gradient(360px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.7) 0%, rgba(0, 240, 255, 0.35) 40%, transparent 75%)`,
+          background: `radial-gradient(380px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)`,
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "exclude",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",

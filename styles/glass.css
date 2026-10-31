@@ -1,119 +1,101 @@
 /* =========================================================================
    MANI RATAN SINGH — LIQUID GLASS ULTRA-FIDELITY MATERIAL SPECIFICATION
-   Derived from jellyfin-liquid-glass by Mani Ratan Singh (iOS 26 Beta 1 Spec)
+   Derived directly from authentic jellyfin-liquid-glass by Mani Ratan Singh
    ========================================================================= */
 
 /* Primary Liquid Glass Surface (Cards, Panels, Modules) */
 .liquid-glass-surface {
   position: relative;
   border-radius: var(--lg-radius-panel);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-surface-bg);
-  backdrop-filter: var(--lg-frost-panel);
-  -webkit-backdrop-filter: var(--lg-frost-panel);
-  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
-  overflow: hidden;
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.35s ease,
-              border-color 0.35s ease,
-              background 0.35s ease;
+              box-shadow 0.35s ease;
 }
 
-/* Prismatic Edge Specular Sheen (Razor-sharp top hairline glint) */
-.liquid-glass-surface::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.4) 15%,
-    rgba(255, 255, 255, 1.0) 50%,
-    rgba(255, 255, 255, 0.4) 85%,
-    transparent 100%
-  );
-  opacity: 0.95;
-  pointer-events: none;
-  z-index: 5;
-}
-
-/* Secondary Internal Diagonal Crystal Sheen & Light Angle */
+.liquid-glass-surface::before,
 .liquid-glass-surface::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    rgba(255, 255, 255, 0.03) 35%,
-    transparent 65%
-  );
-  z-index: 1;
-  transition: opacity 0.35s ease, background 0.35s ease;
 }
 
-.liquid-glass-surface:hover {
-  border-color: var(--glass-border-hover);
-  box-shadow:
-    var(--lg-rim-strong),
-    0 32px 72px -16px rgba(6, 7, 10, 0.65),
-    0 0 24px rgba(0, 240, 255, 0.22),
-    0 0 45px rgba(255, 0, 127, 0.12);
+/* Layer 1: Clear Lens Frost Substrate */
+.liquid-glass-surface::before {
+  z-index: 0;
+  backdrop-filter: var(--lg-frost-panel);
+  -webkit-backdrop-filter: var(--lg-frost-panel);
+  background: var(--lg-tint-panel);
+}
+
+/* Layer 2: Dual-Lobe Crescent Rim Specular Highlights & Surface Sheen */
+.liquid-glass-surface::after {
+  z-index: 1;
+  box-shadow: var(--lg-rim), var(--lg-shadow-panel);
+  background:
+    /* Razor-sharp top specular glint */
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 1.5px, transparent 18px),
+    /* 135° diagonal specular crystal reflection */
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 35%, transparent 60%),
+    /* Softbox radial specular sheen */
+    var(--lg-sheen);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .liquid-glass-surface:hover::after {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(255, 255, 255, 0.06) 40%,
-    transparent 70%
-  );
+  box-shadow:
+    var(--lg-rim-strong),
+    0 28px 64px -12px rgba(6, 7, 10, 0.65),
+    0 0 24px rgba(0, 145, 255, 0.3);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.18) 2px, transparent 24px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 65%),
+    var(--lg-sheen),
+    var(--lg-hover-fill);
 }
 
 /* Liquid Glass Pill (Floating Navbar, Action Buttons, Badges) */
 .liquid-glass-pill {
   position: relative;
   border-radius: var(--lg-radius-control);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-pill-bg);
-  backdrop-filter: var(--lg-frost-bar);
-  -webkit-backdrop-filter: var(--lg-frost-bar);
-  box-shadow: var(--lg-rim), var(--lg-shadow-control);
-  overflow: hidden;
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.3s ease,
-              border-color 0.3s ease,
-              background-color 0.3s ease;
+              box-shadow 0.3s ease;
+}
+
+.liquid-glass-pill::before,
+.liquid-glass-pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .liquid-glass-pill::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.9) 50%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 5;
+  z-index: 0;
+  backdrop-filter: var(--lg-frost-bar);
+  -webkit-backdrop-filter: var(--lg-frost-bar);
+  background: var(--lg-tint-bar);
 }
 
-.liquid-glass-pill:hover {
-  border-color: var(--glass-border-hover);
+.liquid-glass-pill::after {
+  z-index: 1;
+  box-shadow: var(--lg-rim), var(--lg-shadow-control);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 1px, transparent 50%),
+    var(--lg-sheen);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.liquid-glass-pill:hover::after {
   box-shadow:
     var(--lg-rim-strong),
-    0 8px 24px -4px rgba(6, 7, 10, 0.4),
-    0 0 18px rgba(0, 240, 255, 0.28);
+    0 8px 24px -4px rgba(6, 7, 10, 0.35),
+    0 0 16px rgba(0, 145, 255, 0.35);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.2) 1.5px, transparent 50%),
+    var(--lg-sheen),
+    var(--lg-hover-fill);
 }
 
 .liquid-glass-pill:active {
@@ -121,20 +103,20 @@
 }
 
 /* Light mode overrides for high-contrast refinement */
-.light .liquid-glass-surface:hover,
-[data-theme="light"] .liquid-glass-surface:hover {
+.light .liquid-glass-surface:hover::after,
+[data-theme="light"] .liquid-glass-surface:hover::after {
   box-shadow:
     var(--lg-rim-strong),
-    0 32px 72px -16px rgba(8, 8, 10, 0.14),
-    0 0 24px rgba(0, 113, 227, 0.16);
+    0 28px 64px -12px rgba(8, 8, 10, 0.12),
+    0 0 20px rgba(0, 113, 227, 0.18);
 }
 
-.light .liquid-glass-pill:hover,
-[data-theme="light"] .liquid-glass-pill:hover {
+.light .liquid-glass-pill:hover::after,
+[data-theme="light"] .liquid-glass-pill:hover::after {
   box-shadow:
     var(--lg-rim-strong),
-    0 8px 24px -4px rgba(8, 8, 10, 0.12),
-    0 0 18px rgba(0, 113, 227, 0.18);
+    0 8px 24px -4px rgba(8, 8, 10, 0.1),
+    0 0 16px rgba(0, 113, 227, 0.2);
 }
 
 /* Monograph Paper Frame for Photographic Plates */
@@ -142,19 +124,16 @@
   position: relative;
   border-radius: var(--lg-radius-card);
   overflow: hidden;
-  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim), var(--lg-shadow-panel);
   transition: transform var(--lg-spring-snappy-dur) var(--lg-spring-snappy),
-              box-shadow 0.4s ease,
-              border-color 0.4s ease;
+              box-shadow 0.4s ease;
 }
 
 .editorial-frame:hover {
-  border-color: var(--glass-border-hover);
   box-shadow:
     var(--lg-rim-strong),
     0 32px 72px -12px rgba(6, 7, 10, 0.55),
-    0 0 24px rgba(0, 240, 255, 0.14);
+    0 0 24px rgba(0, 145, 255, 0.25);
 }
 
 /* Backward-compatible & utility classes for glass components */
@@ -162,7 +141,6 @@
   background: var(--glass-surface-bg);
   backdrop-filter: var(--lg-frost-panel);
   -webkit-backdrop-filter: var(--lg-frost-panel);
-  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim), var(--lg-shadow-panel);
 }
 
@@ -170,7 +148,6 @@
   background: var(--glass-pill-bg);
   backdrop-filter: var(--lg-frost-bar);
   -webkit-backdrop-filter: var(--lg-frost-bar);
-  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim), var(--lg-shadow-control);
 }
 
@@ -178,7 +155,6 @@
   background: var(--lg-tint-control);
   backdrop-filter: var(--lg-frost-control);
   -webkit-backdrop-filter: var(--lg-frost-control);
-  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim);
 }
 
@@ -186,7 +162,6 @@
   background: var(--glass-surface-bg);
   backdrop-filter: var(--lg-frost-panel);
   -webkit-backdrop-filter: var(--lg-frost-panel);
-  border: 1px solid var(--glass-border);
   box-shadow: var(--lg-rim), var(--lg-shadow-panel);
 }
 
