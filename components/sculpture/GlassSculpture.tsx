@@ -173,22 +173,22 @@ export function GlassSculpture() {
     rimLight.position.set(-6, -4, -4);
     scene.add(rimLight);
 
-    const pointLight = new THREE.PointLight(0xc8b99d, 4.0, 10);
+    const pointLight = new THREE.PointLight(0x00f0ff, 3.5, 10);
     pointLight.position.set(0, 1.2, 2.5);
     scene.add(pointLight);
 
-    // 4. Sculpture Architecture
+    // 4. Sculpture Architecture (Pure Unobstructed Torus Knot)
     const sculptureGroup = new THREE.Group();
     scene.add(sculptureGroup);
 
-    // Primary Torus Knot Geometry
+    // Primary Torus Knot Geometry (100% Hollow & Open - No Internal Box)
     const mainGeometry = new THREE.TorusKnotGeometry(1.22, 0.44, 240, 44, 2, 3);
     
-    // Default Material: Wireframe Lattice
+    // Default Material: Wireframe Lattice with Neon Cyan Edge Glow
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#00f0ff"),
       transmission: 0,
-      opacity: 0.9,
+      opacity: 0.92,
       transparent: true,
       roughness: 0.15,
       metalness: 0.85,
@@ -197,16 +197,16 @@ export function GlassSculpture() {
       specularIntensity: 1.5,
       clearcoat: 1.0,
       clearcoatRoughness: 0.1,
-      emissive: new THREE.Color("#004466"),
-      emissiveIntensity: 0.6,
+      emissive: new THREE.Color("#005577"),
+      emissiveIntensity: 0.65,
       wireframe: true,
     });
 
     const mainSculpture = new THREE.Mesh(mainGeometry, glassMaterial);
     sculptureGroup.add(mainSculpture);
 
-    // Orbiting Prismatic Thin Halo
-    const haloGeometry = new THREE.TorusGeometry(1.85, 0.06, 32, 100);
+    // Orbiting Prismatic Thin Halo Ring
+    const haloGeometry = new THREE.TorusGeometry(1.85, 0.05, 32, 120);
     const haloMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#DFC085"),
       transmission: 0,
@@ -220,21 +220,8 @@ export function GlassSculpture() {
     halo.rotation.x = Math.PI / 2.5;
     sculptureGroup.add(halo);
 
-    // Luminous Nucleus
-    const coreGeometry = new THREE.IcosahedronGeometry(0.38, 4);
-    const coreMaterial = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      emissive: 0x00f0ff,
-      emissiveIntensity: 1.2,
-      roughness: 0.1,
-      metalness: 0.9,
-      wireframe: true,
-    });
-    const core = new THREE.Mesh(coreGeometry, coreMaterial);
-    sculptureGroup.add(core);
-
     // 5. Floating Glass Caustic Dust Particles
-    const particleCount = 45;
+    const particleCount = 50;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
@@ -244,16 +231,16 @@ export function GlassSculpture() {
     }
     particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0xffffff,
+      color: 0x00f0ff,
       size: 0.045,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
       blending: THREE.AdditiveBlending,
     });
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
-    // Robust Mode Switcher Implementation (Deterministic & Bug-Free)
+    // Robust Mode Switcher Implementation (Deterministic & Clean)
     updateMaterialRef.current = (mode: SculptureMode) => {
       modeRef.current = mode;
       scene.environment = envTextures[mode];
@@ -263,11 +250,11 @@ export function GlassSculpture() {
         glassMaterial.wireframe = true;
         glassMaterial.color.set("#00f0ff");
         glassMaterial.transmission = 0;
-        glassMaterial.opacity = 0.9;
+        glassMaterial.opacity = 0.92;
         glassMaterial.roughness = 0.15;
         glassMaterial.metalness = 0.85;
-        glassMaterial.emissive.set("#004466");
-        glassMaterial.emissiveIntensity = 0.6;
+        glassMaterial.emissive.set("#005577");
+        glassMaterial.emissiveIntensity = 0.65;
         glassMaterial.needsUpdate = true;
 
         haloMaterial.wireframe = true;
@@ -276,11 +263,8 @@ export function GlassSculpture() {
         haloMaterial.opacity = 0.85;
         haloMaterial.needsUpdate = true;
 
-        coreMaterial.wireframe = true;
-        coreMaterial.color.set("#ffffff");
-        coreMaterial.emissive.set("#00f0ff");
-        coreMaterial.emissiveIntensity = 1.2;
-        coreMaterial.needsUpdate = true;
+        particleMaterial.color.set(0x00f0ff);
+        pointLight.color.set(0x00f0ff);
       } else if (mode === "obsidian") {
         // Obsidian Glass
         glassMaterial.wireframe = false;
@@ -304,11 +288,8 @@ export function GlassSculpture() {
         haloMaterial.opacity = 1.0;
         haloMaterial.needsUpdate = true;
 
-        coreMaterial.wireframe = false;
-        coreMaterial.color.set(0x1a1a1a);
-        coreMaterial.emissive.set("#decb9e");
-        coreMaterial.emissiveIntensity = 1.1;
-        coreMaterial.needsUpdate = true;
+        particleMaterial.color.set(0xc8b99d);
+        pointLight.color.set(0xc8b99d);
       } else {
         // Prism Caustics
         glassMaterial.wireframe = false;
@@ -332,11 +313,8 @@ export function GlassSculpture() {
         haloMaterial.opacity = 1.0;
         haloMaterial.needsUpdate = true;
 
-        coreMaterial.wireframe = false;
-        coreMaterial.color.set(0xe6dcce);
-        coreMaterial.emissive.set("#c8b99d");
-        coreMaterial.emissiveIntensity = 0.9;
-        coreMaterial.needsUpdate = true;
+        particleMaterial.color.set(0xffffff);
+        pointLight.color.set(0xc8b99d);
       }
     };
 
@@ -360,7 +338,7 @@ export function GlassSculpture() {
       try {
         canvas.setPointerCapture?.(e.pointerId);
       } catch {
-        // Fallback for environments where pointer capture is unsupported
+        // ignore
       }
     };
 
@@ -381,8 +359,8 @@ export function GlassSculpture() {
         const deltaY = e.clientY - prevMouseY;
         prevMouseX = e.clientX;
         prevMouseY = e.clientY;
-        velocityX = deltaX * 0.006;
-        velocityY = deltaY * 0.006;
+        velocityX = deltaX * 0.005;
+        velocityY = deltaY * 0.005;
         sculptureGroup.rotation.y += velocityX;
         sculptureGroup.rotation.x += velocityY;
         return;
@@ -397,8 +375,8 @@ export function GlassSculpture() {
       ) {
         const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-        mouseX = x * 0.45;
-        mouseY = y * 0.45;
+        mouseX = x * 0.35;
+        mouseY = y * 0.35;
       }
     };
 
@@ -419,7 +397,7 @@ export function GlassSculpture() {
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    // 7. Animation Loop
+    // 7. Smooth, Majestic Animation Loop (No Bouncing / Wobble)
     let animationFrameId: number;
     const startTime = performance.now();
 
@@ -429,36 +407,35 @@ export function GlassSculpture() {
 
       // Apply drag momentum inertia deceleration
       if (!isDragging) {
-        velocityX *= 0.94;
-        velocityY *= 0.94;
+        velocityX *= 0.93;
+        velocityY *= 0.93;
         sculptureGroup.rotation.y += velocityX;
         sculptureGroup.rotation.x += velocityY;
       }
 
       if (!prefersReducedMotion && !isDragging) {
-        sculptureGroup.rotation.y += 0.0035;
-        mainSculpture.rotation.x = Math.sin(elapsedTime * 0.4) * 0.16;
-        halo.rotation.z += 0.002;
-        halo.rotation.x = Math.PI / 2.5 + Math.sin(elapsedTime * 0.5) * 0.08;
+        // Continuous, smooth architectural rotation (stable center, NO boing bounce)
+        sculptureGroup.rotation.y += 0.003;
+        mainSculpture.rotation.x = Math.sin(elapsedTime * 0.3) * 0.06;
+        halo.rotation.z += 0.0025;
+        halo.rotation.x = Math.PI / 2.5 + Math.sin(elapsedTime * 0.35) * 0.04;
 
-        sculptureGroup.position.y = Math.sin(elapsedTime * 0.7) * 0.1;
+        // Dynamic cybernetic wave pulse through lattice wireframe
+        if (modeRef.current === "optics") {
+          glassMaterial.emissiveIntensity = 0.55 + Math.sin(elapsedTime * 1.8) * 0.2;
+        }
 
-        // Dust particle orbital drift
-        particles.rotation.y = elapsedTime * 0.03;
-        particles.rotation.x = Math.sin(elapsedTime * 0.02) * 0.05;
-
-        // Core dynamic pulse
-        const coreScale = 1 + Math.sin(elapsedTime * 1.6) * 0.07;
-        core.scale.set(coreScale, coreScale, coreScale);
+        // Particle orbital drift
+        particles.rotation.y = elapsedTime * 0.02;
+        particles.rotation.x = Math.sin(elapsedTime * 0.015) * 0.03;
       }
 
-      // Smooth pointer lerp
-      targetRotX += (mouseY - targetRotX) * 0.06;
-      targetRotY += (mouseX - targetRotY) * 0.06;
+      // Smooth subtle pointer tilt (NO z-axis wobble)
+      targetRotX += (mouseY - targetRotX) * 0.05;
+      targetRotY += (mouseX - targetRotY) * 0.05;
 
       if (!isDragging && Math.abs(velocityX) < 0.001) {
-        sculptureGroup.rotation.x += targetRotX * 0.04;
-        sculptureGroup.rotation.z = -targetRotY * 0.08;
+        sculptureGroup.rotation.x = targetRotX * 0.08;
       }
 
       renderer.render(scene, camera);
@@ -480,8 +457,6 @@ export function GlassSculpture() {
       glassMaterial.dispose();
       haloGeometry.dispose();
       haloMaterial.dispose();
-      coreGeometry.dispose();
-      coreMaterial.dispose();
       particleGeometry.dispose();
       particleMaterial.dispose();
       renderer.dispose();
@@ -513,7 +488,7 @@ export function GlassSculpture() {
               activeMode === "obsidian"
                 ? "radial-gradient(circle at center, rgba(82, 71, 58, 0.4) 0%, rgba(30, 32, 40, 0.3) 50%, transparent 80%)"
                 : activeMode === "optics"
-                ? "radial-gradient(circle at center, rgba(0, 240, 255, 0.28) 0%, rgba(112, 0, 255, 0.2) 45%, transparent 75%)"
+                ? "radial-gradient(circle at center, rgba(0, 240, 255, 0.3) 0%, rgba(112, 0, 255, 0.22) 45%, transparent 75%)"
                 : "radial-gradient(circle at center, rgba(200, 185, 157, 0.42) 0%, rgba(168, 178, 193, 0.3) 45%, rgba(255, 255, 255, 0.5) 70%, transparent 85%)",
           }}
           aria-hidden="true"

@@ -36,9 +36,9 @@
   height: 100vh;
   overflow: hidden;
   pointer-events: none;
-  filter: blur(55px) saturate(190%);
-  -webkit-filter: blur(55px) saturate(190%);
-  z-index: -10;
+  filter: blur(50px) saturate(220%);
+  -webkit-filter: blur(50px) saturate(220%);
+  z-index: 0;
 }
 
 .plasma-blob {

@@ -90,7 +90,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AmbientAtmosphere />
           <Navbar />
-          <main className="relative flex flex-col">{children}</main>
+          <main className="relative z-10 flex flex-col">{children}</main>
         </ThemeProvider>
       </body>
     </html>

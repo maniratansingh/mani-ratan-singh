@@ -46,7 +46,7 @@
     radial-gradient(90% 75% at 18% 5%, rgba(30, 90, 220, 0.6) 0%, rgba(13, 49, 138, 0.4) 40%, transparent 75%),
     radial-gradient(80% 60% at 82% 35%, rgba(0, 240, 255, 0.35) 0%, rgba(10, 36, 102, 0.2) 50%, transparent 70%),
     radial-gradient(90% 70% at 45% 90%, rgba(30, 90, 220, 0.3) 0%, transparent 65%),
-    linear-gradient(165deg, #0d318a 0%, #0a2466 45%, #071a4a 100%);
+    linear-gradient(165deg, rgba(13, 49, 138, 0.5) 0%, rgba(10, 36, 102, 0.35) 45%, rgba(7, 26, 74, 0.6) 100%);
 
   /* Micro-grain texture & subtle vignette */
   --lg-wallpaper-veil:
@@ -67,14 +67,14 @@
   --lg-success: #30d158;
 
   /* ACCENTUATED GLASS MATERIAL TIERS - CRYSTAL TRANSLUCENT OPTICS */
-  --lg-frost-control: blur(6px) saturate(1.6) brightness(105%);
-  --lg-frost-bar: blur(16px) saturate(1.8) brightness(108%);
-  --lg-frost-panel: blur(20px) saturate(1.75) brightness(106%);
+  --lg-frost-control: blur(12px) saturate(200%) brightness(112%);
+  --lg-frost-bar: blur(24px) saturate(220%) brightness(115%) contrast(105%);
+  --lg-frost-panel: blur(28px) saturate(210%) brightness(112%) contrast(106%);
   
   /* Lighter, crystal-clear tints that let plasma shine through cleanly */
   --lg-tint-control: rgba(255, 255, 255, 0.08);
-  --lg-tint-bar: rgba(255, 255, 255, 0.06);
-  --lg-tint-panel: rgba(18, 20, 28, 0.42);
+  --lg-tint-bar: rgba(18, 22, 34, 0.48);
+  --lg-tint-panel: rgba(16, 20, 32, 0.38);
   --lg-hover-fill: rgba(255, 255, 255, 0.12);
   --lg-press-fill: rgba(255, 255, 255, 0.20);
 
