@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Mail, Copy, Check } from "lucide-react";
+import { ArrowUpRight, Mail, Copy, Check, Lock } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
@@ -123,11 +123,16 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           <span>{siteConfig.name} — Personal Digital Presence</span>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <span>{new Date().getFullYear()}</span>
           <span>•</span>
           <Link href="https://mrps.in" target="_blank" className="hover:text-[var(--text-primary)] transition-colors text-[var(--accent-champagne)]">
             Primary Hub: mrps.in
+          </Link>
+          <span>•</span>
+          <Link href="/vault" className="hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5 text-[var(--text-secondary)]">
+            <Lock className="w-3 h-3 text-[var(--accent-champagne)]" />
+            <span>Node Vault</span>
           </Link>
         </div>
       </div>

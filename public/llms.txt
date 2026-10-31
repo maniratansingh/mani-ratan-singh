@@ -1,0 +1,47 @@
+# Mani Ratan Pratap Singh (MRPS)
+
+> Personal portfolio, digital salon, and systems architecture hub of Mani Ratan Pratap Singh.
+> Core Identity Motto: "My Simplicity Is My Identity."
+> Canonical Portfolio: https://maniratansingh.com
+> Engineering Workbench & Homelab: https://mrps.in
+> Direct Communication: email@mrps.in
+
+## Biography & Ethos
+Mani Ratan Pratap Singh (MRPS) is a technology generalist, systems builder, and photographer based in Purvanchal, Uttar Pradesh, India.
+His work converges at the intersection of tactile physical electronics, high-concurrency public systems, optical shader design, and local Apple Silicon AI compute clusters.
+He emphasizes purposeful simplicity, edge performance, sub-second latency, and zero surveillance telemetry.
+
+## Key Projects & Systems
+
+- [Jellyfin Liquid Glass](https://github.com/maniratansingh/jellyfin-liquid-glass): An Apple-inspired optical UI theme for Jellyfin Media Server. Multi-tiered frosted glass floating controls, specular rim reflections, and zero external font requests for 100% homelab autonomy.
+- [mrps.in — The Technical Lab](https://mrps.in): Engineering workbench hosting homelab telemetry, C++ hardware write-ups, benchmarking reports, and open-source firmware.
+- [Purvanchal Eye Hospitals Web System](https://mrps.in/blog/2026-07-18-building-websites-for-purvanchal-eye-hospitals/): Public healthcare digital infrastructure for regional medical centers in Eastern Uttar Pradesh (Ayodhya Phaco Center, Sunbeam Eye Hospital, Sant Kabir Eye Hospital). Sub-second load times on rural 3G/4G connections with zero framework bloat.
+- [MRPS Music — Web Vinyl Player](https://mrps.in/projects/aesthetic-music-player/): Glassmorphic Web Audio player with procedural WebGL shaders and tactile vinyl simulation.
+- [High-Precision GPS Clock](https://mrps.in/projects/gpsclock/): Autonomous satellite-synchronized hardware timekeeper powered by a u-blox Neo-6M GPS receiver, MAX7219 matrix display, and SSD1306 OLED telemetry.
+- [Offline Image Compressor for Android](https://mrps.in/projects/image-compressor-mrps/): Privacy-first mobile image optimization tool written in Kotlin with zero cloud permissions.
+- [RP2040 OLED Macropad](https://github.com/maniratansingh/rp2040-oled-macropad): Bespoke physical input controller with sub-millisecond key debouncing, rotary encoders, and embedded real-time telemetry.
+
+## Engineering Notes & Technical Essays
+
+- [Benchmarking a 37.7 Gbps Thunderbolt 4 Link for Mac AI Clustering](https://mrps.in/blog/2026-07-22-thunderbolt-4-mac-ai-cluster-benchmarks/): Clustering Apple Silicon unified memory for local LLM inference using Exo.
+- [Building Fast, Simple Websites for Real Hospitals in Purvanchal](https://mrps.in/blog/2026-07-18-building-websites-for-purvanchal-eye-hospitals/): Why rural medical centers require sub-second speeds and zero tracking.
+- [Building a High-Precision GPS Clock: Neo-6M, MAX7219, and SSD1306 OLED](https://mrps.in/blog/2026-07-20-building-high-precision-gps-clock/): Dual-telemetry satellite-synchronized timekeeper in embedded C++.
+- [Why I Built an Offline Image Compressor for Android in Kotlin](https://mrps.in/blog/2026-09-30-why-i-built-an-offline-image-compressor/): Local-first Android image optimization without third-party analytics.
+- [AI Doesn't Need Better Scrapers. It Needs Better Websites](https://mrps.in/blog/2026-07-17-ai-needs-better-websites/): Semantic HTML, clean data schemas, and edge caching for humans and AI agents.
+
+## Hardware & Homelab Infrastructure
+- Host Machine: Apple Silicon unified memory cluster
+- Homelab Storage: TrueNAS SCALE, ZFS pools, 10GbE SFP+ edge routing
+- Embedded Stack: Raspberry Pi RP2040, ESP32, STM32, C++, MicroPython, CircuitPython
+- Optics & Camera: 24mm Prime, nocturnal long exposures, urban light trails
+
+## Canonical Online Profiles
+- Website: https://maniratansingh.com
+- Technical Workbench: https://mrps.in
+- GitHub: https://github.com/maniratansingh
+- Instagram: https://www.instagram.com/maniratanpratapsingh/
+- Email: email@mrps.in
+
+## Optional Full Context
+For the complete technical documentation, full essays, and detailed architectural specs, read:
+https://maniratansingh.com/llms-full.txt

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowUpRight, Terminal, Mail } from "lucide-react";
+import { Menu, X, ArrowUpRight, Terminal, Mail, Lock } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { snappySpring } from "@/components/animations/transitions";
 
@@ -194,7 +194,7 @@ export function MobileNav() {
                     })}
 
                     {/* Direct Homelab Terminal Link */}
-                    <div className="pt-2">
+                    <div className="pt-2 flex flex-col gap-1.5">
                       <Link
                         href="https://mrps.in"
                         target="_blank"
@@ -207,6 +207,18 @@ export function MobileNav() {
                           <span className="tracking-wide">mrps.in (Homelab)</span>
                         </div>
                         <ArrowUpRight className="w-3.5 h-3.5 opacity-70" />
+                      </Link>
+
+                      <Link
+                        href="/vault"
+                        onClick={() => setIsOpen(false)}
+                        className="px-4 py-2.5 rounded-xl text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all flex items-center justify-between border border-[var(--glass-border)] bg-black/10 hover:bg-black/30"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <Lock className="w-3.5 h-3.5 text-[var(--accent-champagne)]" />
+                          <span>Private Node Vault</span>
+                        </div>
+                        <span className="text-[9px] font-mono text-[var(--text-tertiary)] opacity-70">LOCKED</span>
                       </Link>
                     </div>
                   </div>

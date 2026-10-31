@@ -1,0 +1,113 @@
+# Mani Ratan Pratap Singh (MRPS) — Full System & Knowledge Repository
+
+## Identity & Philosophy
+- Full Legal Name: Mani Ratan Pratap Singh
+- Known As: Mani Ratan Singh (MRPS)
+- Motto: "My Simplicity Is My Identity."
+- Geographic Base: Purvanchal, Uttar Pradesh, India
+- Primary Digital Home: https://maniratansingh.com
+- Technical Workbench & Homelab: https://mrps.in
+- Direct Email: email@mrps.in
+
+Mani Ratan Pratap Singh is a technology generalist, systems builder, and photographer based in India. His engineering workbench at mrps.in serves as an open laboratory for homelab configurations, C++ firmware, Apple Silicon clustering benchmarks, and edge deployments. Meanwhile, maniratansingh.com captures his human philosophy, creative aesthetics, photography, and tactile interface designs.
+
+His work lives between code, optics, and physical hardware—ranging from high-concurrency healthcare hospital management systems serving regional Purvanchal communities to custom mechanical macropads, home server clusters, and long-exposure light studies.
+
+---
+
+## Complete Project Catalog
+
+### 1. Jellyfin Liquid Glass
+- Category: Web & Design / Open Source UI
+- Status: Live
+- Year: 2025
+- GitHub: https://github.com/maniratansingh/jellyfin-liquid-glass
+- Description: A ground-up custom UI theme for the Jellyfin web client inspired by Apple's Liquid Glass design language. Replaces rigid layout bars with multi-tiered frosted glass floating controls, object-like posters with subtle edge illumination, and zero external network fonts.
+- Architecture:
+  - Multi-layered glass weights (dialogs vs floating pills)
+  - Zero external HTTP requests for pure privacy and instantaneous rendering
+  - Full respect for native OS accessibility (prefers-reduced-motion, high contrast)
+  - Pure CSS custom properties and hardware-accelerated backdrop filters
+
+### 2. mrps.in — The Technical Lab
+- Category: Web & Design / Edge Infrastructure
+- Status: Live
+- Year: 2025
+- URL: https://mrps.in
+- Description: The primary open engineering hub hosting homelab telemetry, C++ hardware write-ups, benchmarking reports, and open-source releases with ultra-fast edge loading.
+- Architecture:
+  - Sub-second response times with zero client-side tracking or script bloat
+  - Static edge deployment with global caching
+  - Serves as the raw engineering counterpart to maniratansingh.com
+
+### 3. MRPS Music — Web Vinyl Player
+- Category: Web & Design / Creative Audio
+- Status: Live
+- Year: 2026
+- URL: https://mrps.in/projects/aesthetic-music-player/
+- GitHub: https://github.com/maniratansingh/aesthetic-music-player
+- Description: A sensory web audio experience featuring an interactive vinyl turntable simulation, procedural WebGL background shaders, and realistic needle-drop physics.
+- Tech Stack: WebGL 2.0, Web Audio API, Three.js, GLSL Shaders.
+
+### 4. Purvanchal Eye Hospitals Web System
+- Category: Community & Health / Public Infrastructure
+- Status: Live
+- Year: 2026
+- URL: https://mrps.in/blog/2026-07-18-building-websites-for-purvanchal-eye-hospitals/
+- Description: Designed and deployed fast, accessible websites for real hospitals in Eastern Uttar Pradesh, including Ayodhya Phaco Center, Sunbeam Eye Hospital, and Sant Kabir Eye Hospital.
+- Impact: Sub-second load times on rural 3G/4G cellular connections with zero framework bloat, providing critical patient appointment and ophthalmology service directions.
+
+### 5. High-Precision GPS Clock
+- Category: Embedded Systems
+- Status: Active
+- Year: 2026
+- URL: https://mrps.in/projects/gpsclock/
+- Description: An autonomous, satellite-synchronized hardware timekeeper powered by a u-blox Neo-6M GPS receiver, MAX7219 matrix display, and SSD1306 OLED telemetry interface.
+- Tech Stack: Embedded C++, Neo-6M GPS, SPI/I2C buses, non-blocking microcontroller loops.
+
+### 6. Offline Image Compressor for Android
+- Category: Open Source / Mobile Systems
+- Status: Live
+- Year: 2026
+- URL: https://mrps.in/projects/image-compressor-mrps/
+- Description: A clean, offline Android utility designed to compress high-resolution photos directly on-device without cloud uploads or background trackers. Built natively in Kotlin with Android Jetpack.
+
+### 7. RP2040 OLED Macropad
+- Category: Embedded Systems / Tactile Hardware
+- Status: Active
+- Year: 2024
+- GitHub: https://github.com/maniratansingh/rp2040-oled-macropad
+- URL: https://mrps.in/projects/rp2040-oled-macropad/
+- Description: Bespoke physical input macropad powered by the Raspberry Pi RP2040 microcontroller with hot-swappable mechanical switches, rotary encoder, and monochrome OLED screen. Features sub-millisecond key debouncing and real-time telemetry.
+
+---
+
+## Technical Articles & Dispatches
+
+1. "Benchmarking a 37.7 Gbps Thunderbolt 4 Link for Mac AI Clustering" (July 2026)
+   - Topics: Apple Silicon unified memory clustering, Thunderbolt 4 mesh topology, iperf3 throughput, Exo/Ollama inference scaling.
+   - Link: https://mrps.in/blog/2026-07-22-thunderbolt-4-mac-ai-cluster-benchmarks/
+
+2. "Building Fast, Simple Websites for Real Hospitals in Purvanchal" (July 2026)
+   - Topics: Zero-bloat web architecture, rural Indian connectivity constraints, accessible UI for patients.
+   - Link: https://mrps.in/blog/2026-07-18-building-websites-for-purvanchal-eye-hospitals/
+
+3. "Building a High-Precision GPS Clock: Neo-6M, MAX7219, and SSD1306 OLED" (July 2026)
+   - Topics: Satellite timekeeper, NMEA sentence parsing, sub-millisecond drift correction, custom hardware enclosure.
+   - Link: https://mrps.in/blog/2026-07-20-building-high-precision-gps-clock/
+
+4. "Why I Built an Offline Image Compressor for Android in Kotlin" (September 2026)
+   - Topics: Zero-permission mobile architecture, on-device bitmap sampling, user privacy.
+   - Link: https://mrps.in/blog/2026-09-30-why-i-built-an-offline-image-compressor/
+
+5. "AI Doesn't Need Better Scrapers. It Needs Better Websites" (July 2026)
+   - Topics: Semantic HTML, structured data, clean DOM trees, llms.txt standardization, machine-readable web architecture.
+   - Link: https://mrps.in/blog/2026-07-17-ai-needs-better-websites/
+
+---
+
+## Photographic Monograph & Visual Aesthetics
+- Equipment: 24mm Prime lenses, Sony Alpha full-frame systems, mechanical tripod mounts.
+- Disciplines: Long-exposure light trails, nocturnal architectural geometry, monochrome mist contrast.
+- Visual Archive: https://maniratansingh.com/#photography and https://mrps.in/photos/
+- Instagram: https://www.instagram.com/maniratanpratapsingh/

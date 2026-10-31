@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { projects } from "@/config/projects";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Navbar } from "@/components/navigation/Navbar";
 import { AmbientAtmosphere } from "@/components/glass/AmbientAtmosphere";
@@ -65,17 +66,64 @@ export default function RootLayout({
 }) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.name,
-    alternateName: ["Mani Ratan Singh", "MRPS", "maniratanpratapsingh"],
-    url: siteConfig.url,
-    sameAs: [
-      siteConfig.links.techLab,
-      siteConfig.links.instagram,
-      siteConfig.links.github,
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": `${siteConfig.url}/#person`,
+        name: siteConfig.name,
+        alternateName: ["Mani Ratan Singh", "MRPS", "maniratanpratapsingh"],
+        url: siteConfig.url,
+        image: `${siteConfig.url}/author.png`,
+        email: "email@mrps.in",
+        jobTitle: "Systems Builder, Creative Technologist & Photographer",
+        description: siteConfig.description,
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "Purvanchal",
+          addressCountry: "IN",
+        },
+        sameAs: [
+          siteConfig.links.techLab,
+          siteConfig.links.instagram,
+          siteConfig.links.github,
+        ],
+        knowsAbout: [
+          "Liquid Glass Design Engineering",
+          "Apple Silicon AI Clusters & Distributed Computing",
+          "RP2040 & ESP32 Microcontrollers",
+          "Regional Public Healthcare Digital Infrastructure",
+          "Jellyfin Media Server Architecture",
+          "WebGL & Procedural Shaders",
+          "C++ and Embedded Systems",
+          "Nocturnal Long-Exposure Photography",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteConfig.url}/#website`,
+        url: siteConfig.url,
+        name: siteConfig.title,
+        description: siteConfig.description,
+        publisher: { "@id": `${siteConfig.url}/#person` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteConfig.url}/#projects`,
+        name: "Selected Works & Systems by Mani Ratan Singh",
+        itemListElement: projects.map((p, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          item: {
+            "@type": "SoftwareSourceCode",
+            name: p.title,
+            description: p.description,
+            programmingLanguage: p.technologies,
+            codeRepository: p.github,
+            url: p.link || siteConfig.url,
+          },
+        })),
+      },
     ],
-    jobTitle: "Technologist & Photographer",
-    description: siteConfig.description,
   };
 
   return (
