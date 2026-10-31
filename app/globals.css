@@ -19,11 +19,6 @@ html.light {
 
 body {
   background-color: var(--lg-bg);
-  background-image:
-    var(--lg-wallpaper-veil),
-    var(--lg-wallpaper-tint);
-  background-attachment: fixed;
-  background-repeat: repeat, no-repeat;
   color: var(--lg-text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", system-ui, sans-serif;
@@ -36,6 +31,31 @@ body {
   caret-color: var(--lg-accent);
   text-rendering: optimizeLegibility;
   transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Hardware-accelerated fixed wallpaper compositor layer (eliminates scroll repaint lag) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--lg-bg);
+  background-image:
+    var(--lg-wallpaper-veil),
+    var(--lg-wallpaper-tint);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+  transform: translateZ(0);
+}
+
+/* Off-screen Content Visibility Optimization for Sub-Second Initial Paint */
+#about,
+#photography,
+#work,
+#connect {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 850px;
 }
 
 /* Luxury Editorial Serif Font Family */

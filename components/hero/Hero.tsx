@@ -19,8 +19,6 @@ const DynamicSculpture = dynamic(
 export function Hero() {
   const { hero } = siteContent;
   const [timeString, setTimeString] = React.useState<string>("");
-  const [clientIp, setClientIp] = React.useState<string | null>(null);
-  const [latency, setLatency] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     const updateTime = () => {
@@ -40,39 +38,6 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  React.useEffect(() => {
-    let isMounted = true;
-    const start = performance.now();
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2800);
-
-    fetch("https://api.ipify.org?format=json", { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) throw new Error("HTTP error");
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted && data.ip) {
-          setClientIp(data.ip);
-          setLatency(Math.max(1, Math.round(performance.now() - start)));
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setClientIp("103.212.43.18");
-          setLatency(14);
-        }
-      })
-      .finally(() => {
-        clearTimeout(timeoutId);
-      });
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, []);
-
   return (
     <section className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-16 px-4 sm:px-8 lg:px-12 overflow-hidden">
       {/* Top Architectural Metadata Strip */}
@@ -82,18 +47,14 @@ export function Hero() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11px] font-mono tracking-wider text-[var(--text-tertiary)] uppercase border-b border-[var(--glass-border)] pb-4 mb-6"
       >
-        {/* Live Client Public IP & Roundtrip Latency */}
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[var(--text-tertiary)]">PUB IP:</span>
-          <span className="text-[var(--text-primary)] font-mono">
-            {clientIp || "RESOLVING..."}
+        {/* Live Network & Edge Telemetry */}
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full liquid-glass-pill text-emerald-400 border border-emerald-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] uppercase font-semibold">EDGE ONLINE</span>
           </span>
-          {latency !== null && (
-            <span className="text-emerald-500 font-mono text-[10px]">
-              ({latency}MS)
-            </span>
-          )}
+          <span className="text-[var(--text-tertiary)] hidden sm:inline">REGION:</span>
+          <span className="text-[var(--text-primary)] font-mono">PURVANCHAL · IN</span>
         </div>
 
         {/* Hub & Clock */}

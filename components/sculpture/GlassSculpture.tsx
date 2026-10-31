@@ -407,11 +407,17 @@ export function GlassSculpture() {
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    // 7. Smooth, Majestic Animation Loop (No Bouncing / Wobble)
-    let animationFrameId: number;
+    // 7. Smooth, Majestic Animation Loop with Off-Screen Visibility Culling
+    let animationFrameId: number = 0;
+    let isVisible = true;
     const startTime = performance.now();
 
     const animate = () => {
+      if (!isVisible) {
+        animationFrameId = 0;
+        return;
+      }
+
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = (performance.now() - startTime) * 0.001;
 
@@ -451,11 +457,26 @@ export function GlassSculpture() {
       renderer.render(scene, camera);
     };
 
+    // Pause WebGL rendering entirely when scrolled past hero to free GPU resources
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationFrameId) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    intersectionObserver.observe(container);
+
     animate();
     setIsLoaded(true);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      intersectionObserver.disconnect();
       canvas.removeEventListener("pointerdown", onCanvasPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("pointermove", onWindowPointerMove);

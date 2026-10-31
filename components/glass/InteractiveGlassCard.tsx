@@ -32,21 +32,20 @@ export function InteractiveGlassCard({
   const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [6, -6]);
   const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-6, 6]);
 
-  // Spotlight position inside card
-  const [spotlightPos, setSpotlightPos] = React.useState({ x: 0, y: 0 });
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    mouseX.set(x);
-    mouseY.set(y);
-    setSpotlightPos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    // Direct CSS variable updates bypass React re-render cycle for 120fps tracking
+    cardRef.current.style.setProperty("--card-x", `${x}px`);
+    cardRef.current.style.setProperty("--card-y", `${y}px`);
+
+    const normX = x / rect.width - 0.5;
+    const normY = y / rect.height - 0.5;
+    mouseX.set(normX);
+    mouseY.set(normY);
   };
 
   const handleMouseEnter = () => {
@@ -75,12 +74,13 @@ export function InteractiveGlassCard({
         onClick ? "cursor-pointer" : ""
       } ${className}`}
     >
-      {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Tracks Cursor) */}
+      {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Hardware Accelerated) */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(520px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)`,
+          background:
+            "radial-gradient(520px circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)",
         }}
         aria-hidden="true"
       />
@@ -91,7 +91,8 @@ export function InteractiveGlassCard({
         style={{
           opacity: isHovered ? 1 : 0,
           padding: "1.2px",
-          background: `radial-gradient(380px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)`,
+          background:
+            "radial-gradient(380px circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "exclude",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
