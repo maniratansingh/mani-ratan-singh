@@ -1,12 +1,25 @@
-/* Fluid, restrained motion utilities */
+/* Fluid, restrained motion utilities respecting prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    /* Halt continuous spatial animations and infinite loops */
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Preserve intentional opacity and color transitions for essential state feedback */
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  [role="button"],
+  .liquid-glass-pill,
+  .liquid-glass-surface {
+    transition-duration: 0.15s !important;
+    transition-property: color, background-color, border-color, opacity, box-shadow !important;
   }
 }
 

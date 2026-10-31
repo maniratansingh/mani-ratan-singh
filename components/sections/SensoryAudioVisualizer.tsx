@@ -195,7 +195,7 @@ export function SensoryAudioVisualizer() {
           <button
             type="button"
             onClick={() => setMode(mode === "fluid" ? "particles" : "fluid")}
-            className="px-3 py-1 rounded-full liquid-glass-pill text-[11px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer flex items-center gap-1.5"
+            className="px-3.5 py-1.5 rounded-full liquid-glass-pill text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer flex items-center gap-1.5 min-h-[36px]"
           >
             <RefreshCw className="w-3 h-3" />
             <span>{mode === "fluid" ? "Fluid Waves" : "Quantum Particles"}</span>

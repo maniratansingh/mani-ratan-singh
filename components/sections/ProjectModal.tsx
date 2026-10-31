@@ -55,7 +55,12 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
       />
 
       {/* Glass Modal Card */}
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200"
+      >
         {/* Close Button */}
         <button
           type="button"
@@ -78,7 +83,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Title & Subtitle */}
-        <h2 className="text-3xl sm:text-4xl font-light text-[var(--text-primary)] uppercase tracking-tight mb-2">
+        <h2 id="project-modal-title" className="text-3xl sm:text-4xl font-light text-[var(--text-primary)] uppercase tracking-tight mb-2">
           {project.title}
         </h2>
         <h3 className="text-base font-serif italic text-[var(--accent-champagne)] mb-6">

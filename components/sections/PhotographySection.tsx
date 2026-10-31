@@ -103,6 +103,20 @@ export function PhotographySection() {
   const { photography } = siteContent;
   const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActivePhoto(null);
+    };
+    if (activePhoto) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activePhoto]);
+
   return (
     <section id="photography" className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 sm:py-32">
       {/* Editorial Header */}
@@ -140,8 +154,17 @@ export function PhotographySection() {
         {photoPlates.map((plate) => (
           <article
             key={plate.id}
+            tabIndex={0}
+            role="button"
+            aria-label={`View ${plate.title} photograph in full lightbox`}
             onClick={() => setActivePhoto(plate)}
-            className="group cursor-pointer flex flex-col"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setActivePhoto(plate);
+              }
+            }}
+            className="group cursor-pointer flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] rounded-2xl transition-all"
           >
             {/* Image Container with Luxury Editorial Frame */}
             <div className={`relative w-full ${plate.aspectRatio} overflow-hidden rounded-2xl editorial-frame mb-5`}>
@@ -200,6 +223,7 @@ export function PhotographySection() {
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="lightbox-photo-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-xl animate-fade-in"
           onClick={() => setActivePhoto(null)}
         >
@@ -231,7 +255,7 @@ export function PhotographySection() {
             {/* Modal Caption */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 py-2 text-white">
               <div>
-                <h4 className="text-xl font-light uppercase tracking-tight text-white mb-1">
+                <h4 id="lightbox-photo-title" className="text-xl font-light uppercase tracking-tight text-white mb-1">
                   {activePhoto.title}
                 </h4>
                 <p className="text-xs text-neutral-400">

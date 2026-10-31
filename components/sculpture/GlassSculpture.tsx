@@ -524,7 +524,7 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("optics")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
             activeMode === "optics"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -537,7 +537,7 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("prism")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
             activeMode === "prism"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -550,7 +550,7 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("obsidian")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
             activeMode === "obsidian"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
