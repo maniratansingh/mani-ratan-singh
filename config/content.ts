@@ -320,7 +320,7 @@ export const siteContent = {
     subtitle: "Initiate Dialogue",
     description:
       "Whether you are interested in collaborating on interactive digital experiences, discussing hardware and homelabs, or simply talking photography—my inbox is always open.",
-    email: "contact@mrps.in",
+    email: "email@mrps.in",
     socials: [
       { name: "Instagram", handle: "@maniratanpratapsingh", url: "https://www.instagram.com/maniratanpratapsingh/" },
       { name: "Technical Lab", handle: "mrps.in", url: "https://mrps.in" },

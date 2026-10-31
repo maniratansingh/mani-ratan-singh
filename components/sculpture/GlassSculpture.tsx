@@ -492,7 +492,7 @@ export function GlassSculpture() {
       >
         {/* Dynamic optical backlight */}
         <div
-          className="absolute w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full blur-[90px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
+          className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full blur-[80px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
           style={{
             background:
               activeMode === "obsidian"

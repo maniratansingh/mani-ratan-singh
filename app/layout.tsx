@@ -86,7 +86,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased min-h-screen selection:bg-[var(--accent-champagne)] selection:text-black relative">
+      <body className="antialiased min-h-screen selection:bg-[var(--accent-champagne)] selection:text-black relative overflow-x-hidden">
         <ThemeProvider>
           <AmbientAtmosphere />
           <Navbar />

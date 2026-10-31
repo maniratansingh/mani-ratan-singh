@@ -37,21 +37,21 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       </div>
 
       {/* Direct Inquiries Glass Slab */}
-      <InteractiveGlassCard className="p-8 sm:p-14 mb-14">
+      <InteractiveGlassCard className="p-6 sm:p-10 md:p-14 mb-14">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div>
-            <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-3">
+            <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-3 font-mono">
               Direct Communication
             </span>
-            <span className="text-2xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] tracking-tight block">
+            <span className="text-2xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] tracking-tight block select-all break-all sm:break-normal">
               {connect.email}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
             <a
               href={`mailto:${connect.email}`}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs uppercase tracking-widest font-semibold transition-transform hover:scale-105 active:scale-95 shadow-md"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs uppercase tracking-widest font-semibold transition-transform hover:scale-105 active:scale-95 shadow-md"
             >
               <Mail className="w-4 h-4" />
               <span>Send Message</span>
@@ -60,7 +60,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
             <button
               type="button"
               onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
               aria-label="Copy email address"
             >
               {copied ? (

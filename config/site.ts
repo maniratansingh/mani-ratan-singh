@@ -14,7 +14,7 @@ export const siteConfig = {
     github: "https://github.com/maniratansingh",
     techLab: "https://mrps.in",
     instagram: "https://www.instagram.com/maniratanpratapsingh/",
-    email: "mailto:contact@mrps.in",
+    email: "mailto:email@mrps.in",
   },
   navItems: [
     { label: "Home", href: "/" },
