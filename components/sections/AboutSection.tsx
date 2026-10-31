@@ -11,7 +11,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
     <section
       id="about"
       className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-24 sm:py-32"
+        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32"
       }`}
     >
       {/* Editorial Header */}
@@ -64,7 +64,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
           </blockquote>
 
           {/* Narrative Paragraphs */}
-          <div className="flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed">
+          <div className="flex flex-col gap-6 text-base sm:text-lg text-[var(--text-secondary)] font-normal leading-relaxed max-w-[62ch]">
             {about.storyParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}

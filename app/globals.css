@@ -79,10 +79,21 @@ body {
   outline-offset: 3px;
 }
 
-/* Text Shadows over Glass Surfaces */
+/* Heading Typographic Hierarchy & Optical Kerning */
 h1, h2, h3, h4 {
   text-wrap: balance;
-  letter-spacing: -0.03em;
+}
+
+h1, h2 {
+  letter-spacing: -0.035em;
+}
+
+h3 {
+  letter-spacing: -0.015em;
+}
+
+h4 {
+  letter-spacing: normal;
 }
 
 .dark h1,

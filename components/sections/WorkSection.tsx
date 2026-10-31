@@ -44,7 +44,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
     <section
       id="work"
       className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-24 sm:py-32"
+        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32"
       }`}
     >
       {/* Editorial Header */}
@@ -65,7 +65,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-mono transition-all cursor-pointer ${
+              className={`min-h-[38px] px-4.5 py-2 rounded-full text-xs font-mono transition-all cursor-pointer inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
                 filter === cat
                   ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
                   : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"

@@ -58,7 +58,7 @@
   --lg-text: #f5f5f7;
   --lg-text-rgb: 245 245 247;
   --lg-text-2: rgb(235 235 245 / 0.72);
-  --lg-text-3: rgb(235 235 245 / 0.42);
+  --lg-text-3: rgb(235 235 245 / 0.60);
   --lg-separator: rgba(255, 255, 255, 0.12);
   --lg-fill-1: rgba(120, 120, 128, 0.36);
   --lg-fill-2: rgba(120, 120, 128, 0.24);
@@ -128,18 +128,18 @@
 [data-theme="light"] {
   --lg-accent-rgb: 0 113 227;
   --lg-accent: #0071e3;
-  --lg-accent-champagne: #B89355;
-  --lg-accent-champagne-rgb: 184 147 85;
+  --lg-accent-champagne: #8A6421;
+  --lg-accent-champagne-rgb: 138 100 33;
 
   /* Surfaces: Warm architectural alabaster */
   --lg-bg: #F8F8F5;
   --lg-bg-rgb: 248 248 245;
   --lg-bg-raised: #FFFFFF;
-  --lg-bg-glow: radial-gradient(130% 70% at 50% -20%, rgba(184, 147, 85, 0.25), transparent 70%);
+  --lg-bg-glow: radial-gradient(130% 70% at 50% -20%, rgba(138, 100, 33, 0.2), transparent 70%);
 
   /* Background tint */
   --lg-wallpaper-tint:
-    radial-gradient(90% 70% at 18% 0%, rgba(184, 147, 85, 0.18), transparent 70%),
+    radial-gradient(90% 70% at 18% 0%, rgba(138, 100, 33, 0.12), transparent 70%),
     linear-gradient(165deg, #F7F4EE, #EFEAE0 45%, #E6DEC9);
   --lg-wallpaper-veil:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
@@ -150,7 +150,7 @@
   --lg-text: #08080A;
   --lg-text-rgb: 8 8 10;
   --lg-text-2: rgb(54 58 66);
-  --lg-text-3: rgb(108 114 126);
+  --lg-text-3: rgb(85 91 102);
   --lg-separator: rgba(8, 8, 10, 0.09);
   --lg-fill-1: rgba(0, 0, 0, 0.07);
   --lg-fill-2: rgba(0, 0, 0, 0.04);

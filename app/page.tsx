@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <div className="relative flex flex-col gap-12 sm:gap-16">
+      <div className="relative flex flex-col">
         <AboutSection />
         <PhotographySection />
         <WorkSection />

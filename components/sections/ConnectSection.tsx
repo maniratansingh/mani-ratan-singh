@@ -22,7 +22,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
     <section
       id="connect"
       className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-28 sm:py-36"
+        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32"
       }`}
     >
       {/* Editorial Header */}

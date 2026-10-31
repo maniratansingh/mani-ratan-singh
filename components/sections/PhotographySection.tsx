@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Camera, Maximize2, X, Sliders } from "lucide-react";
+import { ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
 import { siteContent } from "@/config/content";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -105,7 +105,21 @@ export function PhotographySection() {
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActivePhoto(null);
+      if (e.key === "Escape") {
+        setActivePhoto(null);
+      } else if (e.key === "ArrowRight") {
+        if (activePhoto) {
+          const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+          const nextIndex = (currentIndex + 1) % photoPlates.length;
+          setActivePhoto(photoPlates[nextIndex]);
+        }
+      } else if (e.key === "ArrowLeft") {
+        if (activePhoto) {
+          const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+          const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
+          setActivePhoto(photoPlates[prevIndex]);
+        }
+      }
     };
     if (activePhoto) {
       document.body.style.overflow = "hidden";
@@ -118,7 +132,7 @@ export function PhotographySection() {
   }, [activePhoto]);
 
   return (
-    <section id="photography" className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-24 sm:py-32">
+    <section id="photography" className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
@@ -239,6 +253,33 @@ export function PhotographySection() {
               aria-label="Close image modal"
             >
               <X className="w-5 h-5" />
+            </button>
+
+            {/* Previous & Next Navigation Buttons */}
+            <button
+              type="button"
+              onClick={() => {
+                const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+                const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
+                setActivePhoto(photoPlates[prevIndex]);
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full liquid-glass-pill flex items-center justify-center text-white hover:scale-105 transition-transform shadow-lg cursor-pointer"
+              aria-label="Previous photograph"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+                const nextIndex = (currentIndex + 1) % photoPlates.length;
+                setActivePhoto(photoPlates[nextIndex]);
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full liquid-glass-pill flex items-center justify-center text-white hover:scale-105 transition-transform shadow-lg cursor-pointer"
+              aria-label="Next photograph"
+            >
+              <ChevronRight className="w-5 h-5" />
             </button>
 
             {/* Modal Image */}
