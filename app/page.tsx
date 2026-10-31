@@ -2,7 +2,6 @@ import { Hero } from "@/components/hero/Hero";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { PhotographySection } from "@/components/sections/PhotographySection";
 import { WorkSection } from "@/components/sections/WorkSection";
-import { TechnicalEssaysSection } from "@/components/sections/TechnicalEssaysSection";
 import { ConnectSection } from "@/components/sections/ConnectSection";
 
 export default function HomePage() {
@@ -13,7 +12,6 @@ export default function HomePage() {
         <AboutSection />
         <PhotographySection />
         <WorkSection />
-        <TechnicalEssaysSection />
         <ConnectSection />
       </div>
     </>
