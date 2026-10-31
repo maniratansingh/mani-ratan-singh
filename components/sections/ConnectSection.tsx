@@ -148,16 +148,9 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="uppercase tracking-wider font-semibold">STATUS: ACCEPTING INQUIRIES</span>
           </div>
-          <div className="flex items-center gap-3 text-[11px] 2xl:text-xs text-[var(--text-tertiary)] px-1">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-3 h-3 text-[var(--accent-champagne)]" />
-              <span>PURVANCHAL · IN</span>
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3 text-[var(--accent-champagne)]" />
-              <span>{currentTime || "IST"}</span>
-            </span>
+          <div className="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-[var(--text-tertiary)] px-1">
+            <Clock className="w-3 h-3 text-[var(--accent-champagne)]" />
+            <span>{currentTime || "IST"}</span>
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
           </div>
           <div className="flex items-center justify-between text-xs 2xl:text-sm font-mono text-[var(--text-tertiary)] px-2">
             <span>PORTRAIT ARCHIVE</span>
-            <span>PURVANCHAL · IN</span>
+            <span>INDIA</span>
           </div>
         </div>
 

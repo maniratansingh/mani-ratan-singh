@@ -48,13 +48,11 @@ export function Hero() {
         className="max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11px] 2xl:text-xs font-mono tracking-wider text-[var(--text-tertiary)] uppercase border-b border-[var(--glass-border)] pb-4 mb-6"
       >
         {/* Live Network & Edge Telemetry */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full liquid-glass-pill text-emerald-400 border border-emerald-500/20">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] 2xl:text-xs uppercase font-semibold">EDGE ONLINE</span>
           </span>
-          <span className="text-[var(--text-tertiary)] hidden sm:inline">REGION:</span>
-          <span className="text-[var(--text-primary)] font-mono">PURVANCHAL · IN</span>
         </div>
 
         {/* Hub & Clock */}
