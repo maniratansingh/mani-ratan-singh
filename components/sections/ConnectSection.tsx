@@ -9,26 +9,16 @@ import {
   Copy,
   Check,
   Lock,
-  Send,
   Terminal,
-  Cpu,
-  Layers,
   Camera,
   Clock,
   MapPin,
-  ShieldCheck,
-  Sparkles,
-  ExternalLink,
   BookOpen,
-  FolderGit2,
-  Server,
-  Globe,
   Radio,
 } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
-import { motion } from "framer-motion";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -86,12 +76,6 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
   const { connect } = siteContent;
   const [copied, setCopied] = React.useState(false);
 
-  // Form State
-  const [senderName, setSenderName] = React.useState("");
-  const [senderContact, setSenderContact] = React.useState("");
-  const [selectedTopic, setSelectedTopic] = React.useState("Hardware & Microcontrollers");
-  const [message, setMessage] = React.useState("");
-
   // Live IST Clock
   const [currentTime, setCurrentTime] = React.useState("");
   React.useEffect(() => {
@@ -116,22 +100,6 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  const handleDispatch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const subject = encodeURIComponent(`[${selectedTopic}] Inquiry from ${senderName || "Visitor"}`);
-    const bodyContent = `Name: ${senderName || "Not provided"}\nContact: ${senderContact || "Not provided"}\nTopic: ${selectedTopic}\n\nMessage:\n${message}`;
-    const body = encodeURIComponent(bodyContent);
-    window.location.href = `mailto:${connect.email}?subject=${subject}&body=${body}`;
-  };
-
-  const topics = [
-    "Hardware & Microcontrollers",
-    "Liquid Glass & Optical UI",
-    "Hospital & Public Systems",
-    "Photography & Prints",
-    "General Inquiry",
-  ];
 
   // Comprehensive Expanded Digital Presence & Endpoints Directory
   const digitalEndpoints: EndpointDirectoryItem[] = [
@@ -420,103 +388,6 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
             );
           })}
         </div>
-      </div>
-
-      {/* Direct In-Page Dispatch Composer */}
-      <div className="mb-16">
-        <InteractiveGlassCard className="p-6 sm:p-10 max-w-3xl mx-auto">
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-[var(--glass-border)]">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[var(--accent-champagne)]" />
-              <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
-                Direct Dispatch Composer
-              </span>
-            </div>
-            <span className="text-[10px] font-mono text-emerald-400">P2P ENCRYPTED</span>
-          </div>
-
-          <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">
-            Compose a message directly. Clicking dispatch opens your native email client with all fields prefilled—100% private with zero cloud telemetry.
-          </p>
-
-          <form onSubmit={handleDispatch} className="flex flex-col gap-4">
-            {/* Topic Selector Chips */}
-            <div>
-              <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-2">
-                Inquiry Topic
-              </label>
-              <div className="flex flex-wrap gap-1.5">
-                {topics.map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setSelectedTopic(t)}
-                    className={`px-3 py-1.5 rounded-full text-[11px] font-mono transition-all cursor-pointer ${
-                      selectedTopic === t
-                        ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
-                        : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Name & Contact */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                  Your Name / Handle
-                </label>
-                <input
-                  type="text"
-                  value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
-                  placeholder="e.g. Alex Vance"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                  Your Email / Link
-                </label>
-                <input
-                  type="text"
-                  value={senderContact}
-                  onChange={(e) => setSenderContact(e.target.value)}
-                  placeholder="e.g. alex@studio.com"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
-                />
-              </div>
-            </div>
-
-            {/* Message Textarea */}
-            <div className="pt-1">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-1.5">
-                Message Dispatch
-              </label>
-              <textarea
-                rows={4}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Share project details, hardware specifications, or thoughts..."
-                required
-                className="w-full px-3.5 py-2.5 rounded-xl bg-black/20 dark:bg-black/35 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors resize-none leading-relaxed"
-              />
-            </div>
-
-            {/* Submit Action */}
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-xl bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-mono uppercase tracking-wider font-semibold transition-transform hover:scale-[1.01] active:scale-[0.98] shadow-md cursor-pointer flex items-center justify-center gap-2 mt-2"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>Dispatch via Email Client</span>
-            </button>
-          </form>
-        </InteractiveGlassCard>
       </div>
 
       {/* Footer Colophon */}
