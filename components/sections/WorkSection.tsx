@@ -43,17 +43,17 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
   return (
     <section
       id="work"
-      className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32"
+      className={`relative max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 ${
+        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32 2xl:py-40"
       }`}
     >
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 pb-8 border-b border-[var(--glass-border)]">
         <div>
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
             Selected Works
           </h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-lg leading-relaxed">
+          <p className="text-base sm:text-lg 2xl:text-xl text-[var(--text-secondary)] max-w-lg 2xl:max-w-2xl leading-relaxed">
             Curated software systems, embedded hardware builds, and tactile interface environments.
           </p>
         </div>
@@ -219,7 +219,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 3xl:grid-cols-4 gap-6 2xl:gap-8">
           {filteredProjects
             .filter((p) => !["purvanchal-hospitals", "aesthetic-music-player"].includes(p.id) || filter !== "All")
             .map((p) => (

@@ -509,11 +509,11 @@ export function GlassSculpture() {
     <div className="flex flex-col items-center w-full">
       <div
         ref={containerRef}
-        className="relative w-full h-[420px] sm:h-[540px] lg:h-[620px] flex items-center justify-center select-none"
+        className="relative w-full h-[420px] sm:h-[540px] lg:h-[620px] 2xl:h-[720px] 3xl:h-[840px] 4xl:h-[940px] flex items-center justify-center select-none"
       >
         {/* Dynamic optical backlight */}
         <div
-          className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full blur-[80px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
+          className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] 2xl:w-[680px] 2xl:h-[680px] 3xl:w-[840px] 3xl:h-[840px] rounded-full blur-[80px] 2xl:blur-[120px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
           style={{
             background:
               activeMode === "obsidian"

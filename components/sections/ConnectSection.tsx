@@ -127,28 +127,28 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
   return (
     <section
       id="connect"
-      className={`relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 ${
-        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32"
+      className={`relative max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 ${
+        isStandalone ? "pt-36 pb-24" : "py-20 sm:py-28 lg:py-32 2xl:py-40"
       }`}
     >
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.98] mb-4">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.98] mb-4">
             Connect
           </h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-xl leading-relaxed">
+          <p className="text-base sm:text-lg 2xl:text-xl text-[var(--text-secondary)] max-w-xl 2xl:max-w-2xl leading-relaxed">
             Direct communication, open-source repositories, engineering workbench dispatches, and infrastructure endpoints.
           </p>
         </div>
 
         {/* Live Studio Status Pill */}
-        <div className="flex flex-col sm:items-end gap-1.5 text-xs font-mono">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full liquid-glass-pill text-emerald-400 border border-emerald-500/20">
+        <div className="flex flex-col sm:items-end gap-1.5 text-xs 2xl:text-sm font-mono">
+          <div className="flex items-center gap-2 px-3 2xl:px-4 py-1.5 rounded-full liquid-glass-pill text-emerald-400 border border-emerald-500/20">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="uppercase tracking-wider font-semibold">STATUS: ACCEPTING INQUIRIES</span>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-[var(--text-tertiary)] px-1">
+          <div className="flex items-center gap-3 text-[11px] 2xl:text-xs text-[var(--text-tertiary)] px-1">
             <span className="flex items-center gap-1">
               <MapPin className="w-3 h-3 text-[var(--accent-champagne)]" />
               <span>PURVANCHAL · IN</span>
@@ -163,25 +163,25 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       </div>
 
       {/* Direct Inquiries Glass Slab */}
-      <InteractiveGlassCard className="p-6 sm:p-10 md:p-12 mb-16">
+      <InteractiveGlassCard className="p-6 sm:p-10 md:p-12 2xl:p-16 mb-16 2xl:mb-24">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-          <div className="flex items-center gap-5 sm:gap-6">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame bg-black/20">
+          <div className="flex items-center gap-5 sm:gap-6 2xl:gap-8">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 2xl:w-24 2xl:h-24 rounded-2xl 2xl:rounded-3xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame bg-black/20">
               <Image
                 src="/author.png"
                 alt="Mani Ratan Singh"
                 fill
                 priority
                 loading="eager"
-                sizes="80px"
+                sizes="(max-width: 1536px) 80px, 96px"
                 className="object-cover"
               />
             </div>
             <div>
-              <span className="text-xs uppercase tracking-widest text-[var(--accent-champagne)] block mb-1.5 font-mono">
+              <span className="text-xs 2xl:text-sm uppercase tracking-widest text-[var(--accent-champagne)] block mb-1.5 font-mono">
                 Direct Communication Line
               </span>
-              <span className="text-xl sm:text-3xl lg:text-4xl font-light text-[var(--text-primary)] tracking-tight block select-all break-all sm:break-normal font-mono">
+              <span className="text-xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-light text-[var(--text-primary)] tracking-tight block select-all break-all sm:break-normal font-mono">
                 {connect.email}
               </span>
             </div>
@@ -190,7 +190,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
             <a
               href={`mailto:${connect.email}`}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs uppercase tracking-widest font-semibold transition-transform hover:scale-105 active:scale-95 shadow-md"
+              className="inline-flex items-center justify-center gap-2 px-8 2xl:px-10 py-3.5 2xl:py-4 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs 2xl:text-sm uppercase tracking-widest font-semibold transition-transform hover:scale-105 active:scale-95 shadow-md"
             >
               <Mail className="w-4 h-4" />
               <span>Send Direct Email</span>
@@ -199,7 +199,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
             <button
               type="button"
               onClick={copyEmail}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 2xl:px-8 py-3.5 2xl:py-4 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs 2xl:text-sm uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
               aria-label="Copy email address"
             >
               {copied ? (
@@ -219,15 +219,15 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       </InteractiveGlassCard>
 
       {/* Endpoints Directory */}
-      <div className="mb-16">
-        <div className="flex items-center justify-between pb-3 mb-6 border-b border-[var(--glass-border)]">
-          <span className="text-xs uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
+      <div className="mb-16 2xl:mb-24">
+        <div className="flex items-center justify-between pb-3 mb-6 2xl:mb-8 border-b border-[var(--glass-border)]">
+          <span className="text-xs 2xl:text-sm uppercase tracking-widest font-mono text-[var(--text-tertiary)]">
             Endpoints
           </span>
-          <span className="text-xs font-mono text-[var(--accent-champagne)]">Online Directory</span>
+          <span className="text-xs 2xl:text-sm font-mono text-[var(--accent-champagne)]">Online Directory</span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 2xl:gap-6">
           {endpoints.map((item) => {
             const Icon = item.icon;
             const isExternal = item.url.startsWith("http");

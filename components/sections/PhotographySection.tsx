@@ -132,14 +132,14 @@ export function PhotographySection() {
   }, [activePhoto]);
 
   return (
-    <section id="photography" className="relative max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-32">
+    <section id="photography" className="relative max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 py-20 sm:py-28 lg:py-32 2xl:py-40">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
             {photography.title}
           </h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-lg leading-relaxed">
+          <p className="text-base sm:text-lg 2xl:text-xl text-[var(--text-secondary)] max-w-lg 2xl:max-w-2xl leading-relaxed">
             {photography.subtitle}
           </p>
         </div>
@@ -148,7 +148,7 @@ export function PhotographySection() {
           href={photography.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full liquid-glass-pill text-xs uppercase tracking-widest font-medium text-[var(--text-primary)] hover:scale-105 transition-transform"
+          className="inline-flex items-center gap-2 px-6 2xl:px-8 py-2.5 2xl:py-3 rounded-full liquid-glass-pill text-xs 2xl:text-sm uppercase tracking-widest font-medium text-[var(--text-primary)] hover:scale-105 transition-transform"
         >
           <InstagramIcon className="w-4 h-4 text-[var(--accent-champagne)]" />
           <span>{photography.instagramHandle}</span>
@@ -158,13 +158,13 @@ export function PhotographySection() {
 
       {/* Monograph Statement Spread */}
       <div className="mb-16 pb-12 border-b border-[var(--glass-border)]">
-        <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-serif italic text-[var(--text-primary)] leading-snug max-w-4xl">
+        <blockquote className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif italic text-[var(--text-primary)] leading-snug max-w-4xl 2xl:max-w-5xl">
           &ldquo;{photography.statement}&rdquo;
         </blockquote>
       </div>
 
       {/* Photography Monograph Gallery (High-Fidelity Plates) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-4 gap-10 lg:gap-14 2xl:gap-16">
         {photoPlates.map((plate) => (
           <article
             key={plate.id}
@@ -243,7 +243,7 @@ export function PhotographySection() {
           onClick={() => setActivePhoto(null)}
         >
           <div
-            className="relative max-w-5xl w-full max-h-[90vh] flex flex-col liquid-glass-surface overflow-hidden bg-neutral-900 border border-white/20 p-2 sm:p-4"
+            className="relative max-w-5xl 2xl:max-w-7xl 3xl:max-w-[1800px] 4xl:max-w-[2400px] w-full max-h-[92vh] flex flex-col liquid-glass-surface overflow-hidden bg-neutral-900 border border-white/20 p-2 sm:p-4 2xl:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}

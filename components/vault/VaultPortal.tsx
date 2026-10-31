@@ -81,7 +81,7 @@ export function VaultPortal() {
   if (!mounted) return null;
 
   return (
-    <div className="relative max-w-6xl mx-auto px-4 sm:px-8 py-20 sm:py-28">
+    <div className="relative max-w-6xl 2xl:max-w-7xl 3xl:max-w-[1600px] 4xl:max-w-[2000px] mx-auto px-4 sm:px-8 2xl:px-12 py-20 sm:py-28 2xl:py-36">
       {/* Top Breadcrumb & Return Link */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--glass-border)]">
         <Link

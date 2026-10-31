@@ -126,3 +126,32 @@ h4 {
 p {
   text-wrap: pretty;
 }
+
+/* =========================================================================
+   32-INCH 4K & ULTRA-WIDE RETINA DISPLAY ADAPTATION
+   Calibrated for 2560x1440 (QHD), 3840x2160 (4K UHD), and 5K Studio Displays
+   ========================================================================= */
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 18.5px;
+  }
+  :root {
+    --spotlight-radius: 680px;
+  }
+}
+
+@media (min-width: 3840px) {
+  html {
+    font-size: 21px;
+  }
+  :root {
+    --spotlight-radius: 920px;
+  }
+}

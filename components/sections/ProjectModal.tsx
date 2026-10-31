@@ -59,7 +59,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 2xl:p-14 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200"
       >
         {/* Close Button */}
         <button

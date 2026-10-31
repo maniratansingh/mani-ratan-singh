@@ -80,7 +80,7 @@ export function InteractiveGlassCard({
         style={{
           opacity: isHovered ? 1 : 0,
           background:
-            "radial-gradient(520px circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)",
+            "radial-gradient(var(--spotlight-radius, 520px) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)",
         }}
         aria-hidden="true"
       />
@@ -92,7 +92,7 @@ export function InteractiveGlassCard({
           opacity: isHovered ? 1 : 0,
           padding: "1.2px",
           background:
-            "radial-gradient(380px circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)",
+            "radial-gradient(calc(var(--spotlight-radius, 520px) * 0.75) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "exclude",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
