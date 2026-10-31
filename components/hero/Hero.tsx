@@ -82,16 +82,9 @@ export function Hero() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11px] font-mono tracking-wider text-[var(--text-tertiary)] uppercase border-b border-[var(--glass-border)] pb-4 mb-6"
       >
-        {/* Geographic Origin Node */}
+        {/* Live Client Public IP & Roundtrip Latency */}
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[var(--text-secondary)]">PURVANCHAL, IN</span>
-          <span className="opacity-60">·</span>
-          <span className="hidden sm:inline">26.85° N, 80.95° E</span>
-        </div>
-
-        {/* Live Client Public IP & Roundtrip Latency */}
-        <div className="flex items-center gap-1.5">
           <span className="text-[var(--text-tertiary)]">PUB IP:</span>
           <span className="text-[var(--text-primary)] font-mono">
             {clientIp || "RESOLVING..."}
@@ -103,14 +96,10 @@ export function Hero() {
           )}
         </div>
 
-        {/* Hub & Gateway */}
-        <div className="hidden md:flex items-center gap-6">
+        {/* Hub & Clock */}
+        <div className="flex items-center gap-6">
           <div className="flex items-center gap-1.5">
-            <span className="text-[var(--text-tertiary)]">GATEWAY:</span>
-            <span className="text-[var(--text-secondary)]">TLS 1.3 / EDGE-IN</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[var(--text-tertiary)]">HUB:</span>
+            <span className="text-[var(--text-tertiary)]">PRIMARY HUB:</span>
             <Link
               href="https://mrps.in"
               target="_blank"
@@ -119,12 +108,10 @@ export function Hero() {
               MRPS.IN
             </Link>
           </div>
-        </div>
-
-        {/* Live Indian Standard Time Clock */}
-        <div className="flex items-center gap-2">
-          <span className="text-[var(--text-tertiary)] hidden sm:inline">SYS CLOCK:</span>
-          <span className="text-[var(--text-primary)]">{timeString || "LIVE IST"}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[var(--text-tertiary)] hidden sm:inline">SYS CLOCK:</span>
+            <span className="text-[var(--text-primary)]">{timeString || "LIVE IST"}</span>
+          </div>
         </div>
       </motion.div>
 
