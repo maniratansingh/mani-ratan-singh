@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
 import { siteContent } from "@/config/content";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -103,21 +103,57 @@ export function PhotographySection() {
   const { photography } = siteContent;
   const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
 
+  const openPhoto = React.useCallback((plate: PhotoPlate) => {
+    setActivePhoto(plate);
+    if (typeof window !== "undefined") {
+      window.history.pushState({ photoModal: plate.id }, "", `#photo-${plate.id}`);
+    }
+  }, []);
+
+  const closePhoto = React.useCallback((fromPopState = false) => {
+    setActivePhoto(null);
+    if (!fromPopState && typeof window !== "undefined") {
+      if (window.location.hash.startsWith("#photo-")) {
+        window.history.back();
+      }
+    }
+  }, []);
+
+  const navigateToPhoto = React.useCallback((newPlate: PhotoPlate) => {
+    setActivePhoto(newPlate);
+    if (typeof window !== "undefined" && window.location.hash.startsWith("#photo-")) {
+      window.history.replaceState({ photoModal: newPlate.id }, "", `#photo-${newPlate.id}`);
+    }
+  }, []);
+
+  // Listen to native browser Back button & mobile back gesture
+  React.useEffect(() => {
+    const handlePopState = () => {
+      if (activePhoto) {
+        closePhoto(true);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [activePhoto, closePhoto]);
+
+  // Handle keyboard events (Escape, Left, Right) and body scroll lock
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setActivePhoto(null);
+        closePhoto();
       } else if (e.key === "ArrowRight") {
         if (activePhoto) {
           const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
           const nextIndex = (currentIndex + 1) % photoPlates.length;
-          setActivePhoto(photoPlates[nextIndex]);
+          navigateToPhoto(photoPlates[nextIndex]);
         }
       } else if (e.key === "ArrowLeft") {
         if (activePhoto) {
           const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
           const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-          setActivePhoto(photoPlates[prevIndex]);
+          navigateToPhoto(photoPlates[prevIndex]);
         }
       }
     };
@@ -129,7 +165,7 @@ export function PhotographySection() {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activePhoto]);
+  }, [activePhoto, closePhoto, navigateToPhoto]);
 
   return (
     <section id="photography" className="relative max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 py-20 sm:py-28 lg:py-32 2xl:py-40">
@@ -171,11 +207,11 @@ export function PhotographySection() {
             tabIndex={0}
             role="button"
             aria-label={`View ${plate.title} photograph in full lightbox`}
-            onClick={() => setActivePhoto(plate)}
+            onClick={() => openPhoto(plate)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                setActivePhoto(plate);
+                openPhoto(plate);
               }
             }}
             className="group cursor-pointer flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] rounded-2xl transition-all"
@@ -240,26 +276,39 @@ export function PhotographySection() {
           aria-modal="true"
           aria-labelledby="lightbox-photo-title"
           className="fixed inset-0 z-50 flex flex-col justify-between p-3 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-2xl animate-fade-in select-none"
-          onClick={() => setActivePhoto(null)}
+          onClick={() => closePhoto()}
         >
-          {/* Top Bar: Plate Counter & Close Button */}
+          {/* Top Bar: Explicit Back Button, Plate Counter & Close Button */}
           <div
-            className="flex items-center justify-between gap-4 z-40 max-w-7xl mx-auto w-full"
+            className="flex items-center justify-between gap-3 sm:gap-4 z-40 max-w-7xl mx-auto w-full px-1"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3">
+            {/* Left: Prominent "Back to Gallery" Button */}
+            <button
+              type="button"
+              onClick={() => closePhoto()}
+              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs font-medium cursor-pointer shadow-lg group"
+              aria-label="Back to photography gallery"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              <span>Back to Gallery</span>
+            </button>
+
+            {/* Center: Plate Indicator & Title */}
+            <div className="flex items-center gap-2 sm:gap-3">
               <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)]">
                 PLATE {String(photoPlates.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(photoPlates.length).padStart(2, "0")}
               </span>
-              <span className="hidden sm:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs md:max-w-md">
+              <span className="hidden md:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs lg:max-w-md">
                 {activePhoto.title}
               </span>
             </div>
 
+            {/* Right: Quick Close / ESC Pill */}
             <button
               type="button"
-              onClick={() => setActivePhoto(null)}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg"
+              onClick={() => closePhoto()}
+              className="flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg"
               aria-label="Close photo preview (Esc)"
             >
               <span className="hidden sm:inline text-neutral-400 text-[10px]">ESC</span>
@@ -272,7 +321,7 @@ export function PhotographySection() {
             className="relative flex-1 w-full flex items-center justify-center min-h-0 my-2 sm:my-4"
             onClick={(e) => {
               // Click outside the photo closes the modal
-              if (e.target === e.currentTarget) setActivePhoto(null);
+              if (e.target === e.currentTarget) closePhoto();
             }}
           >
             {/* Previous Photo Button */}
@@ -282,7 +331,7 @@ export function PhotographySection() {
                 e.stopPropagation();
                 const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
                 const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-                setActivePhoto(photoPlates[prevIndex]);
+                navigateToPhoto(photoPlates[prevIndex]);
               }}
               className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/85 hover:bg-neutral-800 active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
               aria-label="Previous photograph"
@@ -297,7 +346,7 @@ export function PhotographySection() {
                 e.stopPropagation();
                 const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
                 const nextIndex = (currentIndex + 1) % photoPlates.length;
-                setActivePhoto(photoPlates[nextIndex]);
+                navigateToPhoto(photoPlates[nextIndex]);
               }}
               className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/85 hover:bg-neutral-800 active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
               aria-label="Next photograph"
