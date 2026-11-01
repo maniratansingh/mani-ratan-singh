@@ -18,14 +18,14 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-[var(--glass-border)]">
         <div>
           <h2 className="text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-light tracking-[-0.03em] text-[var(--text-primary)] uppercase leading-[0.95] mb-4">
-            About & Ethos
+            {about.title}
           </h2>
           <p className="text-base sm:text-lg 2xl:text-xl text-[var(--text-secondary)] max-w-lg 2xl:max-w-2xl leading-relaxed">
-            Bridging digital architecture, tactile electronics, and sensory interface design.
+            {about.subtitle}
           </p>
         </div>
         <div className="text-xs 2xl:text-sm font-mono text-[var(--text-tertiary)] uppercase tracking-wider">
-          <span>IDENTITY MANIFESTO · 01</span>
+          <span>A CONTINUOUS LEARNING JOURNEY</span>
         </div>
       </div>
 
@@ -51,8 +51,8 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
             </div>
           </div>
           <div className="flex items-center justify-between text-xs 2xl:text-sm font-mono text-[var(--text-tertiary)] px-2">
-            <span>PORTRAIT ARCHIVE</span>
-            <span>INDIA</span>
+            <span>STUDENT &amp; TINKERER</span>
+            <span>PURVANCHAL · INDIA</span>
           </div>
         </div>
 
@@ -69,6 +69,25 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
               <p key={idx}>{para}</p>
             ))}
           </div>
+
+          {/* Humble Learning Focus Strip */}
+          {about.learningFocus && (
+            <div className="pt-6 border-t border-[var(--glass-border)]">
+              <span className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)] block mb-3">
+                Current Areas of Learning &amp; Curiosity
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {about.learningFocus.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1.5 rounded-full text-xs font-mono bg-white/[0.04] dark:bg-white/[0.06] border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

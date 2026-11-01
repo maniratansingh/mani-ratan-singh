@@ -150,7 +150,7 @@ export function Hero() {
       >
         <div className="flex items-center gap-2">
           <Radio className="w-3 h-3 text-[var(--accent-champagne)]" />
-          <span>AUTONOMOUS SYSTEMS · OPTICAL INTERFACES</span>
+          <span>HARDWARE · OPEN CODE · PHOTOGRAPHY</span>
         </div>
         <div className="flex items-center gap-1 uppercase tracking-widest">
           <span>SCROLL TO EXPLORE</span>

@@ -17,50 +17,57 @@ export const siteContent = {
     monogram: "MRPS",
     motto: "My Simplicity Is My Identity.",
     supportingText:
-      "Tech generalist, photographer, and homelab builder based in India. Exploring the intersection where sensory digital interfaces meet physical hardware craftsmanship.",
+      "Learner, builder, and photographer based in India. Tinkering with embedded hardware, experimenting with clean code, and exploring quiet perspectives after dark.",
     cta: {
       primary: "Selected Works",
-      primaryHref: "/work",
+      primaryHref: "/#work",
       secondary: "Visit mrps.in (Technical Lab)",
       secondaryHref: "https://mrps.in",
     },
   },
 
   about: {
-    title: "About & Ethos",
-    subtitle: "Behind the Craft",
+    title: "About Me",
+    subtitle: "A Perpetual Learner",
     quote: "My Simplicity Is My Identity.",
     storyParagraphs: [
-      "I am Mani Ratan Pratap Singh—a tech generalist, photographer, and builder based in India. While my technical hub at mrps.in serves as an open workshop for homelab configurations, C++ firmware, and cluster benchmarks, this digital space captures the human philosophy, creative aesthetics, and ideas behind my work.",
-      "My craft spans the virtual and physical: capturing nocturnal light trails and geometric contrast through long-exposure photography, prototyping RP2040 micro-controllers, engineering WebGL refraction shaders, and building lightning-fast digital infrastructure for regional eye hospitals in Purvanchal.",
-      "I believe true digital luxury is not excess or noise. It is clarity of purpose, tactile materiality, and systems built to operate with quiet reliability.",
+      "I’m Mani Ratan Pratap Singh—a student, tinkerer, and lifelong learner based in Purvanchal, India. I don’t believe in inflated titles or complex buzzwords. At heart, I’m simply someone who loves understanding how things work from the ground up, whether that’s low-level microcontroller code, homelab networking, or the behavior of light through a camera lens.",
+      "Most of my days are spent exploring and learning in public. Sometimes that means writing C++ firmware for an RP2040 board, testing local tools on my computer, or walking with a tripod at blue hour to capture long exposures. Other times, it means helping build fast, simple websites for local eye hospitals in Purvanchal so patients can find care without dealing with slow, bloated web pages.",
+      "To me, the best technology is quiet, honest, and respectful of people’s time. Everything you see here is a small window into my learning notes, hands-on experiments, and things built with genuine curiosity.",
+    ],
+    learningFocus: [
+      "Embedded C++ & RP2040 Microcontrollers",
+      "Nocturnal Long-Exposure Photography",
+      "Private Homelabs & Local Tools",
+      "Sub-second, Lightweight Healthcare Platforms",
+      "First-Principles Systems Engineering",
     ],
     principles: [
       {
         number: "01",
-        title: "Tactile Materiality",
+        title: "Hands-on Learning",
         description:
-          "Software should not feel like an abstract flat plane. Light, refraction, subtle mass, and mechanical feedback bridge the gap between human and machine.",
+          "The best way to understand a system is to build it yourself, make mistakes, and learn from first principles.",
       },
       {
         number: "02",
-        title: "Purposeful Simplicity",
+        title: "Quiet Simplicity",
         description:
-          "Simplicity is not the absence of clutter; it is the presence of intentionality. Technology should quietly solve real problems without demanding performative attention.",
+          "Simplicity is respect for the user. Tools should work reliably without demanding performative attention or adding unnecessary weight.",
       },
       {
         number: "03",
-        title: "Community & Physical Substrates",
+        title: "Real-World Grounding",
         description:
-          "From regional hospital platforms in Purvanchal to embedded desk instruments, the most meaningful digital solutions anchor themselves firmly into real communities and physical hardware.",
+          "Technology is most meaningful when it solves real everyday needs, from local community hospitals to humble hardware on your desk.",
       },
     ],
     stats: [
-      { label: "Identity", value: "Mani Ratan Pratap Singh" },
-      { label: "Core Philosophy", value: "Simplicity Is Identity" },
-      { label: "Technical Engine", value: "mrps.in (Homelab & Code)" },
-      { label: "Passions", value: "Hardware · Shaders · Photography" },
-      { label: "Geographic Base", value: "India" },
+      { label: "Name", value: "Mani Ratan Pratap Singh" },
+      { label: "Motto", value: "My Simplicity Is My Identity" },
+      { label: "Workbench", value: "mrps.in (Open Experiments)" },
+      { label: "Interests", value: "Hardware · Code · Photography" },
+      { label: "Location", value: "Purvanchal, India" },
     ],
   },
 
