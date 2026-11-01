@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
@@ -102,18 +103,23 @@ const photoPlates: PhotoPlate[] = [
 export function PhotographySection() {
   const { photography } = siteContent;
   const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const openPhoto = React.useCallback((plate: PhotoPlate) => {
     setActivePhoto(plate);
     if (typeof window !== "undefined") {
-      window.history.pushState({ photoModal: plate.id }, "", `#photo-${plate.id}`);
+      window.history.pushState({ photoModal: plate.id }, "");
     }
   }, []);
 
   const closePhoto = React.useCallback((fromPopState = false) => {
     setActivePhoto(null);
     if (!fromPopState && typeof window !== "undefined") {
-      if (window.location.hash.startsWith("#photo-")) {
+      if (window.history.state?.photoModal) {
         window.history.back();
       }
     }
@@ -121,8 +127,8 @@ export function PhotographySection() {
 
   const navigateToPhoto = React.useCallback((newPlate: PhotoPlate) => {
     setActivePhoto(newPlate);
-    if (typeof window !== "undefined" && window.location.hash.startsWith("#photo-")) {
-      window.history.replaceState({ photoModal: newPlate.id }, "", `#photo-${newPlate.id}`);
+    if (typeof window !== "undefined") {
+      window.history.replaceState({ photoModal: newPlate.id }, "");
     }
   }, []);
 
@@ -269,130 +275,133 @@ export function PhotographySection() {
         ))}
       </div>
 
-      {/* Lightbox Modal */}
-      {activePhoto && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="lightbox-photo-title"
-          className="fixed inset-0 z-50 flex flex-col justify-between p-3 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-2xl animate-fade-in select-none"
-          onClick={() => closePhoto()}
-        >
-          {/* Top Bar: Explicit Back Button, Plate Counter & Close Button */}
+      {/* Lightbox Modal rendered directly into document.body to escape section containing block */}
+      {mounted &&
+        activePhoto &&
+        createPortal(
           <div
-            className="flex items-center justify-between gap-3 sm:gap-4 z-40 max-w-7xl mx-auto w-full px-1"
-            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="lightbox-photo-title"
+            className="fixed inset-0 z-[99999] w-screen h-screen h-[100dvh] flex flex-col justify-between p-3 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-3xl animate-fade-in select-none overflow-hidden"
+            onClick={() => closePhoto()}
           >
-            {/* Left: Prominent "Back to Gallery" Button */}
-            <button
-              type="button"
-              onClick={() => closePhoto()}
-              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs font-medium cursor-pointer shadow-lg group"
-              aria-label="Back to photography gallery"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              <span>Back to Gallery</span>
-            </button>
-
-            {/* Center: Plate Indicator & Title */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)]">
-                PLATE {String(photoPlates.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(photoPlates.length).padStart(2, "0")}
-              </span>
-              <span className="hidden md:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs lg:max-w-md">
-                {activePhoto.title}
-              </span>
-            </div>
-
-            {/* Right: Quick Close / ESC Pill */}
-            <button
-              type="button"
-              onClick={() => closePhoto()}
-              className="flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg"
-              aria-label="Close photo preview (Esc)"
-            >
-              <span className="hidden sm:inline text-neutral-400 text-[10px]">ESC</span>
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Center Stage: Image and Flanked Prev/Next Buttons */}
-          <div
-            className="relative flex-1 w-full flex items-center justify-center min-h-0 my-2 sm:my-4"
-            onClick={(e) => {
-              // Click outside the photo closes the modal
-              if (e.target === e.currentTarget) closePhoto();
-            }}
-          >
-            {/* Previous Photo Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-                const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-                navigateToPhoto(photoPlates[prevIndex]);
-              }}
-              className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/85 hover:bg-neutral-800 active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
-              aria-label="Previous photograph"
-            >
-              <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:-translate-x-0.5" />
-            </button>
-
-            {/* Next Photo Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-                const nextIndex = (currentIndex + 1) % photoPlates.length;
-                navigateToPhoto(photoPlates[nextIndex]);
-              }}
-              className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/85 hover:bg-neutral-800 active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
-              aria-label="Next photograph"
-            >
-              <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:translate-x-0.5" />
-            </button>
-
-            {/* Central Photo */}
+            {/* Top Bar: Explicit Back Button, Plate Counter & Close Button */}
             <div
-              className="relative w-full h-full max-w-6xl 2xl:max-w-7xl 3xl:max-w-[1920px] max-h-[72vh] sm:max-h-[76vh] 2xl:max-h-[82vh] flex items-center justify-center"
+              className="flex items-center justify-between gap-3 sm:gap-4 z-40 max-w-7xl mx-auto w-full px-1"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src={activePhoto.src}
-                alt={activePhoto.title}
-                fill
-                className="object-contain drop-shadow-2xl"
-                priority
-                sizes="(max-width: 1024px) 100vw, (max-width: 2560px) 90vw, 1920px"
-              />
-            </div>
-          </div>
+              {/* Left: Prominent "Back to Gallery" Button */}
+              <button
+                type="button"
+                onClick={() => closePhoto()}
+                className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 border border-white/30 text-white transition-all text-xs sm:text-sm font-semibold cursor-pointer shadow-2xl group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                aria-label="Back to photography gallery"
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--accent-champagne)] transition-transform group-hover:-translate-x-1" />
+                <span>Back to Gallery</span>
+              </button>
 
-          {/* Bottom Bar: EXIF Metadata & Context */}
-          <div
-            className="max-w-4xl 2xl:max-w-5xl mx-auto w-full px-4 sm:px-6 py-3 rounded-2xl bg-neutral-900/85 border border-white/15 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xl z-40"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div>
-              <h4 id="lightbox-photo-title" className="text-sm sm:text-base font-medium tracking-tight text-white">
-                {activePhoto.title}
-              </h4>
-              <p className="text-xs text-neutral-400 mt-0.5">
-                {activePhoto.location} · {activePhoto.subtitle}
-              </p>
+              {/* Center: Plate Indicator & Title */}
+              <div className="flex items-center gap-2 sm:gap-3">
+                <span className="px-3.5 py-1.5 rounded-full bg-white/10 border border-white/25 text-[11px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)] shadow-md">
+                  PLATE {String(photoPlates.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(photoPlates.length).padStart(2, "0")}
+                </span>
+                <span className="hidden md:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs lg:max-w-md">
+                  {activePhoto.title}
+                </span>
+              </div>
+
+              {/* Right: Quick Close / ESC Pill */}
+              <button
+                type="button"
+                onClick={() => closePhoto()}
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg"
+                aria-label="Close photo preview (Esc)"
+              >
+                <span className="hidden sm:inline text-neutral-400 text-[11px]">ESC</span>
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[var(--accent-champagne)] pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
-              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.lens}</span>
-              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.aperture}</span>
-              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.shutter}</span>
-              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.iso}</span>
+            {/* Center Stage: Image and Flanked Prev/Next Buttons */}
+            <div
+              className="relative flex-1 w-full flex items-center justify-center min-h-0 my-2 sm:my-4"
+              onClick={(e) => {
+                // Click outside the photo closes the modal
+                if (e.target === e.currentTarget) closePhoto();
+              }}
+            >
+              {/* Previous Photo Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+                  const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
+                  navigateToPhoto(photoPlates[prevIndex]);
+                }}
+                className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                aria-label="Previous photograph"
+              >
+                <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:-translate-x-0.5" />
+              </button>
+
+              {/* Next Photo Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+                  const nextIndex = (currentIndex + 1) % photoPlates.length;
+                  navigateToPhoto(photoPlates[nextIndex]);
+                }}
+                className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                aria-label="Next photograph"
+              >
+                <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:translate-x-0.5" />
+              </button>
+
+              {/* Central Photo */}
+              <div
+                className="relative w-full h-full max-w-5xl 2xl:max-w-7xl 3xl:max-w-[1920px] max-h-[66vh] sm:max-h-[72vh] 2xl:max-h-[78vh] flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Image
+                  src={activePhoto.src}
+                  alt={activePhoto.title}
+                  fill
+                  className="object-contain drop-shadow-2xl"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, (max-width: 2560px) 90vw, 1920px"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+
+            {/* Bottom Bar: EXIF Metadata & Context */}
+            <div
+              className="max-w-4xl 2xl:max-w-5xl mx-auto w-full px-4 sm:px-6 py-3 rounded-2xl bg-neutral-900/90 border border-white/20 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xl z-40"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div>
+                <h4 id="lightbox-photo-title" className="text-sm sm:text-base font-medium tracking-tight text-white">
+                  {activePhoto.title}
+                </h4>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  {activePhoto.location} · {activePhoto.subtitle}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[var(--accent-champagne)] pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.lens}</span>
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.aperture}</span>
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.shutter}</span>
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.iso}</span>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 }

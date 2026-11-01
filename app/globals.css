@@ -49,14 +49,7 @@ body::before {
   transform: translateZ(0);
 }
 
-/* Off-screen Content Visibility Optimization for Sub-Second Initial Paint */
-#about,
-#photography,
-#work,
-#connect {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 850px;
-}
+
 
 /* Luxury Editorial Serif Font Family */
 .font-serif {
