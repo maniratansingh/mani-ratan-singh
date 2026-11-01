@@ -43,10 +43,32 @@ export function MobileNav() {
     setIsOpen(false);
   }, [pathname]);
 
-  // Handle escape key and body scroll lock
+  const drawerRef = React.useRef<HTMLElement>(null);
+
+  // Handle escape key, focus trap and body scroll lock
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        return;
+      }
+
+      if (e.key === "Tab" && drawerRef.current) {
+        const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
 
     if (isOpen) {
@@ -96,6 +118,7 @@ export function MobileNav() {
 
                 {/* Mobile Sidebar Slide-Over Drawer */}
                 <motion.aside
+                  ref={drawerRef}
                   key="mobile-nav-drawer"
                   role="dialog"
                   aria-modal="true"

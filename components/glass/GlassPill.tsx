@@ -26,6 +26,12 @@ export function GlassPill({
         role: "button",
         tabIndex: 0,
         onClick,
+        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onClick?.();
+          }
+        },
       }
     : {};
 

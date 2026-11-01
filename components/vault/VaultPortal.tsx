@@ -42,15 +42,30 @@ export function VaultPortal() {
     }
   }, []);
 
-  const handleUnlock = (e: React.FormEvent) => {
+  async function hashPasscode(str: string): Promise<string> {
+    if (typeof window !== "undefined" && window.crypto && window.crypto.subtle) {
+      const buffer = new TextEncoder().encode(str);
+      const hashBuffer = await window.crypto.subtle.digest("SHA-256", buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
+    return "";
+  }
+
+  const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.trim() === VAULT_CONFIG.password.trim()) {
-      setIsAuthenticated(true);
-      setError(null);
-      setPassword("");
-      sessionStorage.setItem("mrps_vault_authenticated", "true");
-    } else {
-      setError("Passcode mismatch: Access to private nodes denied.");
+    try {
+      const inputHash = await hashPasscode(password.trim());
+      if (inputHash && inputHash === VAULT_CONFIG.passwordHash) {
+        setIsAuthenticated(true);
+        setError(null);
+        setPassword("");
+        sessionStorage.setItem("mrps_vault_authenticated", "true");
+      } else {
+        setError("Passcode mismatch: Access to private nodes denied.");
+      }
+    } catch {
+      setError("Cryptographic verification failed.");
     }
   };
 

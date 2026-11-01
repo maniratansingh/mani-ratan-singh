@@ -22,8 +22,8 @@ export interface VaultLink {
 }
 
 export const VAULT_CONFIG = {
-  // Set your simple hard-coded password here. You can change this anytime!
-  password: "mrps",
+  // SHA-256 hash of the vault passcode (passcode is never stored in plaintext in the client bundle)
+  passwordHash: "6b325b90fa9708f30ae393616d62baa1a4c1508165379805808418011bbbd9b9",
 
   title: "Private Infrastructure Vault",
   subtitle: "Internal subdomains, homelab nodes, and direct service endpoints.",

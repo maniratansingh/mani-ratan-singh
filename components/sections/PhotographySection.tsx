@@ -104,6 +104,7 @@ export function PhotographySection() {
   const { photography } = siteContent;
   const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
   const [mounted, setMounted] = React.useState(false);
+  const lightboxRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setMounted(true);
@@ -144,12 +145,33 @@ export function PhotographySection() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, [activePhoto, closePhoto]);
 
-  // Handle keyboard events (Escape, Left, Right) and body scroll lock
+  // Handle keyboard events (Escape, Left, Right, Focus Trap) and body scroll lock
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closePhoto();
-      } else if (e.key === "ArrowRight") {
+        return;
+      }
+      
+      if (e.key === "Tab" && lightboxRef.current) {
+        const focusable = lightboxRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+        return;
+      }
+
+      if (e.key === "ArrowRight") {
         if (activePhoto) {
           const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
           const nextIndex = (currentIndex + 1) % photoPlates.length;
@@ -164,13 +186,14 @@ export function PhotographySection() {
       }
     };
     if (activePhoto) {
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, [activePhoto, closePhoto, navigateToPhoto]);
 
   return (
@@ -280,6 +303,7 @@ export function PhotographySection() {
         activePhoto &&
         createPortal(
           <div
+            ref={lightboxRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="lightbox-photo-title"

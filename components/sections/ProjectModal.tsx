@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { X, ArrowUpRight, CheckCircle2, Layers, Cpu, ShieldCheck } from "lucide-react";
 import { ProjectItem } from "@/config/content";
@@ -29,37 +30,69 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [mounted, setMounted] = React.useState(false);
+  const modalRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+
+      // Focus trap
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
+
     if (project) {
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, [project, onClose]);
 
-  if (!project) return null;
+  if (!mounted || !project) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 lg:p-8 animate-fade-in select-none">
       {/* Backdrop with optical blur */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-black/80 backdrop-blur-xl transition-opacity duration-300 cursor-pointer"
         aria-hidden="true"
       />
 
       {/* Glass Modal Card */}
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 2xl:p-14 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 2xl:p-14 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20 select-text"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
@@ -165,6 +198,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

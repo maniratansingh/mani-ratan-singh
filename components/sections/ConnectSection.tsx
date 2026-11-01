@@ -79,10 +79,18 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
     return () => clearInterval(interval);
   }, []);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(connect.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyEmail = async () => {
+    try {
+      if (typeof navigator !== "undefined" && navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(connect.email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        window.location.href = `mailto:${connect.email}`;
+      }
+    } catch {
+      window.location.href = `mailto:${connect.email}`;
+    }
   };
 
   const endpoints = [
@@ -262,7 +270,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
         </div>
 
         <div className="flex items-center gap-4 sm:gap-6">
-          <span>{new Date().getFullYear()}</span>
+          <span suppressHydrationWarning>{new Date().getFullYear()}</span>
           <span>•</span>
           <Link
             href="https://mrps.in"

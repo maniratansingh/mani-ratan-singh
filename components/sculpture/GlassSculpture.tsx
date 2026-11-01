@@ -446,12 +446,12 @@ export function GlassSculpture() {
         particles.rotation.x = Math.sin(elapsedTime * 0.015) * 0.03;
       }
 
-      // Smooth subtle pointer tilt (NO z-axis wobble)
+      // Smooth subtle pointer tilt (NO snap back on drag release)
       targetRotX += (mouseY - targetRotX) * 0.05;
       targetRotY += (mouseX - targetRotY) * 0.05;
 
-      if (!isDragging && Math.abs(velocityX) < 0.001) {
-        sculptureGroup.rotation.x = targetRotX * 0.08;
+      if (!isDragging && Math.abs(velocityX) < 0.001 && Math.abs(velocityY) < 0.001) {
+        sculptureGroup.rotation.x += (targetRotX * 0.08 - sculptureGroup.rotation.x) * 0.02;
       }
 
       renderer.render(scene, camera);
