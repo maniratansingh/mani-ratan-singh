@@ -165,12 +165,33 @@ export function MobileNav() {
                           !item.href.startsWith("/#") &&
                           pathname.startsWith(item.href));
 
+                      const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                        setIsOpen(false);
+                        if (pathname === "/" && item.href.startsWith("/#")) {
+                          e.preventDefault();
+                          const targetId = item.href.replace("/#", "");
+                          const targetEl = document.getElementById(targetId);
+                          if (targetEl) {
+                            setTimeout(() => {
+                              targetEl.scrollIntoView({ behavior: "smooth" });
+                              window.history.pushState(null, "", item.href);
+                            }, 250);
+                          }
+                        } else if (pathname === "/" && item.href === "/") {
+                          e.preventDefault();
+                          setTimeout(() => {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            window.history.pushState(null, "", "/");
+                          }, 250);
+                        }
+                      };
+
                       return (
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className={`px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between group ${
+                          onClick={handleItemClick}
+                          className={`px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between group cursor-pointer ${
                             isActive
                               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-md"
                               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/[0.05]"

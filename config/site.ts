@@ -18,10 +18,10 @@ export const siteConfig = {
   },
   navItems: [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
+    { label: "About", href: "/#about" },
     { label: "Photography", href: "/#photography" },
-    { label: "Works", href: "/work" },
-    { label: "Connect", href: "/connect" },
+    { label: "Works", href: "/#work" },
+    { label: "Connect", href: "/#connect" },
   ],
 };
 
