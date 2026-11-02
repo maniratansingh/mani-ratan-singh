@@ -11,6 +11,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html.light {
@@ -25,12 +26,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   caret-color: var(--lg-accent);
   text-rendering: optimizeLegibility;
   transition: background-color 0.4s ease, color 0.4s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar for clean horizontal mobile pill trays */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* Hardware-accelerated fixed wallpaper compositor layer (eliminates scroll repaint lag) */

@@ -125,7 +125,7 @@ export function VaultPortal() {
             transition={snappySpring}
             className="max-w-md mx-auto my-12"
           >
-            <div className="p-8 sm:p-10 rounded-3xl liquid-glass-surface border border-[var(--glass-border)] shadow-2xl relative overflow-hidden">
+            <div className="p-6 sm:p-10 rounded-3xl liquid-glass-surface border border-[var(--glass-border)] shadow-2xl relative overflow-hidden">
               {/* Top ambient glint */}
               <div
                 className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--glass-border-hover)] to-transparent pointer-events-none"
@@ -160,7 +160,7 @@ export function VaultPortal() {
                     }}
                     placeholder="Enter owner passcode..."
                     autoFocus
-                    className="w-full px-4 py-3.5 pr-11 rounded-xl bg-black/30 dark:bg-black/40 border border-[var(--glass-border)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] text-sm font-mono focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
+                    className="w-full px-4 py-3.5 pr-11 rounded-xl bg-black/30 dark:bg-black/40 border border-[var(--glass-border)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] text-base sm:text-sm font-mono focus:outline-none focus:border-[var(--accent-champagne)] transition-colors min-h-[46px]"
                   />
                   <button
                     type="button"
@@ -244,13 +244,13 @@ export function VaultPortal() {
             {/* Filter & Search Bar */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
               {/* Category Pills */}
-              <div className="flex flex-wrap items-center gap-1.5">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none sm:flex-wrap -mx-4 px-4 sm:mx-0 sm:px-0 max-w-full">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     type="button"
                     onClick={() => setCategory(cat)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer shrink-0 min-h-[36px] ${
                       category === cat
                         ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
                         : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -269,7 +269,7 @@ export function VaultPortal() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Filter subdomains..."
-                  className="w-full pl-9 pr-4 py-1.5 rounded-full bg-black/20 dark:bg-black/30 border border-[var(--glass-border)] text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors"
+                  className="w-full pl-9 pr-4 py-2 sm:py-1.5 rounded-full bg-black/20 dark:bg-black/30 border border-[var(--glass-border)] text-base sm:text-xs font-mono text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-champagne)] transition-colors min-h-[38px]"
                 />
               </div>
             </div>

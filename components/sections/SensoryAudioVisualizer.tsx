@@ -209,12 +209,12 @@ export function SensoryAudioVisualizer() {
       </div>
 
       {/* Controls Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mt-4 pt-3 border-t border-[var(--glass-border)] text-xs z-10">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4 pt-3 border-t border-[var(--glass-border)] text-xs z-10">
+        <div className="flex flex-col xs:flex-row xs:items-center gap-3">
           <button
             type="button"
             onClick={toggleAudio}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-sm min-h-[44px]"
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-[var(--accent-champagne)]" />}
             <span>{isPlaying ? "Suspend Sine Field" : "Oscillate Audio Field"}</span>
@@ -235,7 +235,7 @@ export function SensoryAudioVisualizer() {
             step="0.2"
             value={frequency}
             onChange={(e) => setFrequency(parseFloat(e.target.value))}
-            className="w-24 accent-[var(--accent-champagne)] cursor-pointer"
+            className="w-28 sm:w-24 accent-[var(--accent-champagne)] cursor-pointer min-h-[36px]"
           />
           <span className="w-8 text-right font-medium text-[var(--text-primary)]">{frequency}Hz</span>
         </div>

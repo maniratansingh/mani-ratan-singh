@@ -81,7 +81,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl sm:text-7xl lg:text-9xl 2xl:text-[10rem] 3xl:text-[12rem] 4xl:text-[14rem] font-light tracking-[-0.04em] text-[var(--text-primary)] leading-[0.92] mb-3 uppercase"
+          className="text-4xl xs:text-5xl sm:text-7xl lg:text-9xl 2xl:text-[10rem] 3xl:text-[12rem] 4xl:text-[14rem] font-light tracking-[-0.04em] text-[var(--text-primary)] leading-[0.92] mb-3 uppercase"
         >
           {hero.name}
         </motion.h1>
@@ -91,7 +91,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl 3xl:text-6xl font-serif italic text-[var(--accent-champagne)] tracking-tight mb-4 max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl"
+          className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl 3xl:text-6xl font-serif italic text-[var(--accent-champagne)] tracking-tight mb-3 sm:mb-4 max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl"
         >
           &ldquo;{hero.motto}&rdquo;
         </motion.p>
@@ -118,10 +118,10 @@ export function Hero() {
           </p>
 
           {/* Tactile Actions & Direct Backlink to mrps.in */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <Link
               href={hero.cta.primaryHref}
-              className="inline-flex items-center gap-2.5 px-8 2xl:px-10 py-3.5 2xl:py-4 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs 2xl:text-sm uppercase tracking-widest font-semibold transition-all hover:opacity-90 hover:scale-105 active:scale-95 shadow-md"
+              className="inline-flex items-center justify-center gap-2.5 px-8 2xl:px-10 py-3.5 2xl:py-4 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs 2xl:text-sm uppercase tracking-widest font-semibold transition-all hover:opacity-90 hover:scale-105 active:scale-95 shadow-md min-h-[44px]"
             >
               <span>{hero.cta.primary}</span>
               <ArrowDownRight className="w-4 h-4 text-[var(--accent-champagne)]" />
@@ -131,7 +131,7 @@ export function Hero() {
               href={hero.cta.secondaryHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-8 2xl:px-10 py-3.5 2xl:py-4 rounded-full liquid-glass-pill text-xs 2xl:text-sm uppercase tracking-widest font-medium text-[var(--text-primary)] transition-all hover:scale-105 active:scale-95 shadow-xs"
+              className="inline-flex items-center justify-center gap-2.5 px-8 2xl:px-10 py-3.5 2xl:py-4 rounded-full liquid-glass-pill text-xs 2xl:text-sm uppercase tracking-widest font-medium text-[var(--text-primary)] transition-all hover:scale-105 active:scale-95 shadow-xs min-h-[44px]"
             >
               <Terminal className="w-3.5 h-3.5 text-[var(--accent-champagne)]" />
               <span>{hero.cta.secondary}</span>

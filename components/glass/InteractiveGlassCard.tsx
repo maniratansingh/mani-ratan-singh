@@ -18,6 +18,13 @@ export function InteractiveGlassCard({
 }: InteractiveGlassCardProps) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = React.useState(false);
+  const [isTouchDevice, setIsTouchDevice] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+      setIsTouchDevice(true);
+    }
+  }, []);
 
   // Mouse coordinate motion values
   const mouseX = useMotionValue(0);
@@ -33,7 +40,7 @@ export function InteractiveGlassCard({
   const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-6, 6]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (isTouchDevice || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -49,13 +56,15 @@ export function InteractiveGlassCard({
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (!isTouchDevice) setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    mouseX.set(0);
-    mouseY.set(0);
+    if (!isTouchDevice) {
+      setIsHovered(false);
+      mouseX.set(0);
+      mouseY.set(0);
+    }
   };
 
   return (
@@ -66,43 +75,50 @@ export function InteractiveGlassCard({
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
-        rotateX: tilt ? rotateX : 0,
-        rotateY: tilt ? rotateY : 0,
-        transformStyle: "preserve-3d",
+        rotateX: tilt && !isTouchDevice ? rotateX : 0,
+        rotateY: tilt && !isTouchDevice ? rotateY : 0,
+        transformStyle: !isTouchDevice ? "preserve-3d" : "flat",
       }}
       className={`liquid-glass-surface group relative overflow-hidden transition-all duration-300 ${
         onClick ? "cursor-pointer" : ""
       } ${className}`}
     >
       {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Hardware Accelerated) */}
-      <div
-        className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          background:
-            "radial-gradient(var(--spotlight-radius, 520px) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)",
-        }}
-        aria-hidden="true"
-      />
+      {!isTouchDevice && (
+        <div
+          className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            background:
+              "radial-gradient(var(--spotlight-radius, 520px) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.42) 0%, rgba(0, 145, 255, 0.2) 30%, rgba(255, 0, 127, 0.08) 55%, transparent 75%)",
+          }}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Reactive Crystal Edge Refraction (Rim Specular Tracker) */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-10"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          padding: "1.2px",
-          background:
-            "radial-gradient(calc(var(--spotlight-radius, 520px) * 0.75) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "exclude",
-          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "xor",
-        }}
-        aria-hidden="true"
-      />
+      {!isTouchDevice && (
+        <div
+          className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 z-10"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            padding: "1.2px",
+            background:
+              "radial-gradient(calc(var(--spotlight-radius, 520px) * 0.75) circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 255, 255, 0.95) 0%, rgba(0, 145, 255, 0.5) 40%, transparent 75%)",
+            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            maskComposite: "exclude",
+            WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite: "xor",
+          }}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Internal Content (Pushed slightly forward in 3D space) */}
-      <div style={{ transform: "translateZ(20px)" }} className="relative z-20">
+      {/* Internal Content (Pushed slightly forward in 3D space on desktop, flat on mobile) */}
+      <div
+        style={{ transform: !isTouchDevice ? "translateZ(20px)" : "none" }}
+        className="relative z-20"
+      >
         {children}
       </div>
     </motion.div>

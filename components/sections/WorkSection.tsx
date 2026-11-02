@@ -59,13 +59,13 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
         </div>
 
         {/* Category Filter Pills (All UI Elements Back) */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none sm:flex-wrap -mx-4 px-4 sm:mx-0 sm:px-0 max-w-full">
           {categories.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`min-h-[38px] px-4.5 py-2 rounded-full text-xs font-mono transition-all cursor-pointer inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
+              className={`min-h-[38px] px-4.5 py-2 rounded-full text-xs font-mono transition-all cursor-pointer inline-flex items-center justify-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
                 filter === cat
                   ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
                   : "liquid-glass-pill text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -122,7 +122,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[var(--glass-border)] flex items-center justify-between">
+                <div className="pt-4 border-t border-[var(--glass-border)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                   <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-medium">
                     • Sub-400ms load on rural 3G cellular
                   </span>

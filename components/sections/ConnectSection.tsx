@@ -269,7 +269,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           <span>{siteConfig.name} — Personal Digital Presence</span>
         </div>
 
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-6 text-center sm:text-right">
           <span suppressHydrationWarning>{new Date().getFullYear()}</span>
           <span>•</span>
           <Link

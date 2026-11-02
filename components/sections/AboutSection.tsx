@@ -33,7 +33,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 2xl:gap-24 items-start">
         {/* Left Column: Author Square Monograph Plate */}
         <div className="lg:col-span-5 flex flex-col gap-4">
-          <div className="relative w-full aspect-square min-h-[320px] sm:min-h-[400px] 2xl:min-h-[500px] 3xl:min-h-[600px] rounded-3xl overflow-hidden editorial-frame shadow-2xl bg-black/30">
+          <div className="relative w-full aspect-square min-h-[260px] sm:min-h-[380px] 2xl:min-h-[500px] 3xl:min-h-[600px] rounded-3xl overflow-hidden editorial-frame shadow-2xl bg-black/30">
             <Image
               src="/author.png"
               alt="Mani Ratan Pratap Singh"

@@ -91,7 +91,7 @@ export function MobileNav() {
         whileTap={{ scale: 0.95 }}
         transition={snappySpring}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer"
+        className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer before:absolute before:-inset-1.5 before:content-['']"
         aria-label={isOpen ? "Close Navigation Sidebar" : "Open Navigation Sidebar"}
         aria-expanded={isOpen}
       >
@@ -127,7 +127,7 @@ export function MobileNav() {
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                  className="fixed top-0 right-0 bottom-0 w-[310px] sm:w-[350px] max-w-[85vw] h-full h-[100dvh] bg-[#0c0d12]/95 dark:bg-[#0c0d12]/95 light:bg-[#fbfbfa]/95 backdrop-blur-2xl border-l border-[var(--glass-border)] shadow-[0_0_60px_rgba(0,0,0,0.7)] flex flex-col justify-between p-6 sm:p-7 overflow-y-auto"
+                  className="fixed top-0 right-0 bottom-0 w-[310px] sm:w-[350px] max-w-[85vw] h-full h-[100dvh] bg-[#0c0d12]/95 dark:bg-[#0c0d12]/95 light:bg-[#fbfbfa]/95 backdrop-blur-2xl border-l border-[var(--glass-border)] shadow-[0_0_60px_rgba(0,0,0,0.7)] flex flex-col justify-between p-6 sm:p-7 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto"
                 >
                   {/* Top Specular Glint Accent */}
                   <div
@@ -163,7 +163,7 @@ export function MobileNav() {
                     <button
                       type="button"
                       onClick={() => setIsOpen(false)}
-                      className="w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--glass-border-hover)] transition-colors cursor-pointer"
+                      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--glass-border-hover)] transition-colors cursor-pointer before:absolute before:-inset-2 before:content-['']"
                       aria-label="Close navigation sidebar"
                     >
                       <X className="w-4 h-4" />

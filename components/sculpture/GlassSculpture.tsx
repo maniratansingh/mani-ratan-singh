@@ -346,20 +346,24 @@ export function GlassSculpture() {
       prevMouseY = e.clientY;
       velocityX = 0;
       velocityY = 0;
-      try {
-        canvas.setPointerCapture?.(e.pointerId);
-      } catch {
-        // ignore
+      if (e.pointerType !== "touch") {
+        try {
+          canvas.setPointerCapture?.(e.pointerId);
+        } catch {
+          // ignore
+        }
       }
     };
 
     const onPointerUp = (e: PointerEvent) => {
       if (isDragging) {
         isDragging = false;
-        try {
-          canvas.releasePointerCapture?.(e.pointerId);
-        } catch {
-          // ignore
+        if (e.pointerType !== "touch") {
+          try {
+            canvas.releasePointerCapture?.(e.pointerId);
+          } catch {
+            // ignore
+          }
         }
       }
     };
@@ -509,11 +513,12 @@ export function GlassSculpture() {
     <div className="flex flex-col items-center w-full">
       <div
         ref={containerRef}
-        className="relative w-full h-[420px] sm:h-[540px] lg:h-[620px] 2xl:h-[720px] 3xl:h-[840px] 4xl:h-[940px] flex items-center justify-center select-none"
+        className="relative w-full h-[320px] xs:h-[380px] sm:h-[500px] lg:h-[620px] 2xl:h-[720px] 3xl:h-[840px] 4xl:h-[940px] flex items-center justify-center select-none"
+        style={{ touchAction: "pan-y" }}
       >
         {/* Dynamic optical backlight */}
         <div
-          className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] 2xl:w-[680px] 2xl:h-[680px] 3xl:w-[840px] 3xl:h-[840px] rounded-full blur-[80px] 2xl:blur-[120px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
+          className="absolute w-[220px] h-[220px] xs:w-[280px] xs:h-[280px] sm:w-[480px] sm:h-[480px] 2xl:w-[680px] 2xl:h-[680px] 3xl:w-[840px] 3xl:h-[840px] rounded-full blur-[60px] xs:blur-[80px] 2xl:blur-[120px] pointer-events-none opacity-80 dark:opacity-45 transition-all duration-1000"
           style={{
             background:
               activeMode === "obsidian"
@@ -527,6 +532,7 @@ export function GlassSculpture() {
 
         <canvas
           ref={canvasRef}
+          style={{ touchAction: "pan-y" }}
           className={`w-full h-full cursor-grab active:cursor-grabbing transition-opacity duration-700 ${
             isLoaded ? "opacity-100" : "opacity-0"
           }`}
@@ -541,44 +547,47 @@ export function GlassSculpture() {
       </div>
 
       {/* Optical Material Shader Switcher Capsule */}
-      <div className="flex items-center gap-2 p-1.5 rounded-full liquid-glass-pill shadow-xs mt-[-10px] z-20">
+      <div className="flex items-center gap-1.5 sm:gap-2 p-1.5 rounded-full liquid-glass-pill shadow-xs mt-[-10px] z-20 max-w-[94vw] overflow-x-auto scrollbar-none">
         <button
           type="button"
           onClick={() => switchMode("optics")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
             activeMode === "optics"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
           }`}
         >
           <Eye className="w-3 h-3 text-[var(--accent-azure)]" />
-          <span>Wireframe Lattice</span>
+          <span className="hidden sm:inline">Wireframe Lattice</span>
+          <span className="sm:hidden">Lattice</span>
         </button>
 
         <button
           type="button"
           onClick={() => switchMode("prism")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
             activeMode === "prism"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
           }`}
         >
           <Sparkles className="w-3 h-3 text-[var(--accent-champagne)]" />
-          <span>Prism Caustics</span>
+          <span className="hidden sm:inline">Prism Caustics</span>
+          <span className="sm:hidden">Prism</span>
         </button>
 
         <button
           type="button"
           onClick={() => switchMode("obsidian")}
-          className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
             activeMode === "obsidian"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
           }`}
         >
           <Shield className="w-3 h-3 text-[var(--accent-silver)]" />
-          <span>Obsidian Glass</span>
+          <span className="hidden sm:inline">Obsidian Glass</span>
+          <span className="sm:hidden">Obsidian</span>
         </button>
       </div>
     </div>

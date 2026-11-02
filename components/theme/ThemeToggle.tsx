@@ -32,7 +32,7 @@ export function ThemeToggle() {
       whileTap={{ scale: 0.94 }}
       transition={snappySpring}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer"
+      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer before:absolute before:-inset-1.5 before:content-['']"
       aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >

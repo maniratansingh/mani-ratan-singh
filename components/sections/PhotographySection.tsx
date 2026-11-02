@@ -133,6 +133,40 @@ export function PhotographySection() {
     }
   }, []);
 
+  // Touch swipe gesture handlers for intuitive mobile navigation
+  const touchStartRef = React.useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current || !activePhoto) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    // Horizontal swipe threshold 45px
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 45) {
+      const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+      if (deltaX < 0) {
+        // Swipe left -> Next
+        const nextIndex = (currentIndex + 1) % photoPlates.length;
+        navigateToPhoto(photoPlates[nextIndex]);
+      } else {
+        // Swipe right -> Prev
+        const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
+        navigateToPhoto(photoPlates[prevIndex]);
+      }
+    } else if (deltaY > 80 && Math.abs(deltaX) < 60) {
+      // Swipe down -> dismiss
+      closePhoto();
+    }
+  };
+
   // Listen to native browser Back button & mobile back gesture
   React.useEffect(() => {
     const handlePopState = () => {
@@ -307,28 +341,31 @@ export function PhotographySection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="lightbox-photo-title"
-            className="fixed inset-0 z-[99999] w-screen h-screen h-[100dvh] flex flex-col justify-between p-3 sm:p-6 lg:p-8 bg-black/95 backdrop-blur-3xl animate-fade-in select-none overflow-hidden"
+            className="fixed inset-0 z-[99999] w-screen h-screen h-[100dvh] flex flex-col justify-between p-3 sm:p-6 lg:p-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-black/95 backdrop-blur-3xl animate-fade-in select-none overflow-hidden"
             onClick={() => closePhoto()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Top Bar: Explicit Back Button, Plate Counter & Close Button */}
             <div
-              className="flex items-center justify-between gap-3 sm:gap-4 z-40 max-w-7xl mx-auto w-full px-1"
+              className="flex items-center justify-between gap-2 sm:gap-4 z-40 max-w-7xl mx-auto w-full px-1"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Left: Prominent "Back to Gallery" Button */}
               <button
                 type="button"
                 onClick={() => closePhoto()}
-                className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 border border-white/30 text-white transition-all text-xs sm:text-sm font-semibold cursor-pointer shadow-2xl group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 border border-white/30 text-white transition-all text-xs sm:text-sm font-semibold cursor-pointer shadow-2xl group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)] shrink-0 min-h-[40px]"
                 aria-label="Back to photography gallery"
               >
                 <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--accent-champagne)] transition-transform group-hover:-translate-x-1" />
-                <span>Back to Gallery</span>
+                <span className="hidden xs:inline">Back to Gallery</span>
+                <span className="xs:hidden">Back</span>
               </button>
 
               {/* Center: Plate Indicator & Title */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                <span className="px-3.5 py-1.5 rounded-full bg-white/10 border border-white/25 text-[11px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)] shadow-md">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/25 text-[10px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)] shadow-md">
                   PLATE {String(photoPlates.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(photoPlates.length).padStart(2, "0")}
                 </span>
                 <span className="hidden md:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs lg:max-w-md">
@@ -340,7 +377,7 @@ export function PhotographySection() {
               <button
                 type="button"
                 onClick={() => closePhoto()}
-                className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg"
+                className="relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/25 text-white transition-all text-xs tracking-wider font-mono cursor-pointer shadow-lg shrink-0 min-h-[40px] before:absolute before:-inset-2 before:content-['']"
                 aria-label="Close photo preview (Esc)"
               >
                 <span className="hidden sm:inline text-neutral-400 text-[11px]">ESC</span>
@@ -365,10 +402,10 @@ export function PhotographySection() {
                   const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
                   navigateToPhoto(photoPlates[prevIndex]);
                 }}
-                className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
                 aria-label="Previous photograph"
               >
-                <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:-translate-x-0.5" />
+                <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7 transition-transform group-hover:-translate-x-0.5" />
               </button>
 
               {/* Next Photo Button */}
@@ -380,10 +417,10 @@ export function PhotographySection() {
                   const nextIndex = (currentIndex + 1) % photoPlates.length;
                   navigateToPhoto(photoPlates[nextIndex]);
                 }}
-                className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
+                className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
                 aria-label="Next photograph"
               >
-                <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 transition-transform group-hover:translate-x-0.5" />
+                <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 transition-transform group-hover:translate-x-0.5" />
               </button>
 
               {/* Central Photo */}

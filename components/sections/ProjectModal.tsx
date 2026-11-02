@@ -91,14 +91,14 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] overflow-y-auto liquid-glass-surface p-6 sm:p-10 2xl:p-14 shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20 select-text"
+        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] max-h-[92dvh] overflow-y-auto liquid-glass-surface p-5 sm:p-10 2xl:p-14 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20 select-text"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-6 right-6 w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer before:absolute before:-inset-2 before:content-['']"
           aria-label="Close Case Study"
         >
           <X className="w-4 h-4" />
@@ -166,14 +166,14 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Actions Bar */}
-        <div className="flex items-center justify-between gap-4 pt-6 border-t border-[var(--glass-border)]">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-6 border-t border-[var(--glass-border)]">
+          <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3 w-full sm:w-auto">
             {project.link && (
               <Link
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs font-semibold tracking-wide transition-transform hover:scale-105 active:scale-95 min-h-[42px]"
               >
                 <span>Launch Project</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -185,13 +185,21 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:scale-105"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs font-medium tracking-wide transition-all hover:scale-105 min-h-[42px]"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>Repository</span>
               </Link>
             )}
           </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="sm:hidden w-full py-2.5 rounded-full liquid-glass-pill text-xs font-mono text-[var(--text-tertiary)] hover:text-[var(--text-primary)] text-center cursor-pointer min-h-[42px]"
+          >
+            Close Case Study
+          </button>
 
           <span className="text-[11px] font-mono text-[var(--text-tertiary)] hidden sm:inline">
             Press [ESC] to close
