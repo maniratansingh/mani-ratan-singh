@@ -60,7 +60,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: mrps-persona
+          projectName: mani-ratan-singh
           directory: out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
         env:

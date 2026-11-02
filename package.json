@@ -1,16 +1,25 @@
 {
-  "name": "me_persona",
+  "name": "mani-ratan-singh",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal digital presence, engineering workbench, and visual monograph of Mani Ratan Singh.",
   "main": "index.js",
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "mani-ratan-singh",
+    "mrps",
+    "portfolio",
+    "nextjs",
+    "react",
+    "liquid-glass",
+    "webgl",
+    "threejs"
+  ],
+  "author": "Mani Ratan Pratap Singh",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "clsx": "^2.1.1",

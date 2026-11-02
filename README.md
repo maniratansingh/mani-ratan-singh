@@ -15,8 +15,7 @@ A high-craft personal digital presence, engineering workbench, and photographic 
   - **Zero-Re-render Cursor Tracking**: Card spotlights and crystal rim highlights run directly on CSS custom properties (`--card-x`, `--card-y`), bypassing React virtual DOM diffing for solid 120 FPS tracking.
   - **Off-Screen WebGL Culling**: `IntersectionObserver` halts Three.js rendering loops when the user scrolls past the Hero, freeing 100% of GPU resources.
   - **Hardware Compositor Wallpaper**: Ambient gradients are decoupled from scroll-paint cycles via `body::before` with `transform: translateZ(0)`.
-  - **Content-Visibility**: `#about`, `#photography`, `#work`, and `#connect` utilize `content-visibility: auto` to defer off-screen rendering until approached.
-  - **Optimized Photographic Plates**: Uncompressed optical assets compressed with 85% perceptual quantization for sub-second loading.
+  - **Optimized Photographic Plates**: High-fidelity optical assets compressed with perceptual quantization for sub-second loading.
   - **Edge-Ready Static Export**: Pre-rendered to pure HTML/CSS/JS (`output: 'export'`) in `out/` with zero serverless cold starts.
 - **Machine & LLM Directives**:
   - Full support for `llms.txt` and `llms-full.txt` standard.
@@ -39,8 +38,8 @@ A high-craft personal digital presence, engineering workbench, and photographic 
 
 ```bash
 # Clone the repository
-git clone https://github.com/maniratansingh/me_persona.git
-cd me_persona
+git clone https://github.com/maniratansingh/mani-ratan-singh.git
+cd mani-ratan-singh
 
 # Install dependencies
 npm install
@@ -72,13 +71,13 @@ This project is configured out-of-the-box for **Cloudflare Pages**.
 
 1. Push your repository to **GitHub**:
    ```bash
-   git remote add origin https://github.com/<your-username>/me_persona.git
+   git remote add origin https://github.com/maniratansingh/mani-ratan-singh.git
    git branch -M main
    git push -u origin main
    ```
 2. In the [Cloudflare Dashboard](https://dash.cloudflare.com/):
    - Navigate to **Compute (Workers) > Workers & Pages > Create > Pages > Connect to Git**.
-   - Select your repository (`me_persona`).
+   - Select your repository (`mani-ratan-singh`).
 3. Set the build configuration:
    - **Framework preset**: `None` (or `Next.js (Static HTML Export)`)
    - **Build command**: `npm run build`
