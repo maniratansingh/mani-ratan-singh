@@ -16,6 +16,12 @@
 # misc
 .DS_Store
 *.pem
+*.log
+
+# AI / IDE metadata
+.agent/
+.claude/
+.cursor/
 
 # debug
 npm-debug.log*
