@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
     "Mani Ratan Singh",
     "MRPS",
@@ -40,12 +43,21 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mani Ratan Singh — Systems Builder, Creative Technologist & Photographer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
     creator: "@maniratansingh",
+    images: ["/og.jpg"],
   },
   robots: {
     index: true,
@@ -74,7 +86,7 @@ export default function RootLayout({
         name: siteConfig.name,
         alternateName: ["Mani Ratan Singh", "MRPS", "maniratanpratapsingh"],
         url: siteConfig.url,
-        image: `${siteConfig.url}/author.png`,
+        image: `${siteConfig.url}/author-640.webp`,
         email: "email@mrps.in",
         jobTitle: "Systems Builder, Creative Technologist & Photographer",
         description: siteConfig.description,

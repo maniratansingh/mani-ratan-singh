@@ -1,4 +1,4 @@
-# Cloudflare Pages Edge Caching & Security Headers Specification
+# Cloudflare Workers Static Assets — caching & security headers
 
 # 1-Year Immutable Caching for Next.js Versioned Bundles
 /_next/static/*
@@ -8,7 +8,16 @@
 /photography/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
-/author.png
+/author-*.webp
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/og.jpg
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/icon.svg
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/apple-icon.png
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 # AI & LLM Machine Directives
@@ -32,3 +41,4 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains

@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
 import { siteContent } from "@/config/content";
+import { useDialogA11y } from "@/components/a11y/useDialogA11y";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -38,13 +38,20 @@ interface PhotoPlate {
     shutter: string;
     iso: string;
   };
-  aspectRatio: string;
+}
+
+/** Build the responsive WebP sources for a photo master. */
+function photoSources(src: string) {
+  const base = src.replace(/-1280\.webp$/, "");
+  return {
+    srcSet: `${base}-640.webp 640w, ${base}-1280.webp 1280w`,
+  };
 }
 
 const photoPlates: PhotoPlate[] = [
   {
     id: "transit",
-    src: "/photography/long-exposure-transit.jpg",
+    src: "/photography/long-exposure-transit-1280.webp",
     title: "Nocturnal Transit & Fluid Geometry",
     subtitle: "Multi-tier highway overpass light streaks at twilight blue hour",
     location: "National Highway Flyover · India",
@@ -54,11 +61,10 @@ const photoPlates: PhotoPlate[] = [
       shutter: "25.0s",
       iso: "ISO 100",
     },
-    aspectRatio: "aspect-[16/10]",
   },
   {
     id: "architecture",
-    src: "/photography/architectural-geometry.jpg",
+    src: "/photography/architectural-geometry-1280.webp",
     title: "Monolithic Shadow & Travertine",
     subtitle: "Brutalist concrete planes cut by sharp late afternoon sun",
     location: "Civic Architecture Complex · India",
@@ -68,11 +74,10 @@ const photoPlates: PhotoPlate[] = [
       shutter: "1/250s",
       iso: "ISO 100",
     },
-    aspectRatio: "aspect-[16/10]",
   },
   {
     id: "astronomy",
-    src: "/photography/night-astrophotography.jpg",
+    src: "/photography/night-astrophotography-1280.webp",
     title: "Celestial Star Vortex & Horizon",
     subtitle: "Concentric star trails rotating around the northern celestial pole",
     location: "Purvanchal Dark Sky · India",
@@ -82,11 +87,10 @@ const photoPlates: PhotoPlate[] = [
       shutter: "180 × 20s",
       iso: "ISO 800",
     },
-    aspectRatio: "aspect-[16/10]",
   },
   {
     id: "ganges",
-    src: "/photography/ganges-mist-monochrome.jpg",
+    src: "/photography/ganges-mist-monochrome-1280.webp",
     title: "Serene Waters & Dawn Mist",
     subtitle: "Fine-art monochrome long exposure of morning river silence",
     location: "Sacred River Banks · India",
@@ -96,7 +100,6 @@ const photoPlates: PhotoPlate[] = [
       shutter: "45.0s",
       iso: "ISO 50",
     },
-    aspectRatio: "aspect-[16/10]",
   },
 ];
 
@@ -179,56 +182,32 @@ export function PhotographySection() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, [activePhoto, closePhoto]);
 
-  // Handle keyboard events (Escape, Left, Right, Focus Trap) and body scroll lock
+  // Arrow-key navigation for the lightbox. Escape, focus trap, scroll lock and
+  // focus restoration are handled by the shared dialog hook below.
   React.useEffect(() => {
+    if (!activePhoto) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closePhoto();
-        return;
-      }
-      
-      if (e.key === "Tab" && lightboxRef.current) {
-        const focusable = lightboxRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-        return;
-      }
-
       if (e.key === "ArrowRight") {
-        if (activePhoto) {
-          const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-          const nextIndex = (currentIndex + 1) % photoPlates.length;
-          navigateToPhoto(photoPlates[nextIndex]);
-        }
+        const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+        const nextIndex = (currentIndex + 1) % photoPlates.length;
+        navigateToPhoto(photoPlates[nextIndex]);
       } else if (e.key === "ArrowLeft") {
-        if (activePhoto) {
-          const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-          const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-          navigateToPhoto(photoPlates[prevIndex]);
-        }
+        const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+        const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
+        navigateToPhoto(photoPlates[prevIndex]);
       }
     };
-    if (activePhoto) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.body.style.overflow = originalOverflow;
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }
-  }, [activePhoto, closePhoto, navigateToPhoto]);
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePhoto, navigateToPhoto]);
+
+  useDialogA11y({
+    open: Boolean(mounted && activePhoto),
+    onClose: closePhoto,
+    containerRef: lightboxRef,
+  });
 
   return (
     <section id="photography" className="relative max-w-7xl 2xl:max-w-[1536px] 3xl:max-w-[1856px] 4xl:max-w-[2240px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 py-20 sm:py-28 lg:py-32 2xl:py-40">
@@ -269,7 +248,6 @@ export function PhotographySection() {
             key={plate.id}
             tabIndex={0}
             role="button"
-            aria-label={`View ${plate.title} photograph in full lightbox`}
             onClick={() => openPhoto(plate)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -281,13 +259,16 @@ export function PhotographySection() {
           >
             {/* Image Container with Luxury Editorial Frame */}
             <div className="relative w-full aspect-[16/10] min-h-[220px] sm:min-h-[280px] lg:min-h-[320px] 2xl:min-h-[380px] overflow-hidden rounded-2xl editorial-frame mb-5 bg-neutral-900/40">
-              <Image
+              <img
                 src={plate.src}
+                srcSet={photoSources(plate.src).srcSet}
+                sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 25vw"
                 alt={plate.title}
-                fill
+                width={1264}
+                height={848}
                 loading="lazy"
-                sizes="(max-width: 768px) 100vw, (max-width: 1536px) 50vw, 33vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
 
               {/* Top Glass Badge */}
@@ -341,6 +322,7 @@ export function PhotographySection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="lightbox-photo-title"
+            tabIndex={-1}
             className="fixed inset-0 z-[99999] w-screen h-screen h-[100dvh] flex flex-col justify-between p-3 sm:p-6 lg:p-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-black/95 backdrop-blur-3xl animate-fade-in select-none overflow-hidden"
             onClick={() => closePhoto()}
             onTouchStart={handleTouchStart}
@@ -428,13 +410,15 @@ export function PhotographySection() {
                 className="relative w-full h-full max-w-5xl 2xl:max-w-7xl 3xl:max-w-[1920px] max-h-[66vh] sm:max-h-[72vh] 2xl:max-h-[78vh] flex items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
               >
-                <Image
+                <img
                   src={activePhoto.src}
+                  srcSet={photoSources(activePhoto.src).srcSet}
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   alt={activePhoto.title}
-                  fill
-                  className="object-contain drop-shadow-2xl"
-                  priority
-                  sizes="(max-width: 1024px) 100vw, (max-width: 2560px) 90vw, 1920px"
+                  width={1264}
+                  height={848}
+                  decoding="async"
+                  className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>

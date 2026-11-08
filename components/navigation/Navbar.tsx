@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
@@ -11,61 +11,98 @@ import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { MobileNav } from "@/components/navigation/MobileNav";
 import { snappySpring } from "@/components/animations/transitions";
 
+const SECTION_IDS = ["about", "photography", "work", "connect"] as const;
+
+/** Standalone routes that represent a section of the home page. */
+const STANDALONE_SECTION: Record<string, string> = {
+  "/about": "/#about",
+  "/work": "/#work",
+  "/connect": "/#connect",
+};
+
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = React.useState(false);
   const [activeSection, setActiveSection] = React.useState<string>("home");
+  const sectionTops = React.useRef<Record<string, number>>({});
 
   React.useEffect(() => {
-    const sectionIds = ["connect", "work", "photography", "about"];
+    const measure = () => {
+      const tops: Record<string, number> = {};
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el) tops[id] = el.getBoundingClientRect().top + window.scrollY;
+      }
+      sectionTops.current = tops;
+    };
 
-    const handleScroll = () => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
       const scrollY = window.scrollY;
       setScrolled(scrollY > 20);
 
-      if (pathname !== "/") {
-        return;
-      }
+      if (pathname !== "/") return;
 
       if (scrollY < 260) {
         setActiveSection("home");
         return;
       }
 
-      // Check which section is in view from bottom up
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 320) {
-            setActiveSection(id);
-            return;
-          }
-        }
+      // Sections are in document order; the last one whose top has passed
+      // the reading line is the active section.
+      let active = "home";
+      for (const id of SECTION_IDS) {
+        const top = sectionTops.current[id];
+        if (top !== undefined && top - 320 <= scrollY) active = id;
       }
-      setActiveSection("home");
+      setActiveSection(active);
     };
 
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", measure);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, [pathname]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    // Let the browser handle modified clicks (new tab, new window, download).
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+
     if (pathname === "/" && href.startsWith("/#")) {
       e.preventDefault();
       const targetId = href.replace("/#", "");
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
         targetEl.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", href);
+        router.replace(href, { scroll: false });
       }
     } else if (pathname === "/" && href === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
-      window.history.pushState(null, "", "/");
+      router.replace("/", { scroll: false });
     }
   };
+
+  const standaloneActive = STANDALONE_SECTION[pathname];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
@@ -87,13 +124,13 @@ export function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
-          className="group relative pl-1 pr-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase text-[var(--text-primary)] hover:opacity-85 transition-opacity focus-visible:outline-none flex items-center gap-2 cursor-pointer"
-          aria-label="Mani Ratan Singh Home"
+          className="group relative pl-1 pr-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase text-[var(--text-primary)] hover:opacity-85 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] flex items-center gap-2 cursor-pointer"
+          aria-label="MRPS — Mani Ratan Singh, Home"
         >
           <div className="relative w-6 h-6 rounded-full overflow-hidden border border-[var(--glass-border)] shadow-xs shrink-0">
             <Image
-              src="/author.png"
-              alt="Mani Ratan Singh"
+              src="/author-128.webp"
+              alt=""
               fill
               sizes="24px"
               className="object-cover"
@@ -117,7 +154,7 @@ export function Navbar() {
                 if (item.href === "/#connect" && activeSection === "connect") return true;
                 return false;
               }
-              return pathname === item.href;
+              return item.href === standaloneActive || pathname === item.href;
             })();
 
             return (
@@ -125,7 +162,8 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors focus-visible:outline-none cursor-pointer ${
+                aria-current={isItemActive ? "page" : undefined}
+                className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
                   isItemActive
                     ? "text-[var(--text-primary)] font-semibold"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"

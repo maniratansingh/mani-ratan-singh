@@ -32,6 +32,7 @@
   --lg-accent: #0091ff;
   --lg-accent-champagne: #DFC085;
   --lg-accent-champagne-rgb: 223 192 133;
+  --lg-accent-silver: #C3C8D2;
   --lg-accent-rose: #ff007f;
   --lg-accent-purple: #7000ff;
 
@@ -58,7 +59,7 @@
   --lg-text: #f5f5f7;
   --lg-text-rgb: 245 245 247;
   --lg-text-2: rgb(235 235 245 / 0.72);
-  --lg-text-3: rgb(235 235 245 / 0.60);
+  --lg-text-3: rgb(235 235 245 / 0.70);
   --lg-separator: rgba(255, 255, 255, 0.12);
   --lg-fill-1: rgba(120, 120, 128, 0.36);
   --lg-fill-2: rgba(120, 120, 128, 0.24);
@@ -113,8 +114,10 @@
   --text-tertiary: var(--lg-text-3);
   --accent-champagne: var(--lg-accent-champagne);
   --accent-azure: var(--lg-accent);
+  --accent-silver: var(--lg-accent-silver);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-border-hover: rgba(255, 255, 255, 0.28);
+  --glass-frosted-border: var(--glass-border);
   --glass-surface-bg: var(--lg-tint-panel);
   --glass-pill-bg: var(--lg-tint-bar);
   --glass-shadow: var(--lg-shadow-panel);
@@ -130,6 +133,7 @@
   --lg-accent: #0071e3;
   --lg-accent-champagne: #8A6421;
   --lg-accent-champagne-rgb: 138 100 33;
+  --lg-accent-silver: #5B6473;
 
   /* Surfaces: Warm architectural alabaster */
   --lg-bg: #F8F8F5;
@@ -194,8 +198,10 @@
   --text-tertiary: var(--lg-text-3);
   --accent-champagne: var(--lg-accent-champagne);
   --accent-azure: var(--lg-accent);
+  --accent-silver: var(--lg-accent-silver);
   --glass-border: var(--lg-separator);
   --glass-border-hover: rgba(8, 8, 10, 0.22);
+  --glass-frosted-border: var(--glass-border);
   --glass-surface-bg: var(--lg-tint-panel);
   --glass-pill-bg: var(--lg-tint-bar);
   --glass-shadow: var(--lg-shadow-panel);

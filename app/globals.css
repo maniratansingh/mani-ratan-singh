@@ -3,6 +3,36 @@
 @import "../styles/glass.css";
 @import "../styles/motion.css";
 
+/* -------------------------------------------------------------------------
+   Design-system theme registration
+   Tailwind v4 only emits utilities for breakpoints/variants declared here,
+   so the xs / 3xl / 4xl classes used across the site need registering.
+   ------------------------------------------------------------------------- */
+@theme {
+  --breakpoint-xs: 30rem;   /* 480px  */
+  --breakpoint-3xl: 120rem; /* 1920px */
+  --breakpoint-4xl: 160rem; /* 2560px */
+
+  --animate-fade-in: fade-in 0.3s ease-out both;
+  --animate-modal-in: modal-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+}
+
+/* Class-based theme variants (next-themes writes .dark / .light on <html>).
+   Tailwind v4 defaults `dark:` to prefers-color-scheme, which would ignore
+   the in-page toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
 * {
   border-color: var(--glass-border);
   box-sizing: border-box;

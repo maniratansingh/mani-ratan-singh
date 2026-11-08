@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { snappySpring } from "@/components/animations/transitions";
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -32,7 +32,7 @@ export function ThemeToggle() {
       whileTap={{ scale: 0.94 }}
       transition={snappySpring}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer before:absolute before:-inset-1.5 before:content-['']"
+      className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] cursor-pointer before:absolute before:-inset-1.5 before:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)]"
       aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >

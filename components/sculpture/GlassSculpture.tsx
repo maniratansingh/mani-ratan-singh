@@ -7,7 +7,7 @@ import { Sparkles, Eye, Shield } from "lucide-react";
 
 type SculptureMode = "prism" | "obsidian" | "optics";
 
-function createStudioEnvironment(renderer: THREE.WebGLRenderer, mode: SculptureMode): THREE.Texture {
+function createStudioEnvironment(mode: SculptureMode): THREE.Texture {
   const canvas = document.createElement("canvas");
   canvas.width = 1024;
   canvas.height = 512;
@@ -130,9 +130,13 @@ export function GlassSculpture() {
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    // Track the OS preference live instead of sampling it once at mount.
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let prefersReducedMotion = motionQuery.matches;
+    const handleMotionPreference = (event: MediaQueryListEvent) => {
+      prefersReducedMotion = event.matches;
+    };
+    motionQuery.addEventListener("change", handleMotionPreference);
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
@@ -164,9 +168,9 @@ export function GlassSculpture() {
 
     // 2. Pre-generate and Cache Studio Environment Textures
     const envTextures: Record<SculptureMode, THREE.Texture> = {
-      prism: createStudioEnvironment(renderer, "prism"),
-      obsidian: createStudioEnvironment(renderer, "obsidian"),
-      optics: createStudioEnvironment(renderer, "optics"),
+      prism: createStudioEnvironment("prism"),
+      obsidian: createStudioEnvironment("obsidian"),
+      optics: createStudioEnvironment("optics"),
     };
     scene.environment = envTextures.optics;
 
@@ -405,6 +409,8 @@ export function GlassSculpture() {
       const newWidth = container.clientWidth;
       const newHeight = container.clientHeight;
       updateCameraDistance(newWidth, newHeight);
+      // Re-check DPR so dragging between displays doesn't leave a blurry canvas.
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(newWidth, newHeight);
     };
 
@@ -485,6 +491,8 @@ export function GlassSculpture() {
       window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("pointermove", onWindowPointerMove);
       resizeObserver.disconnect();
+      motionQuery.removeEventListener("change", handleMotionPreference);
+      updateMaterialRef.current = null;
       envTextures.prism.dispose();
       envTextures.obsidian.dispose();
       envTextures.optics.dispose();
@@ -495,6 +503,9 @@ export function GlassSculpture() {
       particleGeometry.dispose();
       particleMaterial.dispose();
       renderer.dispose();
+      // Explicitly drop the GL context; browsers cap live contexts (~16) and
+      // re-mounting this component would otherwise leak one each time.
+      renderer.forceContextLoss();
     };
   }, []);
 
@@ -536,6 +547,7 @@ export function GlassSculpture() {
           className={`w-full h-full cursor-grab active:cursor-grabbing transition-opacity duration-700 ${
             isLoaded ? "opacity-100" : "opacity-0"
           }`}
+          role="img"
           aria-label="Interactive 3D optical glass sculpture with chromatic dispersion and realistic refraction"
         />
 
@@ -551,7 +563,8 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("optics")}
-          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
+          aria-pressed={activeMode === "optics"}
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
             activeMode === "optics"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -565,7 +578,8 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("prism")}
-          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
+          aria-pressed={activeMode === "prism"}
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
             activeMode === "prism"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -579,7 +593,8 @@ export function GlassSculpture() {
         <button
           type="button"
           onClick={() => switchMode("obsidian")}
-          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 ${
+          aria-pressed={activeMode === "obsidian"}
+          className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer min-h-[38px] shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
             activeMode === "obsidian"
               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
               : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"

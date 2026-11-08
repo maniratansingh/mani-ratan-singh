@@ -18,6 +18,7 @@ import {
 import { siteContent } from "@/config/content";
 import { siteConfig } from "@/config/site";
 import { InteractiveGlassCard } from "@/components/glass/InteractiveGlassCard";
+import { LiveClock } from "@/components/time/LiveClock";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -59,24 +60,12 @@ function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
 export function ConnectSection({ isStandalone = false }: { isStandalone?: boolean }) {
   const { connect } = siteContent;
   const [copied, setCopied] = React.useState(false);
+  const copyTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Live IST Clock
-  const [currentTime, setCurrentTime] = React.useState("");
   React.useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setCurrentTime(
-        now.toLocaleTimeString("en-US", {
-          timeZone: "Asia/Kolkata",
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-        }) + " IST"
-      );
+    return () => {
+      if (copyTimeout.current) clearTimeout(copyTimeout.current);
     };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
   }, []);
 
   const copyEmail = async () => {
@@ -84,7 +73,8 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
       if (typeof navigator !== "undefined" && navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(connect.email);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        if (copyTimeout.current) clearTimeout(copyTimeout.current);
+        copyTimeout.current = setTimeout(() => setCopied(false), 2000);
       } else {
         window.location.href = `mailto:${connect.email}`;
       }
@@ -158,7 +148,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           </div>
           <div className="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-[var(--text-tertiary)] px-1">
             <Clock className="w-3 h-3 text-[var(--accent-champagne)]" />
-            <span>{currentTime || "IST"}</span>
+            <LiveClock mode="hm" fallback="IST" />
           </div>
         </div>
       </div>
@@ -169,11 +159,10 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           <div className="flex items-center gap-5 sm:gap-6 2xl:gap-8">
             <div className="relative w-16 h-16 sm:w-20 sm:h-20 2xl:w-24 2xl:h-24 rounded-2xl 2xl:rounded-3xl overflow-hidden border border-[var(--glass-border)] shadow-xl shrink-0 editorial-frame bg-black/20">
               <Image
-                src="/author.png"
+                src="/author-256.webp"
                 alt="Mani Ratan Singh"
                 fill
-                priority
-                loading="eager"
+                loading="lazy"
                 sizes="(max-width: 1536px) 80px, 96px"
                 className="object-cover"
               />
@@ -201,7 +190,6 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
               type="button"
               onClick={copyEmail}
               className="inline-flex items-center justify-center gap-2 px-6 2xl:px-8 py-3.5 2xl:py-4 rounded-full liquid-glass-pill text-[var(--text-primary)] text-xs 2xl:text-sm uppercase tracking-widest font-medium transition-all hover:scale-105 cursor-pointer"
-              aria-label="Copy email address"
             >
               {copied ? (
                 <>
@@ -275,6 +263,7 @@ export function ConnectSection({ isStandalone = false }: { isStandalone?: boolea
           <Link
             href="https://mrps.in"
             target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-[var(--text-primary)] transition-colors text-[var(--accent-champagne)]"
           >
             Primary Hub: mrps.in

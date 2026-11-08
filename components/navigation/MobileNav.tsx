@@ -4,11 +4,18 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight, Terminal, Mail, Lock } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { snappySpring } from "@/components/animations/transitions";
+import { useDialogA11y } from "@/components/a11y/useDialogA11y";
+
+const STANDALONE_SECTION: Record<string, string> = {
+  "/about": "/#about",
+  "/work": "/#work",
+  "/connect": "/#connect",
+};
 
 function GithubIcon({ className = "w-3 h-3" }: { className?: string }) {
   return (
@@ -32,6 +39,7 @@ export function MobileNav() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Ensure portal only mounts on the client
   React.useEffect(() => {
@@ -45,42 +53,8 @@ export function MobileNav() {
 
   const drawerRef = React.useRef<HTMLElement>(null);
 
-  // Handle escape key, focus trap and body scroll lock
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsOpen(false);
-        return;
-      }
-
-      if (e.key === "Tab" && drawerRef.current) {
-        const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    if (isOpen) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.body.style.overflow = originalOverflow;
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }
-  }, [isOpen]);
+  // Escape to close, focus trap, scroll lock, focus restoration.
+  useDialogA11y({ open: isOpen, onClose: () => setIsOpen(false), containerRef: drawerRef });
 
   return (
     <div className="md:hidden flex items-center">
@@ -91,9 +65,10 @@ export function MobileNav() {
         whileTap={{ scale: 0.95 }}
         transition={snappySpring}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] focus-visible:outline-none cursor-pointer before:absolute before:-inset-1.5 before:content-['']"
+        className="relative w-9 h-9 rounded-full liquid-glass-pill flex items-center justify-center text-[var(--text-primary)] cursor-pointer before:absolute before:-inset-1.5 before:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)]"
         aria-label={isOpen ? "Close Navigation Sidebar" : "Open Navigation Sidebar"}
         aria-expanded={isOpen}
+        aria-controls="mobile-navigation-drawer"
       >
         {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
       </motion.button>
@@ -119,10 +94,12 @@ export function MobileNav() {
                 {/* Mobile Sidebar Slide-Over Drawer */}
                 <motion.aside
                   ref={drawerRef}
+                  id="mobile-navigation-drawer"
                   key="mobile-nav-drawer"
                   role="dialog"
                   aria-modal="true"
                   aria-label="Mobile Navigation Drawer"
+                  tabIndex={-1}
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
@@ -140,12 +117,11 @@ export function MobileNav() {
                     <div className="flex items-center gap-3">
                       <div className="relative w-11 h-11 rounded-full overflow-hidden border border-[var(--glass-border)] ring-2 ring-white/10 shadow-sm shrink-0 bg-black/30">
                         <Image
-                          src="/author.png"
+                          src="/author-128.webp"
                           alt="Mani Ratan Singh"
                           fill
                           sizes="44px"
                           loading="eager"
-                          priority
                           className="object-cover"
                         />
                       </div>
@@ -186,9 +162,13 @@ export function MobileNav() {
                         pathname === item.href ||
                         (item.href !== "/" &&
                           !item.href.startsWith("/#") &&
-                          pathname.startsWith(item.href));
+                          pathname.startsWith(item.href)) ||
+                        (pathname !== "/" && STANDALONE_SECTION[pathname] === item.href);
 
                       const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+                          return;
+                        }
                         setIsOpen(false);
                         if (pathname === "/" && item.href.startsWith("/#")) {
                           e.preventDefault();
@@ -197,14 +177,14 @@ export function MobileNav() {
                           if (targetEl) {
                             setTimeout(() => {
                               targetEl.scrollIntoView({ behavior: "smooth" });
-                              window.history.pushState(null, "", item.href);
+                              router.replace(item.href, { scroll: false });
                             }, 250);
                           }
                         } else if (pathname === "/" && item.href === "/") {
                           e.preventDefault();
                           setTimeout(() => {
                             window.scrollTo({ top: 0, behavior: "smooth" });
-                            window.history.pushState(null, "", "/");
+                            router.replace("/", { scroll: false });
                           }, 250);
                         }
                       };
@@ -214,6 +194,7 @@ export function MobileNav() {
                           key={item.href}
                           href={item.href}
                           onClick={handleItemClick}
+                          aria-current={isActive ? "page" : undefined}
                           className={`px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between group cursor-pointer ${
                             isActive
                               ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-md"

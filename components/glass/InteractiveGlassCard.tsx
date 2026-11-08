@@ -67,6 +67,22 @@ export function InteractiveGlassCard({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!onClick) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  const interactiveProps = onClick
+    ? {
+        role: "button",
+        tabIndex: 0,
+        onKeyDown: handleKeyDown,
+      }
+    : {};
+
   return (
     <motion.div
       ref={cardRef}
@@ -74,13 +90,14 @@ export function InteractiveGlassCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
+      {...interactiveProps}
       style={{
         rotateX: tilt && !isTouchDevice ? rotateX : 0,
         rotateY: tilt && !isTouchDevice ? rotateY : 0,
         transformStyle: !isTouchDevice ? "preserve-3d" : "flat",
       }}
       className={`liquid-glass-surface group relative overflow-hidden transition-all duration-300 ${
-        onClick ? "cursor-pointer" : ""
+        onClick ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" : ""
       } ${className}`}
     >
       {/* Dynamic Specular Light Spotlight with Chromatic Dispersion (Hardware Accelerated) */}

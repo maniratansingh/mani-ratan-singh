@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { X, ArrowUpRight, CheckCircle2, Layers, Cpu, ShieldCheck } from "lucide-react";
 import { ProjectItem } from "@/config/content";
+import { useDialogA11y } from "@/components/a11y/useDialogA11y";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -37,42 +38,11 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
     setMounted(true);
   }, []);
 
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-
-      // Focus trap
-      if (e.key === "Tab" && modalRef.current) {
-        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-
-    if (project) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.body.style.overflow = originalOverflow;
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }
-  }, [project, onClose]);
+  useDialogA11y({
+    open: mounted && Boolean(project),
+    onClose,
+    containerRef: modalRef,
+  });
 
   if (!mounted || !project) return null;
 
@@ -91,7 +61,8 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
-        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] max-h-[92dvh] overflow-y-auto liquid-glass-surface p-5 sm:p-10 2xl:p-14 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20 select-text"
+        tabIndex={-1}
+        className="relative w-full max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl max-h-[90vh] max-h-[92dvh] overflow-y-auto liquid-glass-surface p-5 sm:p-10 2xl:p-14 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-2xl z-10 animate-modal-in border border-white/20 select-text focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

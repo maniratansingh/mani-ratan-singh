@@ -65,6 +65,7 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
+              aria-pressed={filter === cat}
               className={`min-h-[38px] px-4.5 py-2 rounded-full text-xs font-mono transition-all cursor-pointer inline-flex items-center justify-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
                 filter === cat
                   ? "bg-[var(--text-primary)] text-[var(--canvas)] font-semibold shadow-xs"
@@ -221,7 +222,9 @@ export function WorkSection({ isStandalone = false }: { isStandalone?: boolean }
 
         <div className="grid grid-cols-1 md:grid-cols-3 3xl:grid-cols-4 gap-6 2xl:gap-8">
           {filteredProjects
-            .filter((p) => !["purvanchal-hospitals", "aesthetic-music-player"].includes(p.id) || filter !== "All")
+            // The two featured projects above already have dedicated exhibits;
+            // never repeat them in the ledger, regardless of the active filter.
+            .filter((p) => !["purvanchal-hospitals", "aesthetic-music-player"].includes(p.id))
             .map((p) => (
               <InteractiveGlassCard
                 key={p.id}

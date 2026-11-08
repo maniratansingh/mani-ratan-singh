@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight, Terminal, Radio } from "lucide-react";
 import { siteContent } from "@/config/content";
 import { HeroFallback } from "@/components/hero/HeroFallback";
+import { LiveClock } from "@/components/time/LiveClock";
 
 const DynamicSculpture = dynamic(
   () => import("@/components/sculpture/GlassSculpture").then((mod) => mod.GlassSculpture),
@@ -18,25 +18,6 @@ const DynamicSculpture = dynamic(
 
 export function Hero() {
   const { hero } = siteContent;
-  const [timeString, setTimeString] = React.useState<string>("");
-
-  React.useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeString(
-        now.toLocaleTimeString("en-US", {
-          timeZone: "Asia/Kolkata",
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }) + " IST"
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="relative min-h-[96vh] 2xl:min-h-[92vh] flex flex-col justify-between pt-28 pb-16 px-4 sm:px-8 lg:px-12 2xl:px-16 4xl:px-24 overflow-hidden">
@@ -62,6 +43,7 @@ export function Hero() {
             <Link
               href="https://mrps.in"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-[var(--text-primary)] hover:text-[var(--accent-champagne)] transition-colors underline underline-offset-4"
             >
               MRPS.IN
@@ -69,7 +51,7 @@ export function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[var(--text-tertiary)] hidden sm:inline">SYS CLOCK:</span>
-            <span className="text-[var(--text-primary)]">{timeString || "LIVE IST"}</span>
+            <LiveClock mode="full" fallback="LIVE IST" className="text-[var(--text-primary)]" />
           </div>
         </div>
       </motion.div>

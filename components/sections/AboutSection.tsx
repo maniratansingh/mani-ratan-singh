@@ -35,11 +35,10 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
         <div className="lg:col-span-5 flex flex-col gap-4">
           <div className="relative w-full aspect-square min-h-[260px] sm:min-h-[380px] 2xl:min-h-[500px] 3xl:min-h-[600px] rounded-3xl overflow-hidden editorial-frame shadow-2xl bg-black/30">
             <Image
-              src="/author.png"
+              src="/author-640.webp"
               alt="Mani Ratan Pratap Singh"
               fill
-              priority
-              loading="eager"
+              loading="lazy"
               sizes="(max-width: 1024px) 100vw, (max-width: 2560px) 40vw, 800px"
               className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
             />
