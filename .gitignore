@@ -38,3 +38,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# vault plaintext source (encrypted output lives in config/vault.ts)
+/scripts/vault-data.json
