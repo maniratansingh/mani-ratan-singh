@@ -92,7 +92,7 @@ export const galleryPhotos: GalleryPhoto[] = [
     title: "Celestial Star Vortex & Horizon",
     subtitle: "Concentric star trails rotating around the northern celestial pole",
     alt: "Concentric star trails circling the northern celestial pole above a dark horizon",
-    location: "Purvanchal Dark Sky · India",
+    location: "Ayodhya · Uttar Pradesh, India",
     year: "2026",
     tags: ["Night", "Astrophotography"],
     featured: true,

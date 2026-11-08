@@ -51,7 +51,7 @@ export function AboutSection({ isStandalone = false }: { isStandalone?: boolean 
           </div>
           <div className="flex items-center justify-between text-xs 2xl:text-sm font-mono text-[var(--text-tertiary)] px-2">
             <span>STUDENT &amp; TINKERER</span>
-            <span>PURVANCHAL · INDIA</span>
+            <span>AYODHYA · UTTAR PRADESH</span>
           </div>
         </div>
 

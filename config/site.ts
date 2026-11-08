@@ -9,7 +9,7 @@ export const siteConfig = {
   author: "Mani Ratan Pratap Singh",
   initials: "MRPS",
   motto: "My Simplicity Is My Identity",
-  location: "Purvanchal, India",
+  location: "Ayodhya, Uttar Pradesh, India",
   links: {
     github: "https://github.com/maniratansingh",
     techLab: "https://mrps.in",

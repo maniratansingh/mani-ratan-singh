@@ -298,7 +298,7 @@ All deployments serve strict security headers configured in `public/_headers`:
 
 - **Author**: Mani Ratan Pratap Singh (MRPS)
 - **Identity**: Systems Builder, Creative Technologist & Photographer
-- **Location**: Purvanchal · India
+- **Location**: Ayodhya, Uttar Pradesh · India
 - **Primary Technical Hub**: [mrps.in](https://mrps.in)
 - **Instagram**: [@maniratanpratapsingh](https://www.instagram.com/maniratanpratapsingh/)
 - **GitHub**: [@maniratansingh](https://github.com/maniratansingh)

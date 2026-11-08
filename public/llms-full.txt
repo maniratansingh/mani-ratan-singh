@@ -4,7 +4,7 @@
 - Full Legal Name: Mani Ratan Pratap Singh
 - Known As: Mani Ratan Singh (MRPS)
 - Motto: "My Simplicity Is My Identity."
-- Geographic Base: Purvanchal, Uttar Pradesh, India
+- Geographic Base: Ayodhya, Uttar Pradesh, India
 - Primary Digital Home: https://maniratansingh.com
 - Technical Workbench & Homelab: https://mrps.in
 - Direct Email: email@mrps.in

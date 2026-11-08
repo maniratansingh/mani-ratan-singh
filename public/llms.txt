@@ -7,7 +7,7 @@
 > Direct Communication: email@mrps.in
 
 ## Biography & Ethos
-Mani Ratan Pratap Singh (MRPS) is a technology generalist, systems builder, and photographer based in Purvanchal, Uttar Pradesh, India.
+Mani Ratan Pratap Singh (MRPS) is a technology generalist, systems builder, and photographer based in Ayodhya, Uttar Pradesh, India.
 His work converges at the intersection of tactile physical electronics, high-concurrency public systems, optical shader design, and local Apple Silicon AI compute clusters.
 He emphasizes purposeful simplicity, edge performance, sub-second latency, and zero surveillance telemetry.
 

@@ -31,7 +31,7 @@ export const siteContent = {
     subtitle: "A Perpetual Learner",
     quote: "My Simplicity Is My Identity.",
     storyParagraphs: [
-      "I’m Mani Ratan Pratap Singh—a student, tinkerer, and lifelong learner based in Purvanchal, India. I don’t believe in inflated titles or complex buzzwords. At heart, I’m simply someone who loves understanding how things work from the ground up, whether that’s low-level microcontroller code, homelab networking, or the behavior of light through a camera lens.",
+      "I’m Mani Ratan Pratap Singh—a student, tinkerer, and lifelong learner based in Ayodhya, Uttar Pradesh, India. I don’t believe in inflated titles or complex buzzwords. At heart, I’m simply someone who loves understanding how things work from the ground up, whether that’s low-level microcontroller code, homelab networking, or the behavior of light through a camera lens.",
       "Most of my days are spent exploring and learning in public. Sometimes that means writing C++ firmware for an RP2040 board, testing local tools on my computer, or walking with a tripod at blue hour to capture long exposures. Other times, it means helping build fast, simple websites for local eye hospitals in Purvanchal so patients can find care without dealing with slow, bloated web pages.",
       "To me, the best technology is quiet, honest, and respectful of people’s time. Everything you see here is a small window into my learning notes, hands-on experiments, and things built with genuine curiosity.",
     ],
@@ -67,7 +67,7 @@ export const siteContent = {
       { label: "Motto", value: "My Simplicity Is My Identity" },
       { label: "Workbench", value: "mrps.in (Open Experiments)" },
       { label: "Interests", value: "Hardware · Code · Photography" },
-      { label: "Location", value: "Purvanchal, India" },
+      { label: "Location", value: "Ayodhya, Uttar Pradesh, India" },
     ],
   },
 

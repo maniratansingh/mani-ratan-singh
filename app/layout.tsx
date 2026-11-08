@@ -92,7 +92,8 @@ export default function RootLayout({
         description: siteConfig.description,
         address: {
           "@type": "PostalAddress",
-          addressRegion: "Purvanchal",
+          addressLocality: "Ayodhya",
+          addressRegion: "Uttar Pradesh",
           addressCountry: "IN",
         },
         sameAs: [
