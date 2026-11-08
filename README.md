@@ -15,16 +15,16 @@
 
 *"My Simplicity Is My Identity"*
 
-[![Production Status](https://img.shields.io/badge/Production-Live-emerald?style=flat-square&logo=cloudflare)](https://mani-ratan-singh.maniratanpratapsingh.workers.dev)
+[![Production Status](https://img.shields.io/badge/Production-Live-emerald?style=flat-square&logo=cloudflare)](https://maniratansingh.com)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/React-19.3-blue?style=flat-square&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Three.js](https://img.shields.io/badge/Three.js-0.186-black?style=flat-square&logo=three.js)](https://threejs.org)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![Cloudflare Workers](https://img.shields.io/badge/Deploy-Cloudflare_Static_Assets-F38020?style=flat-square&logo=cloudflare)](https://workers.cloudflare.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
-[🌐 Live Site](https://mani-ratan-singh.maniratanpratapsingh.workers.dev) • [🔬 Technical Lab (mrps.in)](https://mrps.in) • [📝 Dispatches](https://mrps.in/blog/) • [📷 Photo Archive](https://mrps.in/photos/) • [🔐 Private Vault](https://mani-ratan-singh.maniratanpratapsingh.workers.dev/vault)
+[🌐 Live Site](https://maniratansingh.com) • [🔬 Technical Lab (mrps.in)](https://mrps.in) • [📝 Dispatches](https://mrps.in/blog/) • [📷 Photo Archive](https://mrps.in/photos/) • [🔐 Private Vault](https://maniratansingh.com/vault)
 
 </div>
 
@@ -42,7 +42,7 @@ Built with a commitment to **out-of-distribution craft**, it rejects generic tem
 2. **Interactive 3D WebGL Monolith**: Real-time procedural Torus Knot with physical momentum inertia, 3 optical shader modes (Wireframe Lattice, Prism Caustics, Obsidian Glass), and zero-friction mobile touch physics.
 3. **Photographic Monograph**: High-fidelity plates captured with nocturnal long-exposure techniques, featuring comprehensive EXIF metadata, swipe-gesture lightbox navigation, and mobile safe-area accommodation.
 4. **Engineering Workbench**: Curated real-world systems, including rural public healthcare digital infrastructure in Purvanchal (India) and browser-based Web Audio turntable synthesis.
-5. **Cryptographic Node Vault**: Client-side WebCrypto SHA-256 authenticated gateway (`/vault`) for internal homelab services and subdomains.
+5. **Encrypted Node Vault**: Client-side AES-256-GCM gateway (`/vault`). The subdomain list is stored as ciphertext (PBKDF2-SHA256 key derivation) and is only decrypted in the browser after the passcode is entered.
 6. **Machine-First Directives**: Native `llms.txt`, `llms-full.txt`, and Schema.org `@graph` metadata for autonomous AI agents and modern search engine indexing.
 
 ---
@@ -114,6 +114,8 @@ The visual language is defined in `styles/tokens.css` and `styles/glass.css`:
 │   ├── work/page.tsx                 # Engineering workbench & case studies
 │   ├── globals.css                   # Tailwind v4, wallpaper, and typography
 │   ├── layout.tsx                    # Root HTML layout & Schema.org JSON-LD
+│   ├── icon.svg                      # Favicon monogram
+│   ├── apple-icon.png                # iOS home-screen icon
 │   ├── page.tsx                      # Single-page editorial monograph
 │   ├── robots.ts                     # AI agent permissions & crawler rules
 │   └── sitemap.ts                    # Canonical sitemap generator
@@ -130,13 +132,16 @@ The visual language is defined in `styles/tokens.css` and `styles/glass.css`:
 │   ├── content.ts                    # Editorial copy & monograph photo data
 │   ├── projects.ts                   # Structured engineering ledger
 │   ├── site.ts                       # Metadata, navigation & canonical links
-│   └── vault.ts                      # Homelab subdomains & SHA-256 passcode
+│   └── vault.ts                      # AES-256-GCM encrypted homelab vault payload
 ├── public/
 │   ├── _headers                      # Cloudflare Edge cache & security headers
-│   ├── author.png                    # High-resolution author portrait plate
+│   ├── author-*.webp                 # Responsive author portrait variants
+│   ├── og.jpg                        # 1200×630 social sharing card
 │   ├── llms.txt                      # High-density markdown for AI agents
 │   ├── llms-full.txt                 # Complete machine context archive
-│   └── photography/                  # Fine-art nocturnal photographic plates
+│   └── photography/                  # Responsive WebP photographic plates
+├── scripts/
+│   └── vault-crypto.mjs              # Encrypt/decrypt the vault link list
 ├── styles/
 │   ├── glass.css                     # Liquid Glass surface & pill classes
 │   ├── motion.css                    # Fluid spring keyframe animations
@@ -208,15 +213,30 @@ npm run deploy
 npx wrangler deploy
 ```
 
-### Deploying to Cloudflare Pages (Alternative)
+Preview the exported site exactly as it will be served:
+```bash
+npm run build
+npm start        # serves ./out on http://localhost:3000
+```
 
-If using Cloudflare Pages Git Integration:
-1. Connect your GitHub repository to Cloudflare Pages.
-2. Set **Build command**: `npm run build`
-3. Set **Build output directory**: `out`
-4. Set **Environment variable**: `NODE_VERSION = 22`
+### Continuous Deployment
 
-Cloudflare automatically rebuilds on every `git push` to `main`.
+`.github/workflows/deploy.yml` builds on every push and pull request, then deploys to Cloudflare Workers on `main` using `cloudflare/wrangler-action`. Add the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets to enable the deploy job.
+
+### Updating the Vault
+
+The vault link list is encrypted before it is committed:
+
+```bash
+# 1. Write the plaintext link array locally (git-ignored)
+#    scripts/vault-data.json
+# 2. Re-encrypt and regenerate config/vault.ts
+node scripts/vault-crypto.mjs encrypt '<passcode>' scripts/vault-data.json
+# 3. Delete the plaintext source
+rm scripts/vault-data.json
+```
+
+Client-side encryption keeps subdomains out of the shipped JavaScript bundle, but it is not a replacement for real authentication — never store secrets in the payload.
 
 ---
 
@@ -231,10 +251,10 @@ To run the automated multi-agent audit suite:
 python3 .agent/scripts/obscura_agent_suite.py  # or local scratch script
 
 # Quick URL fetch & DOM inspection
-obscura fetch https://mani-ratan-singh.maniratanpratapsingh.workers.dev --dump links
+obscura fetch https://maniratansingh.com --dump links
 
 # Take a pixel-perfect headless screenshot
-obscura fetch https://mani-ratan-singh.maniratanpratapsingh.workers.dev -s screenshot.png
+obscura fetch https://maniratansingh.com -s screenshot.png
 ```
 
 ---
@@ -247,6 +267,7 @@ All deployments serve strict security headers configured in `public/_headers`:
 - `X-Frame-Options: SAMEORIGIN`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
 - 1-Year Immutable Caching for `/_next/static/*`
 - 30-Day Stale-While-Revalidate Caching for photographic plates
 
