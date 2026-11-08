@@ -40,7 +40,7 @@ Built with a commitment to **out-of-distribution craft**, it rejects generic tem
 
 1. **Authentic Liquid Glass Materiality**: Multi-stop radial specular sheens, dual-lobe crescent rim lighting (`--lg-rim`), and optical refraction derived directly from authentic Apple VisionOS and `jellyfin-liquid-glass` specifications.
 2. **Interactive 3D WebGL Monolith**: Real-time procedural Torus Knot with physical momentum inertia, 3 optical shader modes (Wireframe Lattice, Prism Caustics, Obsidian Glass), and zero-friction mobile touch physics.
-3. **Photographic Monograph**: High-fidelity plates captured with nocturnal long-exposure techniques, featuring comprehensive EXIF metadata, swipe-gesture lightbox navigation, and mobile safe-area accommodation.
+3. **Photographic Monograph & Public Gallery**: High-fidelity plates captured with nocturnal long-exposure techniques. The home page presents selected work; the dedicated [`/gallery`](https://maniratansingh.com/gallery) route provides a filterable public archive with a swipe/keyboard lightbox, EXIF metadata, and mobile-first browsing.
 4. **Engineering Workbench**: Curated real-world systems, including rural public healthcare digital infrastructure in Purvanchal (India) and browser-based Web Audio turntable synthesis.
 5. **Encrypted Node Vault**: Client-side AES-256-GCM gateway (`/vault`). The subdomain list is stored as ciphertext (PBKDF2-SHA256 key derivation) and is only decrypted in the browser after the passcode is entered.
 6. **Machine-First Directives**: Native `llms.txt`, `llms-full.txt`, and Schema.org `@graph` metadata for autonomous AI agents and modern search engine indexing.
@@ -110,6 +110,7 @@ The visual language is defined in `styles/tokens.css` and `styles/glass.css`:
 ├── app/                              # Next.js 16 App Router
 │   ├── about/page.tsx                # Biography & learning journey
 │   ├── connect/page.tsx              # Endpoints & direct communication
+│   ├── gallery/page.tsx              # Public photo gallery & ImageGallery schema
 │   ├── vault/page.tsx                # Password-gated private node vault
 │   ├── work/page.tsx                 # Engineering workbench & case studies
 │   ├── globals.css                   # Tailwind v4, wallpaper, and typography
@@ -121,6 +122,7 @@ The visual language is defined in `styles/tokens.css` and `styles/glass.css`:
 │   └── sitemap.ts                    # Canonical sitemap generator
 ├── components/
 │   ├── animations/                   # Tactile spring physics configurations
+│   ├── gallery/                      # Public gallery grid & full-screen viewer
 │   ├── glass/                        # Liquid Glass cards, pills & atmosphere
 │   ├── hero/                         # Hero typography & WebGL container
 │   ├── navigation/                   # Desktop capsule navbar & mobile drawer
@@ -129,7 +131,8 @@ The visual language is defined in `styles/tokens.css` and `styles/glass.css`:
 │   ├── theme/                        # ThemeProvider & tactile ThemeToggle
 │   └── vault/                        # VaultPortal client authentication
 ├── config/
-│   ├── content.ts                    # Editorial copy & monograph photo data
+│   ├── content.ts                    # Editorial copy & section data
+│   ├── gallery.ts                    # Public photo catalogue (single source of truth)
 │   ├── projects.ts                   # Structured engineering ledger
 │   ├── site.ts                       # Metadata, navigation & canonical links
 │   └── vault.ts                      # AES-256-GCM encrypted homelab vault payload
@@ -222,6 +225,24 @@ npm start        # serves ./out on http://localhost:3000
 ### Continuous Deployment
 
 `.github/workflows/deploy.yml` builds on every push and pull request, then deploys to Cloudflare Workers on `main` using `cloudflare/wrangler-action`. Add the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets to enable the deploy job.
+
+### Adding Photos to the Gallery
+
+The public gallery is driven by [`config/gallery.ts`](config/gallery.ts). To add a photo:
+
+1. Export two WebP files into `public/photography/`:
+
+   ```bash
+   cwebp -q 80 source.jpg -resize 1280 0 -o public/photography/my-photo-1280.webp
+   cwebp -q 80 source.jpg -resize 640 0  -o public/photography/my-photo-640.webp
+   ```
+
+2. Add one entry to `galleryPhotos` with the 1280 master as `src`, accurate
+   `width`/`height`, descriptive `alt` text, and tags.
+3. Set `featured: true` only if it should also appear on the home page.
+
+The grid, filters, sitemap, structured data, and lightbox pick the new photo up
+automatically. No component changes are required.
 
 ### Updating the Vault
 

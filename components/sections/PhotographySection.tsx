@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Camera, Maximize2, X, Sliders, ChevronLeft, ChevronRight } from "lucide-react";
 import { siteContent } from "@/config/content";
+import { featuredPhotos, gallerySrcSet, type GalleryPhoto } from "@/config/gallery";
 import { useDialogA11y } from "@/components/a11y/useDialogA11y";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -26,86 +27,9 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-interface PhotoPlate {
-  id: string;
-  src: string;
-  title: string;
-  subtitle: string;
-  location: string;
-  exif: {
-    lens: string;
-    aperture: string;
-    shutter: string;
-    iso: string;
-  };
-}
-
-/** Build the responsive WebP sources for a photo master. */
-function photoSources(src: string) {
-  const base = src.replace(/-1280\.webp$/, "");
-  return {
-    srcSet: `${base}-640.webp 640w, ${base}-1280.webp 1280w`,
-  };
-}
-
-const photoPlates: PhotoPlate[] = [
-  {
-    id: "transit",
-    src: "/photography/long-exposure-transit-1280.webp",
-    title: "Nocturnal Transit & Fluid Geometry",
-    subtitle: "Multi-tier highway overpass light streaks at twilight blue hour",
-    location: "National Highway Flyover · India",
-    exif: {
-      lens: "24mm Prime",
-      aperture: "f/11",
-      shutter: "25.0s",
-      iso: "ISO 100",
-    },
-  },
-  {
-    id: "architecture",
-    src: "/photography/architectural-geometry-1280.webp",
-    title: "Monolithic Shadow & Travertine",
-    subtitle: "Brutalist concrete planes cut by sharp late afternoon sun",
-    location: "Civic Architecture Complex · India",
-    exif: {
-      lens: "35mm F1.4",
-      aperture: "f/8.0",
-      shutter: "1/250s",
-      iso: "ISO 100",
-    },
-  },
-  {
-    id: "astronomy",
-    src: "/photography/night-astrophotography-1280.webp",
-    title: "Celestial Star Vortex & Horizon",
-    subtitle: "Concentric star trails rotating around the northern celestial pole",
-    location: "Purvanchal Dark Sky · India",
-    exif: {
-      lens: "14mm Ultra-Wide",
-      aperture: "f/2.8",
-      shutter: "180 × 20s",
-      iso: "ISO 800",
-    },
-  },
-  {
-    id: "ganges",
-    src: "/photography/ganges-mist-monochrome-1280.webp",
-    title: "Serene Waters & Dawn Mist",
-    subtitle: "Fine-art monochrome long exposure of morning river silence",
-    location: "Sacred River Banks · India",
-    exif: {
-      lens: "50mm Prime",
-      aperture: "f/16",
-      shutter: "45.0s",
-      iso: "ISO 50",
-    },
-  },
-];
-
 export function PhotographySection() {
   const { photography } = siteContent;
-  const [activePhoto, setActivePhoto] = React.useState<PhotoPlate | null>(null);
+  const [activePhoto, setActivePhoto] = React.useState<GalleryPhoto | null>(null);
   const [mounted, setMounted] = React.useState(false);
   const lightboxRef = React.useRef<HTMLDivElement>(null);
 
@@ -113,7 +37,7 @@ export function PhotographySection() {
     setMounted(true);
   }, []);
 
-  const openPhoto = React.useCallback((plate: PhotoPlate) => {
+  const openPhoto = React.useCallback((plate: GalleryPhoto) => {
     setActivePhoto(plate);
     if (typeof window !== "undefined") {
       window.history.pushState({ photoModal: plate.id }, "");
@@ -129,7 +53,7 @@ export function PhotographySection() {
     }
   }, []);
 
-  const navigateToPhoto = React.useCallback((newPlate: PhotoPlate) => {
+  const navigateToPhoto = React.useCallback((newPlate: GalleryPhoto) => {
     setActivePhoto(newPlate);
     if (typeof window !== "undefined") {
       window.history.replaceState({ photoModal: newPlate.id }, "");
@@ -154,15 +78,15 @@ export function PhotographySection() {
 
     // Horizontal swipe threshold 45px
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 45) {
-      const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
+      const currentIndex = featuredPhotos.findIndex((p) => p.id === activePhoto.id);
       if (deltaX < 0) {
         // Swipe left -> Next
-        const nextIndex = (currentIndex + 1) % photoPlates.length;
-        navigateToPhoto(photoPlates[nextIndex]);
+        const nextIndex = (currentIndex + 1) % featuredPhotos.length;
+        navigateToPhoto(featuredPhotos[nextIndex]);
       } else {
         // Swipe right -> Prev
-        const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-        navigateToPhoto(photoPlates[prevIndex]);
+        const prevIndex = (currentIndex - 1 + featuredPhotos.length) % featuredPhotos.length;
+        navigateToPhoto(featuredPhotos[prevIndex]);
       }
     } else if (deltaY > 80 && Math.abs(deltaX) < 60) {
       // Swipe down -> dismiss
@@ -189,13 +113,13 @@ export function PhotographySection() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
-        const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-        const nextIndex = (currentIndex + 1) % photoPlates.length;
-        navigateToPhoto(photoPlates[nextIndex]);
+        const currentIndex = featuredPhotos.findIndex((p) => p.id === activePhoto.id);
+        const nextIndex = (currentIndex + 1) % featuredPhotos.length;
+        navigateToPhoto(featuredPhotos[nextIndex]);
       } else if (e.key === "ArrowLeft") {
-        const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-        const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-        navigateToPhoto(photoPlates[prevIndex]);
+        const currentIndex = featuredPhotos.findIndex((p) => p.id === activePhoto.id);
+        const prevIndex = (currentIndex - 1 + featuredPhotos.length) % featuredPhotos.length;
+        navigateToPhoto(featuredPhotos[prevIndex]);
       }
     };
 
@@ -222,16 +146,26 @@ export function PhotographySection() {
           </p>
         </div>
 
-        <Link
-          href={photography.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 2xl:px-8 py-2.5 2xl:py-3 rounded-full liquid-glass-pill text-xs 2xl:text-sm uppercase tracking-widest font-medium text-[var(--text-primary)] hover:scale-105 transition-transform"
-        >
-          <InstagramIcon className="w-4 h-4 text-[var(--accent-champagne)]" />
-          <span>{photography.instagramHandle}</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/gallery"
+            className="inline-flex items-center gap-2 px-6 2xl:px-8 py-2.5 2xl:py-3 rounded-full bg-[var(--text-primary)] text-[var(--canvas)] text-xs 2xl:text-sm uppercase tracking-widest font-semibold hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)]"
+          >
+            <Camera className="w-4 h-4" />
+            <span>Browse Full Gallery</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+          <Link
+            href={photography.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 2xl:px-8 py-2.5 2xl:py-3 rounded-full liquid-glass-pill text-xs 2xl:text-sm uppercase tracking-widest font-medium text-[var(--text-primary)] hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)]"
+          >
+            <InstagramIcon className="w-4 h-4 text-[var(--accent-champagne)]" />
+            <span>{photography.instagramHandle}</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
       </div>
 
       {/* Monograph Statement Spread */}
@@ -243,7 +177,7 @@ export function PhotographySection() {
 
       {/* Photography Monograph Gallery (High-Fidelity Plates) */}
       <div className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-4 gap-10 lg:gap-14 2xl:gap-16">
-        {photoPlates.map((plate) => (
+        {featuredPhotos.map((plate) => (
           <article
             key={plate.id}
             tabIndex={0}
@@ -261,7 +195,7 @@ export function PhotographySection() {
             <div className="relative w-full aspect-[16/10] min-h-[220px] sm:min-h-[280px] lg:min-h-[320px] 2xl:min-h-[380px] overflow-hidden rounded-2xl editorial-frame mb-5 bg-neutral-900/40">
               <img
                 src={plate.src}
-                srcSet={photoSources(plate.src).srcSet}
+                srcSet={gallerySrcSet(plate.src)}
                 sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 25vw"
                 alt={plate.title}
                 width={1264}
@@ -299,15 +233,17 @@ export function PhotographySection() {
               </p>
 
               {/* EXIF Metadata Strip */}
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--glass-border)]">
-                <span className="text-[var(--accent-champagne)] font-medium">{plate.exif.lens}</span>
-                <span>•</span>
-                <span>{plate.exif.aperture}</span>
-                <span>•</span>
-                <span>{plate.exif.shutter}</span>
-                <span>•</span>
-                <span>{plate.exif.iso}</span>
-              </div>
+              {plate.exif && (
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-tertiary)] pt-2 border-t border-[var(--glass-border)]">
+                  <span className="text-[var(--accent-champagne)] font-medium">{plate.exif.lens}</span>
+                  <span>•</span>
+                  <span>{plate.exif.aperture}</span>
+                  <span>•</span>
+                  <span>{plate.exif.shutter}</span>
+                  <span>•</span>
+                  <span>{plate.exif.iso}</span>
+                </div>
+              )}
             </div>
           </article>
         ))}
@@ -348,7 +284,7 @@ export function PhotographySection() {
               {/* Center: Plate Indicator & Title */}
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                 <span className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/25 text-[10px] sm:text-xs font-mono tracking-widest text-[var(--accent-champagne)] shadow-md">
-                  PLATE {String(photoPlates.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(photoPlates.length).padStart(2, "0")}
+                  PLATE {String(featuredPhotos.findIndex((p) => p.id === activePhoto.id) + 1).padStart(2, "0")} / {String(featuredPhotos.length).padStart(2, "0")}
                 </span>
                 <span className="hidden md:inline text-xs sm:text-sm text-neutral-300 font-light truncate max-w-xs lg:max-w-md">
                   {activePhoto.title}
@@ -380,9 +316,9 @@ export function PhotographySection() {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-                  const prevIndex = (currentIndex - 1 + photoPlates.length) % photoPlates.length;
-                  navigateToPhoto(photoPlates[prevIndex]);
+                  const currentIndex = featuredPhotos.findIndex((p) => p.id === activePhoto.id);
+                  const prevIndex = (currentIndex - 1 + featuredPhotos.length) % featuredPhotos.length;
+                  navigateToPhoto(featuredPhotos[prevIndex]);
                 }}
                 className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
                 aria-label="Previous photograph"
@@ -395,9 +331,9 @@ export function PhotographySection() {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  const currentIndex = photoPlates.findIndex((p) => p.id === activePhoto.id);
-                  const nextIndex = (currentIndex + 1) % photoPlates.length;
-                  navigateToPhoto(photoPlates[nextIndex]);
+                  const currentIndex = featuredPhotos.findIndex((p) => p.id === activePhoto.id);
+                  const nextIndex = (currentIndex + 1) % featuredPhotos.length;
+                  navigateToPhoto(featuredPhotos[nextIndex]);
                 }}
                 className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-14 sm:h-14 2xl:w-16 2xl:h-16 rounded-full bg-neutral-900/90 hover:bg-black active:scale-95 border border-white/30 hover:border-white/70 text-white shadow-2xl backdrop-blur-xl flex items-center justify-center transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent-champagne)]"
                 aria-label="Next photograph"
@@ -412,7 +348,7 @@ export function PhotographySection() {
               >
                 <img
                   src={activePhoto.src}
-                  srcSet={photoSources(activePhoto.src).srcSet}
+                  srcSet={gallerySrcSet(activePhoto.src)}
                   sizes="(max-width: 1280px) 100vw, 1280px"
                   alt={activePhoto.title}
                   width={1264}
@@ -437,12 +373,14 @@ export function PhotographySection() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[var(--accent-champagne)] pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.lens}</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.aperture}</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.shutter}</span>
-                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.iso}</span>
-              </div>
+              {activePhoto.exif && (
+                <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[var(--accent-champagne)] pt-2 sm:pt-0 border-t sm:border-t-0 border-white/10">
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.lens}</span>
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.aperture}</span>
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.shutter}</span>
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">{activePhoto.exif.iso}</span>
+                </div>
+              )}
             </div>
           </div>,
           document.body

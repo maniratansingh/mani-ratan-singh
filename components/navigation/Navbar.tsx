@@ -23,6 +23,9 @@ const STANDALONE_SECTION: Record<string, string> = {
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  // Static exports may be requested as `/gallery`, `/gallery/`, or
+  // `/gallery.html` depending on the host; compare one canonical form.
+  const currentPath = pathname.replace(/\.html$/, "").replace(/\/+$/, "") || "/";
   const [scrolled, setScrolled] = React.useState(false);
   const [activeSection, setActiveSection] = React.useState<string>("home");
   const sectionTops = React.useRef<Record<string, number>>({});
@@ -44,7 +47,7 @@ export function Navbar() {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 20);
 
-      if (pathname !== "/") return;
+      if (currentPath !== "/") return;
 
       if (scrollY < 260) {
         setActiveSection("home");
@@ -76,7 +79,7 @@ export function Navbar() {
       window.removeEventListener("resize", measure);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [pathname]);
+  }, [currentPath]);
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -87,7 +90,7 @@ export function Navbar() {
       return;
     }
 
-    if (pathname === "/" && href.startsWith("/#")) {
+    if (currentPath === "/" && href.startsWith("/#")) {
       e.preventDefault();
       const targetId = href.replace("/#", "");
       const targetEl = document.getElementById(targetId);
@@ -95,14 +98,14 @@ export function Navbar() {
         targetEl.scrollIntoView({ behavior: "smooth" });
         router.replace(href, { scroll: false });
       }
-    } else if (pathname === "/" && href === "/") {
+    } else if (currentPath === "/" && href === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       router.replace("/", { scroll: false });
     }
   };
 
-  const standaloneActive = STANDALONE_SECTION[pathname];
+  const standaloneActive = STANDALONE_SECTION[currentPath];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
@@ -119,7 +122,7 @@ export function Navbar() {
         <Link
           href="/"
           onClick={(e) => {
-            if (pathname === "/") {
+            if (currentPath === "/") {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
@@ -146,7 +149,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-1">
           {siteConfig.navItems.map((item) => {
             const isItemActive = (() => {
-              if (pathname === "/") {
+              if (currentPath === "/") {
                 if (item.href === "/" && activeSection === "home") return true;
                 if (item.href === "/#about" && activeSection === "about") return true;
                 if (item.href === "/#photography" && activeSection === "photography") return true;
@@ -154,7 +157,7 @@ export function Navbar() {
                 if (item.href === "/#connect" && activeSection === "connect") return true;
                 return false;
               }
-              return item.href === standaloneActive || pathname === item.href;
+              return item.href === standaloneActive || currentPath === item.href;
             })();
 
             return (
@@ -163,7 +166,7 @@ export function Navbar() {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 aria-current={isItemActive ? "page" : undefined}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
+                className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-champagne)] ${
                   isItemActive
                     ? "text-[var(--text-primary)] font-semibold"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -187,7 +190,7 @@ export function Navbar() {
           href="https://mrps.in"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-[var(--text-tertiary)] hover:text-[var(--accent-champagne)] border border-[var(--glass-border)] transition-colors ml-1"
+          className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-[var(--text-tertiary)] hover:text-[var(--accent-champagne)] border border-[var(--glass-border)] transition-colors ml-1"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           <span>mrps.in</span>

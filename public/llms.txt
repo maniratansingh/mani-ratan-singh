@@ -37,6 +37,7 @@ He emphasizes purposeful simplicity, edge performance, sub-second latency, and z
 
 ## Canonical Online Profiles
 - Website: https://maniratansingh.com
+- Public Photo Gallery: https://maniratansingh.com/gallery
 - Technical Workbench: https://mrps.in
 - GitHub: https://github.com/maniratansingh
 - Instagram: https://www.instagram.com/maniratanpratapsingh/

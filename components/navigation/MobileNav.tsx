@@ -40,6 +40,7 @@ export function MobileNav() {
   const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const currentPath = pathname.replace(/\.html$/, "").replace(/\/+$/, "") || "/";
 
   // Ensure portal only mounts on the client
   React.useEffect(() => {
@@ -159,18 +160,18 @@ export function MobileNav() {
 
                     {siteConfig.navItems.map((item, idx) => {
                       const isActive =
-                        pathname === item.href ||
+                        currentPath === item.href ||
                         (item.href !== "/" &&
                           !item.href.startsWith("/#") &&
-                          pathname.startsWith(item.href)) ||
-                        (pathname !== "/" && STANDALONE_SECTION[pathname] === item.href);
+                          currentPath.startsWith(item.href)) ||
+                        (currentPath !== "/" && STANDALONE_SECTION[currentPath] === item.href);
 
                       const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
                           return;
                         }
                         setIsOpen(false);
-                        if (pathname === "/" && item.href.startsWith("/#")) {
+                        if (currentPath === "/" && item.href.startsWith("/#")) {
                           e.preventDefault();
                           const targetId = item.href.replace("/#", "");
                           const targetEl = document.getElementById(targetId);
@@ -180,7 +181,7 @@ export function MobileNav() {
                               router.replace(item.href, { scroll: false });
                             }, 250);
                           }
-                        } else if (pathname === "/" && item.href === "/") {
+                        } else if (currentPath === "/" && item.href === "/") {
                           e.preventDefault();
                           setTimeout(() => {
                             window.scrollTo({ top: 0, behavior: "smooth" });

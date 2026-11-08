@@ -20,6 +20,7 @@ export const siteConfig = {
     { label: "Home", href: "/" },
     { label: "About", href: "/#about" },
     { label: "Photography", href: "/#photography" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Works", href: "/#work" },
     { label: "Connect", href: "/#connect" },
   ],
